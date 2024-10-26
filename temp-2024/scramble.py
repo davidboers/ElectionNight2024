@@ -12,7 +12,7 @@ def update_votes(office, data):
                 id = data['id']
                 party = get_party(office, id)
                 if party in ['gop', 'dem']:
-                    data[key] = random.randint(10000, 20000)
+                    data[key] = random.randint(10000, 50000)
                 else:
                     data[key] = random.randint(100, 1000)
             else:
