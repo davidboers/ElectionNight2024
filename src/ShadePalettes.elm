@@ -53,3 +53,11 @@ getResponseShade pty share =
         "Yes" -> displayColor (tint 0  0  ) (tint 0  255) (tint 0  0  )
         "No"  -> displayColor (tint 0  255) (tint 0  0  ) (tint 0  0  )
         _     -> displayColor (tint 0  255) (tint 0  255) (tint 0  255)
+        
+{- For turnout and progress maps -}
+getMetaShade : Float -> String
+getMetaShade share =
+    let
+        tint = tintFunc share
+    in
+    displayColor 0 0 (tint 0 255)

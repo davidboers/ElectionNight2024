@@ -24,6 +24,8 @@ import Georgia exposing (GeorgiaContest, GeorgiaCounty, GeorgiaSummary, georgiaC
 import ShadePalettes exposing (getPartyShade, getResponseShade)
 import Office exposing (Office(..), staticOffice)
 import Office exposing (isGeorgia)
+import ShadePalettes exposing (getMetaShade)
+import Html.Events exposing (onClick)
 
 -- Model
 type alias Model =
@@ -32,8 +34,14 @@ type alias Model =
     , map_data : Maybe Map
     , filter_state : Maybe String
     , bq_meta : Maybe (Dict String BallotQuestionMeta)
+    , county_map_showing : MapShowing
+    , state_map_showing : MapShowing
     , err : Maybe Http.Error
     }
+
+type MapShowing
+    = WinnerShare
+    | Progress
 
 type alias Summary =
     List Contest
@@ -267,6 +275,8 @@ init =
     , map_data = Nothing 
     , filter_state = Nothing
     , bq_meta = Nothing
+    , county_map_showing = WinnerShare
+    , state_map_showing = WinnerShare
     , err = Nothing
     }
 
@@ -286,6 +296,8 @@ type Msg
     | CountyMapFetched String (Result Http.Error GeoJson)
     | BallotQuestionMetaFetched (Result Http.Error (Dict String BallotQuestionMeta))
     | HoverState String
+    | CountyMapShowing MapShowing
+    | StateMapShowing MapShowing
     | Cycle
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -421,7 +433,18 @@ update msg model =
         CountyMapFetched _ (Err e)        -> ({ model | err = Just e }, Cmd.none)
         BallotQuestionMetaFetched (Err e) -> ({ model | err = Just e }, Cmd.none)
 
-        HoverState name                   -> ({ model | highlight_state = Just name }, Cmd.none)
+        CountyMapShowing new_showing ->
+            ( { model | county_map_showing = new_showing }
+            , Cmd.none
+            )
+
+        StateMapShowing new_showing ->
+            ( { model | state_map_showing = new_showing }
+            , Cmd.none
+            )
+
+        HoverState name -> 
+            ({ model | highlight_state = Just name }, Cmd.none)
 
         Cycle ->
             let 
@@ -459,17 +482,28 @@ view model =
                         div [ style "font-family" "arial" ]
                             [ div [] [ aggr summary ]
                             , br [] []
-                            , div [] [ pres model x ] 
                             , br [] []
-                            , div [ style "display" "inline" ]
-                                [ svg [ viewBox "0 0 1200 800" ] 
-                                    [ countyMap x ]
+                            , div
+                                [ style "display" "flex" ]
+                                [ div [] [ pres model x ] 
+                                , div 
+                                    [ style "width" "500px" ]
+                                    [ displayMapToggleButtons 
+                                        (Maybe.withDefault "00" <| Maybe.map .fips <| x.meta)
+                                        CountyMapShowing 
+                                        model.county_map_showing
+                                    , svg 
+                                        [ viewBox "0 0 600 400"
+                                        ] 
+                                        [ countyMap model.county_map_showing x ]
+                                    ]
                                 ]
-                            , br [] []
                             , div []
                                 [ if not (Office.isReferendum staticOffice)
                                     then 
-                                        svg [ viewBox "0 0 2000 1200" ] 
+                                        svg [ style "width" "1200px"
+                                            , viewBox "0 0 1200 800" 
+                                            ] 
                                             [ g [] (map (statePath model) <| filter (not << skipState model) summary) 
                                             ]
                                     
@@ -523,13 +557,92 @@ partyColorPalette results =
         (winner :: _) ->
             colorPalette winner results (getPartyShade (Maybe.withDefault "oth" winner.party))
 
+displayMapToggleButtons : String -> (MapShowing -> Msg) -> MapShowing -> Html Msg
+displayMapToggleButtons state_fips toggleMsg current =
+    let
+        unit_name =
+            if member state_fips [ "09" -- Connecticut
+                                 , "23" -- Maine
+                                 , "25" -- Massachusetts
+                                 , "33" -- New Hampshire
+                                 , "44" -- Rhode Island
+                                 , "50" -- Vermont
+                                 ] then
+                "municipalities"
+
+            else if state_fips == "02" then -- Alaska
+                "state"
+            
+            else if state_fips == "22" then -- Louisiana
+                "parishes"
+
+            else
+                "counties"
+
+        button_style option =
+            let
+                (outline, fill, font) =
+                    if current == option then
+                        ( "1px solid black"
+                        , "gray"
+                        , "white"
+                        )
+
+                    else
+                        ( "1px solid lightgray"
+                        , "white"
+                        , "black"
+                        )
+
+                (radius_attribute_top, radius_attribute_bottom) =
+                    case option of
+                        WinnerShare -> ("border-top-left-radius", "border-bottom-left-radius")
+                        Progress    -> ("border-top-right-radius", "border-bottom-right-radius")
+            in
+            [ style "display" "inline" 
+            , style "padding" "inherit"
+            , style "outline" outline
+            , style radius_attribute_top "8px"
+            , style radius_attribute_bottom "8px"
+            , style "background-color" fill
+            , style "color" font
+            , style "cursor" "pointer"
+            , onClick (toggleMsg option)
+            ] 
+    in
+    div [] 
+        [ div 
+            [ style "text-align" "center" 
+            , style "padding-top" "5px"
+            ]
+            [ text <| "Shade " ++ unit_name ++ " by:" ]
+        , div
+            [ style "display" "flex" 
+            , style "align-items" "center"
+            , style "justify-content" "center"
+            , style "padding" "10px"
+            ]
+            [ div 
+                (button_style WinnerShare)
+                [ text "Leader's Share" ]
+            , div 
+                (button_style Progress)
+                [ text "% Reporting" ]
+            ]
+        ]
+
 statePath : Model -> Contest -> Html Msg
 statePath model c =
     let
         color =
-            if isReferendum c
-                then questionColorPalette c.results
-                else partyColorPalette c.results
+            case model.state_map_showing of
+                WinnerShare ->
+                    if isReferendum c
+                        then questionColorPalette c.results
+                        else partyColorPalette c.results
+
+                Progress ->
+                    getMetaShade c.progress
 
         outline =
             case model.highlight_state of
@@ -587,14 +700,14 @@ statePath model c =
             Nothing ->
                 g [] []
 
-countyMap : Contest -> Html Msg
-countyMap c =
+countyMap : MapShowing -> Contest -> Html Msg
+countyMap map_showing c =
     case c.counties of
-        Just counties -> g [] (map (countyPath c) counties)
+        Just counties -> g [] (map (countyPath map_showing c) counties)
         Nothing -> g [] []
 
-countyPath : Contest -> County -> Html Msg
-countyPath c county =
+countyPath : MapShowing -> Contest -> County -> Html Msg
+countyPath map_showing c county =
     case county.geo of
         Just geo -> 
             let
@@ -614,9 +727,14 @@ countyPath c county =
                             })
 
                 color =
-                    if isReferendum c
-                        then questionColorPalette results
-                        else partyColorPalette results
+                    case map_showing of
+                        WinnerShare ->
+                            if isReferendum c
+                                then questionColorPalette results
+                                else partyColorPalette results
+
+                        Progress ->
+                            getMetaShade county.progress
             in
             path 
                 [ d geo
