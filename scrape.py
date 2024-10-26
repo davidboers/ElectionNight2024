@@ -23,7 +23,7 @@ def transform_json(input_file, output_file):
     for line in stuff_file:
         [ap_id, d_id] = line.split(',')[:2]
 
-        if d_id in geos:
+        if d_id in geos.keys():
             transformed_data[ap_id] = {
                 'name': d_id,
                 'abvr': d_id,
