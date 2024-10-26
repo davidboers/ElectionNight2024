@@ -1,0 +1,76 @@
+{
+    "eventId": "2024-11-05",
+    "id": "ap:10:8080",
+    "resultsType": "live",
+    "timestamp": "2024-09-28T02:48:49.832000Z",
+    "counties": [
+        {
+            "results": [
+                {
+                    "votes": 29715,
+                    "id": "10289"
+                },
+                {
+                    "votes": 60862,
+                    "id": "103922"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "id": "10001"
+        },
+        {
+            "results": [
+                {
+                    "votes": 29214,
+                    "id": "10289"
+                },
+                {
+                    "votes": 59144,
+                    "id": "103922"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "id": "10003"
+        },
+        {
+            "results": [
+                {
+                    "votes": 40479,
+                    "id": "10289"
+                },
+                {
+                    "votes": 69560,
+                    "id": "103922"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "id": "10005"
+        },
+        {
+            "id": "00000",
+            "results": [
+                {
+                    "id": "10289",
+                    "votes": 54385
+                },
+                {
+                    "id": "103922",
+                    "votes": 97440
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            }
+        }
+    ]
+}

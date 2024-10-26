@@ -1,0 +1,1073 @@
+{
+    "eventId": "2024-11-05",
+    "id": "2024-11-05-collection-senate",
+    "contests": [
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:04:4021",
+            "timestamp": "2024-09-25T14:34:08.676000Z",
+            "results": [
+                {
+                    "votes": 875876,
+                    "id": "64361"
+                },
+                {
+                    "votes": 914338,
+                    "id": "70992"
+                },
+                {
+                    "votes": 9460,
+                    "id": "167853"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:06:82961",
+            "timestamp": "2024-09-25T14:33:12.511000Z",
+            "results": [
+                {
+                    "votes": 3365168,
+                    "id": "160951"
+                },
+                {
+                    "votes": 3378696,
+                    "id": "89"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:06:8619",
+            "timestamp": "2024-09-25T14:33:11.005000Z",
+            "results": [
+                {
+                    "votes": 3365168,
+                    "id": "160951"
+                },
+                {
+                    "votes": 3378696,
+                    "id": "89"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:09:9145",
+            "timestamp": "2024-09-26T19:37:03.779000Z",
+            "results": [
+                {
+                    "votes": 9543132,
+                    "id": "52147"
+                },
+                {
+                    "votes": 10037683,
+                    "id": "62729"
+                },
+                {
+                    "votes": 91233,
+                    "id": "69655"
+                },
+                {
+                    "votes": 93053,
+                    "id": "168265"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:10:8281",
+            "timestamp": "2024-09-25T14:33:27.000000Z",
+            "results": [
+                {
+                    "votes": 2157,
+                    "id": "103229"
+                },
+                {
+                    "votes": 220668,
+                    "id": "65591"
+                },
+                {
+                    "votes": 157907,
+                    "id": "167103"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:12:10005",
+            "timestamp": "2024-09-25T14:34:36.355000Z",
+            "results": [
+                {
+                    "votes": 3451427,
+                    "id": "61149"
+                },
+                {
+                    "votes": 3851967,
+                    "id": "67658"
+                },
+                {
+                    "votes": 38767,
+                    "id": "71777"
+                },
+                {
+                    "votes": 35881,
+                    "id": "167867"
+                },
+                {
+                    "votes": 38423,
+                    "id": "167868"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:15:12771",
+            "timestamp": "2024-09-25T14:34:18.344000Z",
+            "results": [
+                {
+                    "votes": 289349,
+                    "id": "1591"
+                },
+                {
+                    "votes": 203887,
+                    "id": "1594"
+                },
+                {
+                    "votes": 2028,
+                    "id": "166494"
+                },
+                {
+                    "votes": 2143,
+                    "id": "71492"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:18:15004",
+            "timestamp": "2024-09-25T14:34:04.254000Z",
+            "results": [
+                {
+                    "votes": 5186478,
+                    "id": "162887"
+                },
+                {
+                    "votes": 4675147,
+                    "id": "64756"
+                },
+                {
+                    "votes": 50464,
+                    "id": "732"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:25:24012",
+            "timestamp": "2024-09-25T14:34:47.981000Z",
+            "results": [
+                {
+                    "votes": 20457482,
+                    "id": "165705"
+                },
+                {
+                    "votes": 20205332,
+                    "id": "62244"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:24:22452",
+            "timestamp": "2024-09-25T14:33:15.793000Z",
+            "results": [
+                {
+                    "votes": 1378671,
+                    "id": "122357"
+                },
+                {
+                    "votes": 1354799,
+                    "id": "63859"
+                },
+                {
+                    "votes": 13708,
+                    "id": "166877"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:23:20978",
+            "timestamp": "2024-09-25T14:33:17.219000Z",
+            "results": [
+                {
+                    "votes": 27593813,
+                    "id": "162010"
+                },
+                {
+                    "votes": 27460673,
+                    "id": "162122"
+                },
+                {
+                    "votes": 281119,
+                    "id": "167278"
+                },
+                {
+                    "votes": 270274,
+                    "id": "62418"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:26:24453",
+            "timestamp": "2024-09-27T19:31:10.498000Z",
+            "results": [
+                {
+                    "votes": 4600023,
+                    "id": "1169"
+                },
+                {
+                    "votes": 4364289,
+                    "id": "67164"
+                },
+                {
+                    "votes": 44561,
+                    "id": "771"
+                },
+                {
+                    "votes": 45132,
+                    "id": "168024"
+                },
+                {
+                    "votes": 45894,
+                    "id": "168022"
+                },
+                {
+                    "votes": 43857,
+                    "id": "168023"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:27:24004",
+            "timestamp": "2024-09-25T14:34:25.995000Z",
+            "results": [
+                {
+                    "votes": 4800954,
+                    "id": "159027"
+                },
+                {
+                    "votes": 45434,
+                    "id": "71208"
+                },
+                {
+                    "votes": 4891924,
+                    "id": "71241"
+                },
+                {
+                    "votes": 48495,
+                    "id": "167707"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:29:27022",
+            "timestamp": "2024-09-25T14:34:23.651000Z",
+            "results": [
+                {
+                    "votes": 64926,
+                    "id": "131752"
+                },
+                {
+                    "votes": 5973276,
+                    "id": "67257"
+                },
+                {
+                    "votes": 6541683,
+                    "id": "71302"
+                },
+                {
+                    "votes": 60794,
+                    "id": "167942"
+                },
+                {
+                    "votes": 63309,
+                    "id": "167941"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:28:25602",
+            "timestamp": "2024-09-25T14:32:52.536000Z",
+            "results": [
+                {
+                    "votes": 4600364,
+                    "id": "212"
+                },
+                {
+                    "votes": 4213480,
+                    "id": "71873"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:30:28089",
+            "timestamp": "2024-09-25T14:33:38.182000Z",
+            "results": [
+                {
+                    "votes": 33921,
+                    "id": "130039"
+                },
+                {
+                    "votes": 2826854,
+                    "id": "163465"
+                },
+                {
+                    "votes": 2861657,
+                    "id": "55866"
+                },
+                {
+                    "votes": 30051,
+                    "id": "68680"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:38:35003",
+            "timestamp": "2024-09-25T14:33:51.288000Z",
+            "results": [
+                {
+                    "votes": 3021590,
+                    "id": "62068"
+                },
+                {
+                    "votes": 2796158,
+                    "id": "70346"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:31:28944",
+            "timestamp": "2024-09-25T14:33:16.922000Z",
+            "results": [
+                {
+                    "votes": 5224948,
+                    "id": "61800"
+                },
+                {
+                    "votes": 46571,
+                    "id": "168007"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:31:82986",
+            "timestamp": "2024-09-25T14:33:17.000000Z",
+            "results": [
+                {
+                    "votes": 4916657,
+                    "id": "162513"
+                },
+                {
+                    "votes": 5063264,
+                    "id": "51566"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:34:31545",
+            "timestamp": "2024-09-25T14:33:13.130000Z",
+            "results": [
+                {
+                    "votes": 1200797,
+                    "id": "162653"
+                },
+                {
+                    "votes": 10633,
+                    "id": "166841"
+                },
+                {
+                    "votes": 11779,
+                    "id": "166842"
+                },
+                {
+                    "votes": 11873,
+                    "id": "167044"
+                },
+                {
+                    "votes": 9433,
+                    "id": "60050"
+                },
+                {
+                    "votes": 1258878,
+                    "id": "66838"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:35:33510",
+            "timestamp": "2024-09-25T14:34:01.438000Z",
+            "results": [
+                {
+                    "votes": 1756301,
+                    "id": "163864"
+                },
+                {
+                    "votes": 1677891,
+                    "id": "59492"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:32:29866",
+            "timestamp": "2024-09-25T14:32:59.839000Z",
+            "results": [
+                {
+                    "votes": 9886,
+                    "id": "100013"
+                },
+                {
+                    "votes": 10236,
+                    "id": "132873"
+                },
+                {
+                    "votes": 9377,
+                    "id": "1348"
+                },
+                {
+                    "votes": 1065086,
+                    "id": "65163"
+                },
+                {
+                    "votes": 967858,
+                    "id": "70756"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:36:39241",
+            "timestamp": "2024-09-25T14:33:22.356000Z",
+            "results": [
+                {
+                    "votes": 3187119,
+                    "id": "163788"
+                },
+                {
+                    "votes": 3506886,
+                    "id": "51916"
+                },
+                {
+                    "votes": 33781,
+                    "id": "62038"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:39:37213",
+            "timestamp": "2024-09-25T19:33:04.732000Z",
+            "results": [
+                {
+                    "votes": 5050550,
+                    "id": "1384"
+                },
+                {
+                    "votes": 4770129,
+                    "id": "161550"
+                },
+                {
+                    "votes": 46440,
+                    "id": "60901"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:42:40100",
+            "timestamp": "2024-09-25T14:33:07.212000Z",
+            "results": [
+                {
+                    "votes": 3495173,
+                    "id": "39527"
+                },
+                {
+                    "votes": 4398063,
+                    "id": "70075"
+                },
+                {
+                    "votes": 36570,
+                    "id": "167811"
+                },
+                {
+                    "votes": 37084,
+                    "id": "167810"
+                },
+                {
+                    "votes": 36817,
+                    "id": "167809"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:44:41006",
+            "timestamp": "2024-09-25T14:34:54.195000Z",
+            "results": [
+                {
+                    "votes": 2436061,
+                    "id": "40102"
+                },
+                {
+                    "votes": 2360613,
+                    "id": "67604"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:47:43439",
+            "timestamp": "2024-09-25T14:34:17.204000Z",
+            "results": [
+                {
+                    "votes": 5343331,
+                    "id": "146498"
+                },
+                {
+                    "votes": 53471,
+                    "id": "65322"
+                },
+                {
+                    "votes": 5273533,
+                    "id": "682"
+                },
+                {
+                    "votes": 55204,
+                    "id": "70883"
+                },
+                {
+                    "votes": 47048,
+                    "id": "167960"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:48:45870",
+            "timestamp": "2024-09-29T20:45:26.388000Z",
+            "results": [
+                {
+                    "votes": 13265161,
+                    "id": "61815"
+                },
+                {
+                    "votes": 14376243,
+                    "id": "65997"
+                },
+                {
+                    "votes": 138558,
+                    "id": "69634"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:49:48527",
+            "timestamp": "2024-09-25T14:33:44.109000Z",
+            "results": [
+                {
+                    "votes": 1773047,
+                    "id": "164425"
+                },
+                {
+                    "votes": 17541,
+                    "id": "167349"
+                },
+                {
+                    "votes": 1511574,
+                    "id": "44042"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:51:47806",
+            "timestamp": "2024-09-25T14:33:16.204000Z",
+            "results": [
+                {
+                    "votes": 7443286,
+                    "id": "51423"
+                },
+                {
+                    "votes": 6826799,
+                    "id": "71716"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:50:46760",
+            "timestamp": "2024-09-25T14:34:33.398000Z",
+            "results": [
+                {
+                    "votes": 144395,
+                    "id": "1445"
+                },
+                {
+                    "votes": 146242,
+                    "id": "63906"
+                },
+                {
+                    "votes": 14017028,
+                    "id": "71174"
+                },
+                {
+                    "votes": 138126,
+                    "id": "167778"
+                },
+                {
+                    "votes": 146206,
+                    "id": "167777"
+                },
+                {
+                    "votes": 142096,
+                    "id": "167779"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:53:49106",
+            "timestamp": "2024-09-25T14:34:21.354000Z",
+            "results": [
+                {
+                    "votes": 2011429,
+                    "id": "1805"
+                },
+                {
+                    "votes": 2119175,
+                    "id": "68977"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:55:50807",
+            "timestamp": "2024-09-25T14:34:30.685000Z",
+            "results": [
+                {
+                    "votes": 4061135,
+                    "id": "1092"
+                },
+                {
+                    "votes": 40342,
+                    "id": "157171"
+                },
+                {
+                    "votes": 4118985,
+                    "id": "62528"
+                },
+                {
+                    "votes": 40295,
+                    "id": "65466"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:54:49607",
+            "timestamp": "2024-09-25T14:33:15.107000Z",
+            "results": [
+                {
+                    "votes": 3013171,
+                    "id": "161989"
+                },
+                {
+                    "votes": 27936,
+                    "id": "62658"
+                },
+                {
+                    "votes": 3131802,
+                    "id": "64870"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:56:51732",
+            "timestamp": "2024-09-25T14:34:33.789000Z",
+            "results": [
+                {
+                    "votes": 1268363,
+                    "id": "165707"
+                },
+                {
+                    "votes": 1227508,
+                    "id": "52935"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": []
+        }
+    ]
+}
