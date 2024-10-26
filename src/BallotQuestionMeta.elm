@@ -1,7 +1,6 @@
 module BallotQuestionMeta exposing (BallotQuestionMeta, decodeBallotQuestionMeta, passageExplanation)
 
 import Json.Decode exposing (Decoder, field, string, float, succeed, maybe, oneOf, bool)
-import DisplayNumber exposing (displayNumber)
 import Html exposing (Html)
 import Html exposing (text)
 import Html exposing (span)

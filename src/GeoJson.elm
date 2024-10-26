@@ -1,6 +1,5 @@
 module GeoJson exposing (..)
 
-import Html exposing (Html, div, text)
 import Json.Decode as Decode exposing (Decoder, field, at)
 
 
@@ -8,13 +7,6 @@ import Json.Decode as Decode exposing (Decoder, field, at)
 
 
 -- MODEL
-
-{-
-type alias Model =
-    { geoJson : GeoJson
-    , svg : Html Msg
-    }
--}
 
 
 type alias GeoJson =
@@ -40,14 +32,6 @@ type Geometry
 
 type alias PointCoordinates =
     (Float, Float)
-
-
--- MSG
-
-{-
-type Msg
-    = ConvertGeoJson
--}
 
 
 -- DECODERS
@@ -92,34 +76,7 @@ pointCoordinatesDecoder =
     Decode.map (makePair) (Decode.list Decode.float)
 
 
--- UPDATE
-
-{-
-update : Msg -> Model -> Model
-update msg model =
-    case msg of
-        ConvertGeoJson ->
-            { model | svg = geoJsonToSvg model.geoJson }
--}
-
-
--- VIEW
-
-{-
-view : Model -> Html Msg
-view model =
-    div []
-        [ div [] [ text "GeoJSON to SVG Converter" ]
-        , div [] [ model.svg ]
-        ]
-
-
-geoJsonToSvg : GeoJson -> Html Msg
-geoJsonToSvg geoJson =
-    svg [ Html.Attributes.width "600", Html.Attributes.height "400" ]
-        (List.map featureToSvg geoJson.features)
-
--}
+-- Convert
 
 
 featureToSvg : Feature -> String
@@ -129,7 +86,7 @@ featureToSvg feature =
             "M " ++ String.join " L " (List.map (pointToString >> Tuple.first) coord)
     in
     case feature.geometry of
-        Point coords ->
+        Point _ ->
             {-let
                 (x, y) = coordinates
             in
@@ -151,37 +108,3 @@ featureToSvg feature =
 pointToString : PointCoordinates -> (String, String)
 pointToString (x, y) =
     (String.fromFloat x ++ " " ++ String.fromFloat y, "")
-
-
--- MAIN
-
-{-
-main : Program () Model
-main =
-    Browser.element
-        { init = \_ -> (initialModel, Cmd.none)
-        , update = update
-        , view = view
-        , subscriptions = \_ -> Sub.none
-        }
-
-
-initialModel : Model
-initialModel =
-    { geoJson =
-        { type_ = "FeatureCollection"
-        , features =
-            [ { type_ = "Feature"
-              , geometry = Point { coordinates = (100, 100) }
-              }
-            , { type_ = "Feature"
-              , geometry = LineString [ { coordinates = (100, 100) }, { coordinates = (200, 200) }, { coordinates = (300, 100) } ]
-              }
-            , { type_ = "Feature"
-              , geometry = Polygon [ [ { coordinates = (100, 100) }, { coordinates = (200, 200) }, { coordinates = (300, 100) }, { coordinates = (100, 100) } ] ]
-              }
-            ]
-        }
-    , svg = svg [] [] -- Placeholder for SVG output
-    }
--}
