@@ -783,8 +783,6 @@ errorToString error =
 
 -- Fetch Data
 
-
-
 electionDateForLink : String
 electionDateForLink =
     "2024-11-05"
