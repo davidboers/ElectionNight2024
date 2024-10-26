@@ -22,6 +22,7 @@ import DisplayNumber exposing (displayNumber)
 import GeoJson exposing (featureToSvg, GeoJson, geoJsonDecoder)
 import Georgia exposing (GeorgiaContest, GeorgiaCounty, GeorgiaSummary, georgiaCounties, georgiaSummaryDecoder)
 import ShadePalettes exposing (getPartyShade, getResponseShade)
+import String exposing (replace)
 
 -- Model
 type alias Model =
@@ -651,7 +652,7 @@ errorToString error =
 
 officeForLink : String
 officeForLink =
-    "governor"
+    "senate"
 
 electionDateForLink : String
 electionDateForLink =
@@ -663,7 +664,8 @@ fetchResult =
     if member officeForLink ["president", "house", "senate", "governor"] then
         -- Politico 
         Http.get
-            { url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ officeForLink ++ "/summaries.json"
+            --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ officeForLink ++ "/summaries.json"
+            { url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ officeForLink ++ "/summaries.json"
             , expect = Http.expectJson ResultFetched summaryDecoder
             } 
 
@@ -691,7 +693,8 @@ fetchMeta =
         
     else 
         Http.get
-            { url = "https://www.politico.com/election-data/pebble/metadata/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ officeForLink ++ "/combined.json"
+            --{ url = "https://www.politico.com/election-data/pebble/metadata/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ officeForLink ++ "/combined.json"
+            { url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ officeForLink ++ "/combined.json"
             , expect = Http.expectJson MetaFetched metaDecoder
             }
 
@@ -711,17 +714,18 @@ fetchCounties c =
             }
 
     else 
-        {-Http.get
-        { url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/contests/" ++ c.id ++ "/counties.json"
+        Http.get
+        --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/contests/" ++ c.id ++ "/counties.json"
+        { url = "./temp-2024/" ++ officeForLink ++ "/" ++ (replace ":" "_" c.id) ++ "/counties.json"
         , expect = Http.expectJson (CountyFetched c.id) (field "counties" (list countyDecoder))
-        }-}
-        let
+        }
+        {-let
             fips = Maybe.withDefault "00" <| Maybe.map .fips <| c.meta
         in
         Http.get
             { url = "https://www.politico.com/2020-statewide-results/" ++ fips ++ "/potus-counties.json"
             , expect = Http.expectJson (CountyFetched c.id) (field "races" (list countyDecoder))
-            }
+            }-}
 
 fetchGeorgiaCounties : Summary -> Cmd Msg
 fetchGeorgiaCounties summary =
@@ -826,22 +830,22 @@ countyDecoder =
         candidatePair : Decoder (Dict String Int)
         candidatePair =
             Json.Decode.map2 pair
-                (field "candidateID" string)
-                (field "vote" int)
+                (field "id" string)
+                (field "votes" int)
                 |> list
                 |> Json.Decode.map Dict.fromList
     in
     Json.Decode.map5 County
-        {-(field "id" string)
+        (field "id" string)
         (at ["progress", "pct"] float)
         (field "results" candidatePair)
         (succeed Nothing)
-        (succeed Nothing)-}
-        (field "countyFips" string)
+        (succeed Nothing)
+        {-(field "countyFips" string)
         (succeed 100.0)
         (field "candidates" candidatePair)
         (succeed Nothing)
-        (succeed Nothing)
+        (succeed Nothing)-}
 
 {- For one contest -}
 fromGeorgiaCountiesDecoder : Contest -> Decoder (List County)
