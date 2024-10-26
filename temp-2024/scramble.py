@@ -44,18 +44,19 @@ def update_votes_agg(data):
 
             item['progress']['pct'] = random.randint(0, 100) / 100
             
-def get_party(summary_file, cnd_id: str):
-    with open(summary_file, 'r') as file:
-        data: list = json.load(file)
+def get_party(meta, cnd_id: str):
+    for c in meta:
+        candidates: dict = c['candidates']
+        if cnd_id in candidates.keys():
+            return candidates[cnd_id]['party']
 
-        for c in data:
-            candidates: dict = c['candidates']
-            if cnd_id in candidates.keys():
-                return candidates[cnd_id]['party']
-
-def scramble_for_office(counties_glob_path, meta_file, summary_file, office):
+def scramble_for_office(counties_glob_path, meta_path, summary_path, office):
     pattern = os.path.join(counties_glob_path)
     files = glob.glob(pattern)
+
+    meta_file = open(meta_path, 'r')
+    meta = json.load(meta_file)
+    meta_file.close()
 
     for file_name in files:
         with open(file_name, 'r') as file:
@@ -67,20 +68,20 @@ def scramble_for_office(counties_glob_path, meta_file, summary_file, office):
                 print('json decode error in ' + file_name)
                 continue
 
-        update_votes(meta_file, c_id, data)
+        update_votes(meta, c_id, data)
 
         with open(file_name, 'w') as file:
             json.dump(data, file, indent=4)
 
-    with open(summary_file, 'r') as file:
-        data: list = json.load(file)
+    with open(summary_path, 'r') as summary_file:
+        data: list = json.load(summary_file)
 
         contests = data['contests']
         update_votes_agg(contests)
 
-    with open(summary_file, 'w') as file:
-        json.dump(data, file, indent=4)
-            
+    with open(summary_path, 'w') as summary_file:
+        json.dump(data, summary_file, indent=4)
+
 with open('./temp-2024/scramble-manifest.json', 'r') as manifest_file:
     manifest = json.load(manifest_file)
 
@@ -91,3 +92,32 @@ with open('./temp-2024/scramble-manifest.json', 'r') as manifest_file:
         office = item['office']
 
         scramble_for_office(county_glob, meta_file, summary_file, office)
+
+# US House elections are not broken down by county.
+file = open('./temp-2024/2024-11-05-collection-house/summaries.json', 'r')
+meta_file = open('./temp-2024/2024-11-05-collection-house/combined.json', 'r')
+data = json.load(file)
+meta = json.load(meta_file)
+file.close()
+meta_file.close()
+
+contests = data['contests']
+
+if isinstance(contests, list):
+    for item in contests:
+        c_id = item['id']
+        results = item['results']
+
+        for result in results:
+            cnd_id = result['id']
+            party = get_party(meta, cnd_id)
+            if party in ['gop', 'dem']:
+                result['votes'] = random.randint(10000, 100000)
+            else:
+                result['votes'] = random.randint(100, 1000)
+
+        item['progress']['pct'] = random.randint(0, 100) / 100
+
+with open('./temp-2024/2024-11-05-collection-house/summaries.json', 'w') as file:
+    json.dump(data, file, indent=4)
+ 
