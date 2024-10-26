@@ -465,8 +465,6 @@ view model =
                                     [ countyMap x ]
                                 ]
                             , br [] []
-                            , div [] (intersperse (br [] []) <| map (text << .id) summary)
-                            , br [] []
                             , div []
                                 [ if member officeForLink [ "president", "senate", "house", "governor", "State Senate", "State House" ] 
                                     then 
