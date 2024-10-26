@@ -9,28 +9,28 @@
             "results": [
                 {
                     "id": "64984",
-                    "votes": 73575
+                    "votes": 44582
                 },
                 {
                     "id": "69459",
-                    "votes": 896
+                    "votes": 318
                 },
                 {
                     "id": "71845",
-                    "votes": 585
+                    "votes": 355
                 },
                 {
                     "id": "8639",
-                    "votes": 76049
+                    "votes": 99273
                 },
                 {
                     "id": "895",
-                    "votes": 750
+                    "votes": 405
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0
+                "pct": 0.45
             }
         },
         {
@@ -38,28 +38,28 @@
             "results": [
                 {
                     "id": "64984",
-                    "votes": 72985
+                    "votes": 72978
                 },
                 {
                     "id": "69459",
-                    "votes": 894
+                    "votes": 574
                 },
                 {
                     "id": "71845",
-                    "votes": 394
+                    "votes": 936
                 },
                 {
                     "id": "8639",
-                    "votes": 90901
+                    "votes": 21966
                 },
                 {
                     "id": "895",
-                    "votes": 411
+                    "votes": 994
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0
+                "pct": 0.73
             }
         },
         {
@@ -67,28 +67,28 @@
             "results": [
                 {
                     "id": "64984",
-                    "votes": 37791
+                    "votes": 78634
                 },
                 {
                     "id": "69459",
-                    "votes": 619
+                    "votes": 473
                 },
                 {
                     "id": "71845",
-                    "votes": 390
+                    "votes": 325
                 },
                 {
                     "id": "8639",
-                    "votes": 93155
+                    "votes": 54808
                 },
                 {
                     "id": "895",
-                    "votes": 734
+                    "votes": 794
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0
+                "pct": 0.02
             }
         }
     ]

@@ -9,20 +9,20 @@
             "results": [
                 {
                     "id": "103229",
-                    "votes": 728
+                    "votes": 407
                 },
                 {
                     "id": "65591",
-                    "votes": 95299
+                    "votes": 68242
                 },
                 {
                     "id": "167103",
-                    "votes": 95298
+                    "votes": 44989
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0
+                "pct": 1.0
             }
         },
         {
@@ -30,20 +30,20 @@
             "results": [
                 {
                     "id": "103229",
-                    "votes": 500
+                    "votes": 107
                 },
                 {
                     "id": "65591",
-                    "votes": 68616
+                    "votes": 96269
                 },
                 {
                     "id": "167103",
-                    "votes": 19065
+                    "votes": 65745
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0
+                "pct": 0.42
             }
         },
         {
@@ -51,20 +51,20 @@
             "results": [
                 {
                     "id": "103229",
-                    "votes": 929
+                    "votes": 694
                 },
                 {
                     "id": "65591",
-                    "votes": 56753
+                    "votes": 63877
                 },
                 {
                     "id": "167103",
-                    "votes": 43544
+                    "votes": 41521
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0
+                "pct": 0.27
             }
         }
     ]

@@ -22,6 +22,9 @@ def update_votes(meta_file, c_id, data):
                     candidate_agg[c_id][cnd_id] += data[key]
                 else:
                     candidate_agg[c_id][cnd_id] = data[key]
+
+            elif key == 'pct':
+                data[key] = random.randint(0, 100) / 100
             else:
                 update_votes(meta_file, c_id, value)  # Recursively update nested dictionaries
     elif isinstance(data, list):
@@ -38,6 +41,8 @@ def update_votes_agg(data):
                 cnd_id = result['id']
                 if cnd_id in candidate_agg[c_id].keys():
                     result['votes'] = candidate_agg[c_id][cnd_id]
+
+            item['progress']['pct'] = random.randint(0, 100) / 100
             
 def get_party(summary_file, cnd_id: str):
     with open(summary_file, 'r') as file:
