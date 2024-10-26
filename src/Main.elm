@@ -650,7 +650,7 @@ errorToString error =
 
 officeForLink : String
 officeForLink =
-    "president"
+    "abortion-questions"
 
 electionDateForLink : String
 electionDateForLink =
@@ -705,14 +705,7 @@ fetchMap =
 
 fetchCounties : Contest -> Cmd Msg
 fetchCounties c =
-    if member officeForLink ["abortion-questions", "rcv-questions"] then
-        Http.get
-            { url = "./temp-2024/" ++ officeForLink ++ "-counties.json"
-            , expect = Http.expectJson (CountyFetched c.id) (field c.id (list countyDecoder))
-            }
-
-    else 
-        Http.get
+    Http.get
         --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/contests/" ++ c.id ++ "/counties.json"
         { url = "./temp-2024/" ++ officeForLink ++ "/" ++ (replace ":" "_" c.id) ++ "/counties.json"
         , expect = Http.expectJson (CountyFetched c.id) (field "counties" (list countyDecoder))
