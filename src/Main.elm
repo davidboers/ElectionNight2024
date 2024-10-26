@@ -11,7 +11,7 @@ import Json.Decode exposing (Decoder, bool, field, list, int, string, at, dict, 
 import List exposing (any, concatMap, filter, filterMap, foldl, head, intersperse, length, map, member, partition, reverse, sortBy, sortWith, sum)
 import List.Extra exposing (find, zip)
 import Platform.Cmd exposing (batch)
-import String exposing (contains, dropRight, left, right, startsWith)
+import String exposing (contains, dropRight, left, right, startsWith, replace)
 import Svg exposing (g, path, svg)
 import Svg.Attributes exposing (d, fill, stroke, strokeWidth, transform, viewBox)
 import Time exposing (every)
@@ -22,7 +22,8 @@ import DisplayNumber exposing (displayNumber)
 import GeoJson exposing (featureToSvg, GeoJson, geoJsonDecoder)
 import Georgia exposing (GeorgiaContest, GeorgiaCounty, GeorgiaSummary, georgiaCounties, georgiaSummaryDecoder)
 import ShadePalettes exposing (getPartyShade, getResponseShade)
-import String exposing (replace)
+import Office exposing (Office(..), staticOffice)
+import Office exposing (isGeorgia)
 
 -- Model
 type alias Model =
@@ -298,11 +299,11 @@ update msg model =
 
         GeorgiaResultFetched (Ok results) ->
             ({ model | data = map fromGeorgia results
-                                -- officeForLink
+                                -- staticOffice
                                 |> filter (Maybe.withDefault False << Maybe.map (\v -> member v ["Proposed Constitutional Amendment 1", "Proposed Constitutional Amendment 2", "Statewide Referendum Question A"]) << Maybe.map .office << .meta)
                                 -- ^^ Very bad
                      }
-            , if member officeForLink ["GeorgiaBallotQuestions"]
+            , if member staticOffice [GeorgiaQuestions]
                 then batch [ fetchMap, fetchBallotQuestionMeta ]
                 else fetchMap
             )
@@ -328,7 +329,7 @@ update msg model =
                         )
                         model.data
             }
-            , if member officeForLink ["abortion-questions", "rcv-questions"]
+            , if member staticOffice [AbortionQuestions, RCVQuestions]
                 then batch [ fetchMap, fetchBallotQuestionMeta ]
                 else fetchMap
             )
@@ -340,11 +341,11 @@ update msg model =
                         new_model = { model | map_data = Just map_data }
                     in
                     ( new_model
-                    , if member officeForLink ["president", "governor", "senate", "abortion-questions", "rcv_questions"]   
-                        then batch <| map fetchCounties new_model.data
-                        else if member officeForLink ["Georgia Ballot Questions"] 
+                    , if staticOffice == House
+                        then Cmd.none
+                        else if isGeorgia staticOffice 
                             then fetchGeorgiaCounties new_model.data
-                            else Cmd.none
+                            else batch <| map fetchCounties new_model.data
                     )
 
                 Err e ->
@@ -466,7 +467,7 @@ view model =
                                 ]
                             , br [] []
                             , div []
-                                [ if member officeForLink [ "president", "senate", "house", "governor", "State Senate", "State House" ] 
+                                [ if not (Office.isReferendum staticOffice)
                                     then 
                                         svg [ viewBox "0 0 2000 1200" ] 
                                             [ g [] (map (statePath model) <| filter (not << skipState model) summary) 
@@ -648,9 +649,7 @@ errorToString error =
 
 -- Fetch Data
 
-officeForLink : String
-officeForLink =
-    "abortion-questions"
+
 
 electionDateForLink : String
 electionDateForLink =
@@ -659,17 +658,17 @@ electionDateForLink =
 
 fetchResult : Cmd Msg
 fetchResult =
-    if member officeForLink ["president", "house", "senate", "governor"] then
+    if member staticOffice [President, Senate, House, Governor] then
         -- Politico 
         Http.get
-            --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ officeForLink ++ "/summaries.json"
-            { url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ officeForLink ++ "/summaries.json"
+            --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ staticOffice ++ "/summaries.json"
+            { url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ Office.toString staticOffice ++ "/summaries.json"
             , expect = Http.expectJson ResultFetched summaryDecoder
             } 
 
-    else if member officeForLink ["abortion-questions", "rcv-questions"] then
+    else if Office.isReferendum staticOffice && not (Office.isGeorgia staticOffice) then
         Http.get
-            { url = "./temp-2024/" ++ officeForLink ++ ".json"
+            { url = "./temp-2024/" ++ Office.toString staticOffice ++ ".json"
             , expect = Http.expectJson ResultFetched summaryDecoder
             }
         
@@ -683,16 +682,16 @@ fetchResult =
 
 fetchMeta : Cmd Msg
 fetchMeta =
-    if member officeForLink ["abortion-questions", "rcv-questions"] then
+    if Office.isReferendum staticOffice && not (Office.isGeorgia staticOffice) then
         Http.get
-            { url = "./temp-2024/" ++ officeForLink ++ "-meta.json"
+            { url = "./temp-2024/" ++ Office.toString staticOffice ++ "-meta.json"
             , expect = Http.expectJson MetaFetched metaDecoder
             }
         
     else 
         Http.get
-            --{ url = "https://www.politico.com/election-data/pebble/metadata/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ officeForLink ++ "/combined.json"
-            { url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ officeForLink ++ "/combined.json"
+            --{ url = "https://www.politico.com/election-data/pebble/metadata/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ staticOffice ++ "/combined.json"
+            { url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ Office.toString staticOffice ++ "/combined.json"
             , expect = Http.expectJson MetaFetched metaDecoder
             }
 
@@ -700,14 +699,14 @@ fetchMap : Cmd Msg
 fetchMap =
     Http.get
         { url = "./map.json"
-        , expect = Http.expectJson MapFetched (field officeForLink mapDecoder)
+        , expect = Http.expectJson MapFetched (field (Office.toString staticOffice) mapDecoder)
         }
 
 fetchCounties : Contest -> Cmd Msg
 fetchCounties c =
     Http.get
         --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/contests/" ++ c.id ++ "/counties.json"
-        { url = "./temp-2024/" ++ officeForLink ++ "/" ++ (replace ":" "_" c.id) ++ "/counties.json"
+        { url = "./temp-2024/" ++ Office.toString staticOffice ++ "/" ++ (replace ":" "_" c.id) ++ "/counties.json"
         , expect = Http.expectJson (CountyFetched c.id) (field "counties" (list countyDecoder))
         }
         {-let
@@ -736,7 +735,7 @@ fetchBallotQuestionMeta : Cmd Msg
 fetchBallotQuestionMeta =
     Http.get
         { url = "./ballot-questions.json"
-        , expect = Http.expectJson BallotQuestionMetaFetched (field officeForLink (dict decodeBallotQuestionMeta))
+        , expect = Http.expectJson BallotQuestionMetaFetched (field (Office.toString staticOffice) (dict decodeBallotQuestionMeta))
         }
 
 -- JSON Decoder
@@ -1137,17 +1136,17 @@ aggr summary =
                     ]
                 ]    
     in
-    case officeForLink of
-        "Georgia Ballot Questions" ->
+    case staticOffice of
+        GeorgiaQuestions ->
             br [] [] -- Maybe a row of squares for each question?
 
-        "abortion-questions" ->
+        AbortionQuestions ->
             br [] [] -- Decide?
 
-        "rcv-questions" ->
+        RCVQuestions ->
             br [] [] -- Decide?
 
-        "president" ->
+        President ->
             let
                 isWinner pty c =
                     case contestWinner c of
@@ -1186,7 +1185,7 @@ aggr summary =
             div [ style "padding-left" "25%" 
                 , style "padding-right" "25%" ] 
                 [ div [ align "center" ] 
-                    [ text <| String.toUpper officeForLink ]
+                    [ text <| String.toUpper <| Office.toString staticOffice ]
                 , div
                     [ style "display" "flex" 
                     , style "font-weight" "bold"
@@ -1274,8 +1273,8 @@ aggr summary =
                 , style "padding-right" "25%" 
                 ] 
                 [ div [ align "center" ] 
-                    [ text <| String.toUpper officeForLink ]                -- Office name
-                , div                                                       -- Party names
+                    [ text <| String.toUpper <| Office.toString staticOffice ]  -- Office name
+                , div                                                           -- Party names
                     [ style "display" "flex" 
                     , style "font-weight" "bold"
                     , style "padding" "5px"
@@ -1452,7 +1451,7 @@ pres model c =
                 ] 
 
         footer_left =
-            if officeForLink == "president" then
+            if staticOffice == President then
                 th [ colspan 2, rowspan 3 ] 
                     [ text 
                         (case c.evs of
@@ -1462,7 +1461,7 @@ pres model c =
                         )
                     ]
 
-            else if member officeForLink ["Georgia Ballot Questions", "abortion-questions", "rcv-questions"] then
+            else if Office.isReferendum staticOffice then
                 th [ rowspan 3 ] []
 
             else 
