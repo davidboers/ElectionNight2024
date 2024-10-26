@@ -650,7 +650,7 @@ errorToString error =
 
 officeForLink : String
 officeForLink =
-    "senate"
+    "president"
 
 electionDateForLink : String
 electionDateForLink =
