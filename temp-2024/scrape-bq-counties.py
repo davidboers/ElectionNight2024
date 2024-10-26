@@ -9,11 +9,13 @@ with open(meta_file_name, 'r') as meta_file:
     if not os.path.isdir(group_dir):
         os.mkdir(group_dir)
 
-    out = {}
+    
     for item in meta:
         state_fips = item['contest']['stateFips']
         c_id:str = item['contest']['id']
-        out[c_id] = []
+        out = {}
+        out['id'] = c_id
+        out['counties'] = []
         geo_file_name = './county-maps/state_counties_' + state_fips + '.json'
         with open(geo_file_name, 'r') as geo_file:
             geo = json.load(geo_file)
@@ -21,7 +23,7 @@ with open(meta_file_name, 'r') as meta_file:
             for f in features:
                 county_fips = f['properties']['code']
                 counties = {
-                    "id": c_id,
+                    "id": county_fips,
                     "results": [
                         { "id": "1", "votes": 0 },
                         { "id": "2", "votes": 0 }
@@ -31,7 +33,7 @@ with open(meta_file_name, 'r') as meta_file:
                         "pct": 0
                     }
                 }
-                out[c_id].append(counties)
+                out['counties'].append(counties)
             
         c_id_mod = c_id.replace(':', '_')
         contest_dir = group_dir + '/' + c_id_mod
