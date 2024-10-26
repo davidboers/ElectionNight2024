@@ -1,0 +1,26 @@
+[
+    {
+        "county-glob": "./temp-2024/president/*/counties.json",
+        "meta-file": "./temp-2024/2024-11-05-collection-president/combined.json",
+        "summary-file": "./temp-2024/2024-11-05-collection-president/summaries.json",
+        "office": "president"
+    },
+    {
+        "county-glob": "./temp-2024/senate/*/counties.json",
+        "meta-file": "./temp-2024/2024-11-05-collection-senate/combined.json",
+        "summary-file": "./temp-2024/2024-11-05-collection-senate/summaries.json",
+        "office": "senate"
+    },
+    {
+        "county-glob": "./temp-2024/governor/*/counties.json",
+        "meta-file": "./temp-2024/2024-11-05-collection-governor/combined.json",
+        "summary-file": "./temp-2024/2024-11-05-collection-governor/summaries.json",
+        "office": "governor"
+    },
+    {
+        "county-glob": "./temp-2024/abortion-questions/*/counties.json",
+        "meta-file": "./temp-2024/abortion-questions-meta.json",
+        "summary-file": "./temp-2024/abortion-questions.json",
+        "office": "abortion-questions"
+    }
+]
