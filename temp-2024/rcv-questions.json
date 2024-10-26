@@ -1,0 +1,293 @@
+{
+    "eventId": "2024-11-05",
+    "contests": [
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:ak:2",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 500,
+                    "id": "1"
+                },
+                {
+                    "votes": 700,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:az:133",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 500,
+                    "id": "1"
+                },
+                {
+                    "votes": 700,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:az:140",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 666,
+                    "id": "1"
+                },
+                {
+                    "votes": 500,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:co:131",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 120,
+                    "id": "1"
+                },
+                {
+                    "votes": 150,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:dc:83",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 999,
+                    "id": "1"
+                },
+                {
+                    "votes": 950,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:id:1",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 93713732,
+                    "id": "1"
+                },
+                {
+                    "votes": 1283722,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:mo:7",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 14,
+                    "id": "1"
+                },
+                {
+                    "votes": 15,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:mt:126",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 1000,
+                    "id": "1"
+                },
+                {
+                    "votes": 700,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:mt:127",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 1000,
+                    "id": "1"
+                },
+                {
+                    "votes": 700,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:nv:3",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 1000,
+                    "id": "1"
+                },
+                {
+                    "votes": 700,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:or:117",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 1000,
+                    "id": "1"
+                },
+                {
+                    "votes": 700,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:sd:h",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 1000,
+                    "id": "1"
+                },
+                {
+                    "votes": 700,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.50
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            }
+        }
+    ]
+}

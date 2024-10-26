@@ -1,0 +1,277 @@
+[
+    {
+        "contest": {
+            "stateFips": "04",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:az:139",
+            "office": "bq:az:139"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:az:139",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:az:139",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    },
+    {
+        "contest": {
+            "stateFips": "08",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:co:79",
+            "office": "bq:co:79"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:co:79",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:co:79",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    },
+    {
+        "contest": {
+            "stateFips": "12",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:fl:4",
+            "office": "bq:fl:4"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:fl:4",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:fl:4",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    },
+    {
+        "contest": {
+            "stateFips": "24",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:md:1",
+            "office": "bq:md:1"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:md:1",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:md:1",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    },
+    {
+        "contest": {
+            "stateFips": "29",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:mo:3",
+            "office": "bq:mo:3"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:mo:3",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:mo:3",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    },
+    {
+        "contest": {
+            "stateFips": "30",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:mt:128",
+            "office": "bq:mt:128"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:mt:128",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:mt:128",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    },
+    {
+        "contest": {
+            "stateFips": "31",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:ne:434",
+            "office": "bq:ne:434"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:ne:434",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:ne:434",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    },
+    {
+        "contest": {
+            "stateFips": "31",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:ne:439",
+            "office": "bq:ne:439"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:ne:439",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:ne:439",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    },
+    {
+        "contest": {
+            "stateFips": "32",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:nv:6",
+            "office": "bq:nv:6"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:nv:6",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:nv:6",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    },
+    {
+        "contest": {
+            "stateFips": "36",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:ny:1",
+            "office": "bq:ny:1"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:ny:1",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:ny:1",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    },
+    {
+        "contest": {
+            "stateFips": "46",
+            "isSpecial": false,
+            "isUncontested": false,
+            "isBallot": true,
+            "contestType": "general",
+            "id": "bq:sd:g",
+            "office": "bq:sd:g"
+        },
+        "candidates": {
+            "1": {
+                "contestId": "bq:sd:g",
+                "fullName": "Yes",
+                "id": "1",
+                "party": "yes"
+            },
+            "2": {
+                "contestId": "bq:sd:g",
+                "fullName": "No",
+                "id": "2",
+                "party": "no"
+            }
+        }
+    }
+]

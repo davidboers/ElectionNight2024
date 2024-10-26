@@ -1,0 +1,163 @@
+{
+    "Georgia Ballot Questions": {
+        "Proposed Constitutional Amendment 1": {
+            "short-summary": "Homestead Exemption",
+            "long-summary": "Create statewide homestead exemption so as to limit the maximum increase in property values to the inflation rate.",
+            "official-question": "Shall the Constitution of Georgia be amended so as to authorize the General Assembly to provide by general law for a state-wide homestead exemption that serves to limit increases in the assessed value of homesteads, but which any county, consolidated government, municipality, or local school system may opt out of upon the completion of certain procedures?"
+        },
+        "Proposed Constitutional Amendment 2": {
+            "short-summary": "Tax Court",
+            "long-summary": "Create a statewide tax court with judicial power to replace the current administrative process.",
+            "official-question": "Shall the Constitution of Georgia be amended so as to provide for the Georgia Tax Court to be vested with the judicial power of the state and to have venue, judges, and jurisdiction concurrent with superior courts?"
+        },
+        "Statewide Referendum Question A": {
+            "short-summary": "Property Tax Exemption",
+            "long-summary": "Increase the tax exemption for tangible personal property from $7,500 to $20,000.",
+            "official-question": "Do you approve the Act that increases an exemption from property tax for all tangible personal property from $7,500.00 to $20,000.00?"
+        }
+    },
+    "abortion-questions": {
+        "bq:az:139": {
+            "short-summary": "Proposition 139",
+            "long-summary": "Enshrines abortion in the Arizona Constitution until fetal viability or to protect health of the mother.",
+            "yes-tag": "(pro-Choice)",
+            "no-tag": "(anti-Choice)"
+        },
+        "bq:co:79": {
+            "short-summary": "Amendment 79",
+            "long-summary": "Enshrines abortion in the Colorado Constitution and allows the use of public funds for abortion healthcare.",
+            "yes-tag": "(pro-Choice)",
+            "no-tag": "(anti-Choice)",
+            "threshold": 0.55
+        },
+        "bq:fl:4": {
+            "short-summary": "Amendment 4",
+            "long-summary": "Enshrines abortion in the Florida Constitution until fetal viability or to protect health of the mother.",
+            "yes-tag": "(pro-Choice)",
+            "no-tag": "(anti-Choice)",
+            "threshold": 0.6
+        },
+        "bq:md:1": {
+            "short-summary": "Question 1",
+            "long-summary": "Enshrines abortion in the Maryland Constitution.",
+            "yes-tag": "(pro-Choice)",
+            "no-tag": "(anti-Choice)"
+        },
+        "bq:mo:3": {
+            "short-summary": "Amendment 3",
+            "long-summary": "Enshrines abortion in the Missouri Constitution until fetal viability.",
+            "yes-tag": "(pro-Choice)",
+            "no-tag": "(anti-Choice)"
+        },
+        "bq:mt:128": {
+            "short-summary": "Citizen Initiative 128",
+            "long-summary": "Enshrines abortion in the Montana Constitution until fetal viability or to protect health of the mother.",
+            "yes-tag": "(pro-Choice)",
+            "no-tag": "(anti-Choice)"
+        },
+        "bq:ne:434": {
+            "short-summary": "Initiative 434",
+            "long-summary": "Amends the Nebraska Constitution to prohibit abortion after the first trimester.",
+            "yes-tag": "(anti-Choice)",
+            "no-tag": "(pro-Choice)",
+            "total-vote-threshold": 0.35,
+            "competing": true
+        },
+        "bq:ne:439": {
+            "short-summary": "Initiative 439",
+            "long-summary": "Enshrines abortion in the Nebraska Constitution until fetal viability.",
+            "yes-tag": "(pro-Choice)",
+            "no-tag": "(anti-Choice)",
+            "total-vote-threshold": 0.35,
+            "competing": true
+        },
+        "bq:nv:6": {
+            "short-summary": "Question 6",
+            "long-summary": "Enshrines abortion in the Nevada Constitution until fetal viability or to protect health of the mother.",
+            "yes-tag": "(pro-Choice)",
+            "no-tag": "(anti-Choice)"
+        },
+        "bq:ny:1": {
+            "short-summary": "Proposal 1",
+            "long-summary": "Amends the New York Constitution to prohibit a person's rights from being denied based on the person's reproductive choices, among others.",
+            "yes-tag": "(pro-Choice)",
+            "no-tag": "(anti-Choice)"
+        },
+        "bq:sd:g": {
+            "short-summary": "Amendment G",
+            "long-summary": "Enshrines abortion in the South Dakota Constitution during the first trimester, with limits on regulation during the second trimester.",
+            "yes-tag": "(pro-Choice)",
+            "no-tag": "(anti-Choice)"
+        }
+    },
+    "rcv-questions": {
+        "bq:ak:2": {
+            "short-summary": "Ballot Measure 2",
+            "long-summary": "Repeals the state's top-four primaries and ranked-choice elections.",
+            "yes-tag": "(anti-RCV)",
+            "no-tag": "(pro-RCV)"
+        },
+        "bq:az:133": {
+            "short-summary": "Proposition 133",
+            "long-summary": "Prohibits nonpartisan blanket primaries.",
+            "competing": true
+        },
+        "bq:az:140": {
+            "short-summary": "Proposition 140",
+            "long-summary": "Requires ranked-choice voting to be used in general elections, and creates nonpartisan blanket primaries.",
+            "yes-tag": "(pro-RCV)",
+            "no-tag": "(anti-RCV)",
+            "competing": true
+        },
+        "bq:co:131": {
+            "short-summary": "Proposition 131",
+            "long-summary": "Implements a top-four nonpartisan blanket primary; with ranked-choice voting for the general election for state and federal offices.",
+            "yes-tag": "(pro-RCV)",
+            "no-tag": "(anti-RCV)"
+        },
+        "bq:dc:83": {
+            "short-summary": "Initiative 83",
+            "long-summary": "Allows independent voters to participate in partisan primaries and implements ranked-choice voting.",
+            "yes-tag": "(pro-RCV)",
+            "no-tag": "(anti-RCV)"
+        },
+        "bq:id:1": {
+            "short-summary": "Proposition 1",
+            "long-summary": "Implements a top-four nonpartisan blanket primary; with ranked-choice voting for the general election for state, county, and federal offices.",
+            "yes-tag": "(pro-RCV)",
+            "no-tag": "(anti-RCV)"
+        },
+        "bq:mo:7": {
+            "short-summary": "Amendment 7",
+            "long-summary": "Prohibits state and local governments from allowing non-citizens to vote, and ban ranked-choice voting in the state.",
+            "yes-tag": "(anti-RCV)",
+            "no-tag": "(pro-RCV)"
+        },
+        "bq:mt:126": {
+            "short-summary": "Citizen Initiative 126",
+            "long-summary": "Implements top-four primaries for state and federal offices."
+        },
+        "bq:mt:127": {
+            "short-summary": "Citizen Initiative 126",
+            "long-summary": "Requires the state to adopt an election system where the winner must receive a majority of the vote."
+        },
+        "bq:nv:3": {
+            "short-summary": "Question 3",
+            "long-summary": "Implements a top-five nonpartisan blanket primary; with ranked-choice voting for the general election for state and federal offices.",
+            "yes-tag": "(pro-RCV)",
+            "no-tag": "(anti-RCV)"
+        },
+        "bq:or:117": {
+            "short-summary": "Measure 117",
+            "long-summary": "Implements ranked-choice voting for primary and general elections for statewide executive and federal offices.",
+            "yes-tag": "(pro-RCV)",
+            "no-tag": "(anti-RCV)"
+        },
+        "bq:sd:h": {
+            "short-summary": "Amendment H",
+            "long-summary": "Implements top-two primaries for state, county, and federal offices.",
+            "yes-tag": "(pro-RCV)",
+            "no-tag": "(anti-RCV)"
+        }
+    }
+}
