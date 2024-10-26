@@ -7,39 +7,39 @@ random.seed(201636415)
 
 candidate_agg = {}
 
-def update_votes(office, data):
+def update_votes(office, c_id, data):
     if isinstance(data, dict):
         for key, value in data.items():
             if key == 'votes':
-                id = data['id']
-                party = get_party(office, id)
+                cnd_id = data['id']
+                party = get_party(office, cnd_id)
                 if party in ['gop', 'dem']:
                     data[key] = random.randint(10000, 100000)
                 else:
                     data[key] = random.randint(100, 1000)
                 
-                if id in candidate_agg[office].keys():
-                    candidate_agg[office][id] += data[key]
+                if cnd_id in candidate_agg[office][c_id].keys():
+                    candidate_agg[office][c_id][cnd_id] += data[key]
                 else:
-                    candidate_agg[office][id] = data[key]
+                    candidate_agg[office][c_id][cnd_id] = data[key]
             else:
-                update_votes(office, value)  # Recursively update nested dictionaries
+                update_votes(office, c_id, value)  # Recursively update nested dictionaries
     elif isinstance(data, list):
         for item in data:
-            update_votes(office, item)  # Recursively update items in the list
+            update_votes(office, c_id, item)  # Recursively update items in the list
 
-def update_votes_agg(office, id, data):
+def update_votes_agg(office, c_id, data):
     if isinstance(data, dict):
         for key, value in data.items():
             if key == 'votes':
-                id = data['id']
-                if id in candidate_agg[office].keys():
-                    data['votes'] = candidate_agg[office][id]
+                cnd_id = data['id']
+                if cnd_id in candidate_agg[office][c_id].keys():
+                    data['votes'] = candidate_agg[office][c_id][cnd_id]
             else:
-                update_votes_agg(office, id, value)  # Recursively update nested dictionaries
+                update_votes_agg(office, c_id, value)  # Recursively update nested dictionaries
     elif isinstance(data, list):
         for item in data:
-            update_votes_agg(office, id, item)  # Recursively update items in the list
+            update_votes_agg(office, c_id, item)  # Recursively update items in the list
 
 def get_party(office, cnd_id: str):
     file_name = './temp-2024/2024-11-05-collection-' + office + '/combined.json'
@@ -62,11 +62,13 @@ def scramble_for_office(office):
         with open(file_name, 'r') as file:
             try:
                 data = json.load(file)
+                c_id = data['id']
+                candidate_agg[office][c_id] = {}
             except json.decoder.JSONDecodeError:
                 print('json decode error in ' + file_name)
                 continue
 
-        update_votes(office, data)
+        update_votes(office, c_id, data)
 
         with open(file_name, 'w') as file:
             json.dump(data, file, indent=4)
@@ -78,11 +80,12 @@ scramble_for_office('governor')
 for office in candidate_agg.keys():
     file_name = './temp-2024/2024-11-05-collection-' + office + '/summaries.json'
 
-    with open(file_name, 'r') as file:
-        data: list = json.load(file)
+    for c_id in candidate_agg[office].keys():
 
-    for id in candidate_agg[office].keys():
-        update_votes_agg(office, id, data)
+        with open(file_name, 'r') as file:
+            data: list = json.load(file)
 
-    with open(file_name, 'w') as file:
-        json.dump(data, file, indent=4)
+        update_votes_agg(office, c_id, data)
+
+        with open(file_name, 'w') as file:
+            json.dump(data, file, indent=4)
