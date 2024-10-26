@@ -23,7 +23,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.68
+                "pct": 0.24
             },
             "status": {
                 "tabulation": "before",
@@ -48,7 +48,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.28
+                "pct": 0.75
             },
             "status": {
                 "tabulation": "before",
@@ -73,7 +73,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.14
+                "pct": 0.42
             },
             "status": {
                 "tabulation": "before",
@@ -106,7 +106,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.72
+                "pct": 0.04
             },
             "status": {
                 "tabulation": "before",
@@ -135,7 +135,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.37
+                "pct": 0.58
             },
             "status": {
                 "tabulation": "before",
@@ -172,7 +172,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.63
+                "pct": 0.38
             },
             "status": {
                 "tabulation": "before",
@@ -205,7 +205,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.36
+                "pct": 0.98
             },
             "status": {
                 "tabulation": "before",
@@ -234,7 +234,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.54
+                "pct": 0.65
             },
             "status": {
                 "tabulation": "before",
@@ -259,7 +259,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.04
+                "pct": 0.07
             },
             "status": {
                 "tabulation": "before",
@@ -288,7 +288,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 1.0
+                "pct": 0.75
             },
             "status": {
                 "tabulation": "before",
@@ -321,7 +321,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.16
+                "pct": 0.71
             },
             "status": {
                 "tabulation": "before",
@@ -362,7 +362,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.88
+                "pct": 0.76
             },
             "status": {
                 "tabulation": "before",
@@ -395,7 +395,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.62
+                "pct": 0.91
             },
             "status": {
                 "tabulation": "before",
@@ -432,7 +432,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.09
+                "pct": 0.97
             },
             "status": {
                 "tabulation": "before",
@@ -457,7 +457,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.37
+                "pct": 0.51
             },
             "status": {
                 "tabulation": "before",
@@ -490,7 +490,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.01
+                "pct": 0.32
             },
             "status": {
                 "tabulation": "before",
@@ -515,7 +515,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.51
+                "pct": 0.26
             },
             "status": {
                 "tabulation": "before",
@@ -540,7 +540,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.34
+                "pct": 0.91
             },
             "status": {
                 "tabulation": "before",
@@ -565,7 +565,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.75
+                "pct": 0.09
             },
             "status": {
                 "tabulation": "before",
@@ -606,7 +606,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.4
+                "pct": 0.52
             },
             "status": {
                 "tabulation": "before",
@@ -631,7 +631,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.97
+                "pct": 0.26
             },
             "status": {
                 "tabulation": "before",
@@ -668,7 +668,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.02
+                "pct": 0.38
             },
             "status": {
                 "tabulation": "before",
@@ -697,7 +697,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.19
+                "pct": 0.1
             },
             "status": {
                 "tabulation": "before",
@@ -726,7 +726,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.26
+                "pct": 0.59
             },
             "status": {
                 "tabulation": "before",
@@ -763,7 +763,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.09
+                "pct": 0.29
             },
             "status": {
                 "tabulation": "before",
@@ -788,7 +788,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.88
+                "pct": 0.34
             },
             "status": {
                 "tabulation": "before",
@@ -825,7 +825,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.81
+                "pct": 0.38
             },
             "status": {
                 "tabulation": "before",
@@ -854,7 +854,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.94
+                "pct": 0.27
             },
             "status": {
                 "tabulation": "before",
@@ -883,7 +883,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.5
+                "pct": 0.1
             },
             "status": {
                 "tabulation": "before",
@@ -898,17 +898,17 @@
             "timestamp": "2024-09-25T14:33:16.204000Z",
             "results": [
                 {
-                    "votes": 7324054,
+                    "votes": 7424132,
                     "id": "51423"
                 },
                 {
-                    "votes": 7258495,
+                    "votes": 7211173,
                     "id": "71716"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.72
+                "pct": 0.56
             },
             "status": {
                 "tabulation": "before",
@@ -923,33 +923,33 @@
             "timestamp": "2024-09-25T14:34:33.398000Z",
             "results": [
                 {
-                    "votes": 139648,
+                    "votes": 13672519,
                     "id": "1445"
                 },
                 {
-                    "votes": 143773,
+                    "votes": 148375,
                     "id": "63906"
                 },
                 {
-                    "votes": 14384754,
+                    "votes": 14296844,
                     "id": "71174"
                 },
                 {
-                    "votes": 151995,
+                    "votes": 143980,
                     "id": "167778"
                 },
                 {
-                    "votes": 146332,
+                    "votes": 141267,
                     "id": "167777"
                 },
                 {
-                    "votes": 147988,
+                    "votes": 148716,
                     "id": "167779"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.49
+                "pct": 0.13
             },
             "status": {
                 "tabulation": "before",
@@ -964,17 +964,17 @@
             "timestamp": "2024-09-25T14:34:21.354000Z",
             "results": [
                 {
-                    "votes": 2245065,
+                    "votes": 2442347,
                     "id": "1805"
                 },
                 {
-                    "votes": 1915306,
+                    "votes": 2000893,
                     "id": "68977"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.72
+                "pct": 0.27
             },
             "status": {
                 "tabulation": "before",
@@ -989,25 +989,25 @@
             "timestamp": "2024-09-25T14:34:30.685000Z",
             "results": [
                 {
-                    "votes": 3965898,
+                    "votes": 3800874,
                     "id": "1092"
                 },
                 {
-                    "votes": 39137,
+                    "votes": 41056,
                     "id": "157171"
                 },
                 {
-                    "votes": 4046893,
+                    "votes": 4041411,
                     "id": "62528"
                 },
                 {
-                    "votes": 38520,
+                    "votes": 42454,
                     "id": "65466"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.1
+                "pct": 0.48
             },
             "status": {
                 "tabulation": "before",
@@ -1022,21 +1022,21 @@
             "timestamp": "2024-09-25T14:33:15.107000Z",
             "results": [
                 {
-                    "votes": 3104032,
+                    "votes": 2819948,
                     "id": "161989"
                 },
                 {
-                    "votes": 29432,
+                    "votes": 29392,
                     "id": "62658"
                 },
                 {
-                    "votes": 2844192,
+                    "votes": 3007490,
                     "id": "64870"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.96
+                "pct": 0.62
             },
             "status": {
                 "tabulation": "before",
@@ -1051,17 +1051,17 @@
             "timestamp": "2024-09-25T14:34:33.789000Z",
             "results": [
                 {
-                    "votes": 1383184,
+                    "votes": 1528524,
                     "id": "165707"
                 },
                 {
-                    "votes": 1396893,
+                    "votes": 1087420,
                     "id": "52935"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.87
+                "pct": 0.54
             },
             "status": {
                 "tabulation": "before",
