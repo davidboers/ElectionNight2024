@@ -91,5 +91,3 @@ with open('./temp-2024/scramble-manifest.json', 'r') as manifest_file:
         office = item['office']
 
         scramble_for_office(county_glob, meta_file, summary_file, office)
-
-#sprint(candidate_agg['bq:az:139'])
