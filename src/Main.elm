@@ -30,7 +30,7 @@ import Html.Events exposing (onClick)
 -- Model
 type alias Model =
     { data : Summary
-    , highlight_state : Maybe String -- Should be contest
+    , highlight_race : Maybe String -- Should be contest
     , map_data : Maybe Map
     , filter_state : Maybe String
     , bq_meta : Maybe (Dict String BallotQuestionMeta)
@@ -271,7 +271,7 @@ main =
 init : Model
 init =
     { data = []
-    , highlight_state = Nothing
+    , highlight_race = Nothing
     , map_data = Nothing 
     , filter_state = Nothing
     , bq_meta = Nothing
@@ -295,7 +295,7 @@ type Msg
     | GeorgiaCountyFetched (Result Http.Error (Dict String (List County)))
     | CountyMapFetched String (Result Http.Error GeoJson)
     | BallotQuestionMetaFetched (Result Http.Error (Dict String BallotQuestionMeta))
-    | HoverState String
+    | HoverRace String
     | CountyMapShowing MapShowing
     | StateMapShowing MapShowing
     | Cycle
@@ -443,8 +443,24 @@ update msg model =
             , Cmd.none
             )
 
-        HoverState name -> 
-            ({ model | highlight_state = Just name }, Cmd.none)
+        HoverRace c_id -> 
+            let
+                bringToFront data =
+                    case data of
+                        (x::xs) ->
+                            if x.id == c_id
+                                then x :: xs
+                                else bringToFront xs ++ [x]
+                        
+                        _ ->
+                            data
+            in
+            ( 
+                { model | highlight_race = Just c_id 
+                        , data = bringToFront model.data
+                }
+            , Cmd.none
+            )
 
         Cycle ->
             let 
@@ -645,7 +661,7 @@ statePath model c =
                     getMetaShade c.progress
 
         outline =
-            case model.highlight_state of
+            case model.highlight_race of
                 Just a -> 
                     if c.id == a
                         then "2px"
@@ -666,7 +682,7 @@ statePath model c =
                                 , stroke "white"
                                 , strokeWidth outline
                                 , Svg.Attributes.id c.id 
-                                , onMouseOver (HoverState c.id)
+                                , onMouseOver (HoverRace c.id)
                                 ]
                                 []
                             ]
@@ -691,7 +707,7 @@ statePath model c =
                                 , stroke "lightgray"
                                 , strokeWidth outline
                                 , Svg.Attributes.id c.id 
-                                , onMouseOver (HoverState c.id)
+                                , onMouseOver (HoverRace c.id)
                                 ]
                                 []
                             , txt
