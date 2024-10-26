@@ -15,6 +15,7 @@ for /f "delims= " %%i in (./temp-2024/contest-ids.txt) do (
         set "n=!n:_=:!"
         if not exist "./temp-2024/!o!/%%i/" (mkdir "./temp-2024/!o!/%%i")
         curl "https://www.politico.com/election-data/pebble/results/live/2024-11-05/contests/!n!/counties.json" -o ./temp-2024/!o!/%%i/counties.json
+        timeout 60 > nul
     )
 )
 
