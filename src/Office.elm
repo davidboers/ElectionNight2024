@@ -1,6 +1,7 @@
-module Office exposing (Office(..), staticOffice, toString, isGeorgia, isReferendum)
+module Office exposing (Office(..), staticOffice, toString, isGeorgia, isReferendum, officeDecoder)
 
 import List exposing (member)
+import Json.Decode exposing (Decoder, string, fail, succeed)
 
 type Office
     = President
@@ -16,7 +17,7 @@ type Office
 
 staticOffice : Office
 staticOffice =
-    Senate
+    RCVQuestions
 
 
 toString : Office -> String
@@ -26,12 +27,11 @@ toString office =
         House             -> "house"
         Senate            -> "senate"
         Governor          -> "governor"
-        StateSenate       -> "" 
-        StateHouse        -> ""
+        StateSenate       -> "State Senate" 
+        StateHouse        -> "State House"
         AbortionQuestions -> "abortion-questions"
         RCVQuestions      -> "rcv-questions"
-        GeorgiaQuestions  -> ""
-
+        GeorgiaQuestions  -> "Georgia Ballot Questions"
 
 {- This function only resolves to true if the respective results need to be pulled from the Georgia Secretary of State's website.
 -}
@@ -43,3 +43,21 @@ isGeorgia office =
 isReferendum : Office -> Bool
 isReferendum office =
     member office [AbortionQuestions, RCVQuestions, GeorgiaQuestions]
+
+
+officeDecoder : Decoder Office
+officeDecoder =
+    string |> Json.Decode.andThen (\v ->
+        case v of
+            "president"          -> succeed President
+            "house"              -> succeed House
+            "senate"             -> succeed Senate
+            "governor"           -> succeed Governor
+            "State Senate"       -> succeed StateSenate 
+            "State House"        -> succeed StateHouse
+            "abortion-questions" -> succeed AbortionQuestions
+            "rcv-questions"      -> succeed RCVQuestions
+            "GeorgiaQuestions"   -> succeed GeorgiaQuestions
+            _                    -> fail "Nothing"
+    )
+    

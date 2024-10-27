@@ -26,6 +26,7 @@ import Office exposing (Office(..), staticOffice)
 import Office exposing (isGeorgia)
 import ShadePalettes exposing (getMetaShade)
 import Html.Events exposing (onClick)
+import Office exposing (officeDecoder)
 
 -- Model
 type alias Model =
@@ -61,7 +62,7 @@ type alias RaceShape =
     }
 
 type alias ContestMeta = 
-    { office : String
+    { office : Office
     , fips : String
     , district : Maybe String 
     , isSpecial : Bool
@@ -183,28 +184,27 @@ fromGeorgia gc =
 
         (office, district) =
             if k > 500 && k < 700 then -- State House
-                ( "State House"
+                ( StateHouse
                 , Just <| String.fromInt <| (k - 500)
                 )
 
             else if k > 400 && k < 500 then -- State Senate
-                ( "State Senate"
+                ( StateSenate
                 , Just <| String.fromInt <| (k - 400)
                 )
 
+            else if contains "Statewide Referendum Question" gc.name || contains "Proposed Constitutional Amendment" gc.name then -- Ballot Questions
+                ( GeorgiaQuestions
+                , Nothing
+                )
+
             else
-                ( gc.name
+                ( President
                 , Nothing
                 )
 
         name =
-            {-case district of
-                Just a -> office ++ " Dist " ++ a
-                Nothing -> office-}
             gc.version
-
-        is_referendum =
-            any (\v -> startsWith v office) ["Proposed Constitutional Amendment", "Statewide Referendum Question"]
     in
     { id = name
     , progress = progress
@@ -217,7 +217,7 @@ fromGeorgia gc =
         , district = district
         , isSpecial = False
         , isUncontested = length results == 1
-        , isReferendum = is_referendum
+        , isReferendum = Office.isReferendum office
         , holdingParty = "gop" -- Very wrong
         }
     , counties = Nothing
@@ -310,9 +310,8 @@ update msg model =
             ({ model | data = results }, fetchMeta )
 
         GeorgiaResultFetched (Ok results) ->
-            ({ model | data = map fromGeorgia results
-                                -- staticOffice
-                                |> filter (Maybe.withDefault False << Maybe.map (\v -> member v ["Proposed Constitutional Amendment 1", "Proposed Constitutional Amendment 2", "Statewide Referendum Question A"]) << Maybe.map .office << .meta)
+            ({ model | data = map fromGeorgia results 
+                                |> filter (Maybe.withDefault False << Maybe.map (\v -> v.office == staticOffice) << .meta)
                                 -- ^^ Very bad
                      }
             , if member staticOffice [GeorgiaQuestions]
@@ -566,7 +565,7 @@ questionColorPalette results =
 partyColorPalette : List Candidate -> String
 partyColorPalette results =
     case sortBy .votes results |> reverse of
-        [] -> "white"
+        [] -> "pink"
         [winner] ->
             getPartyShade (Maybe.withDefault "oth" winner.party) 1
 
@@ -919,7 +918,7 @@ metaDecoder =
             Json.Decode.map2 pair 
                 (field "id" string)
                 (Json.Decode.map7 ContestMeta
-                    (field "office" string)
+                    (field "office" officeDecoder)
                     (field "stateFips" string)
                     (maybe (field "districtNumber" string))
                     (field "isSpecial" bool)
@@ -1081,8 +1080,8 @@ resolveEvs c =
                 _ -> 0
 
 
-displayRaceName : Model -> ContestMeta -> Html Msg
-displayRaceName model meta =
+displayRaceName : Model -> String -> ContestMeta -> Html Msg
+displayRaceName model c_id meta =
     let
         state = case meta.fips of
                 "01" -> "Alabama"
@@ -1139,9 +1138,15 @@ displayRaceName model meta =
                 _ -> "Unknown FIPS code"
 
         office2 =
-            case String.toList meta.office of
-                (x :: xs) -> String.fromList <| toUpper x :: xs
-                _ -> meta.office
+            -- Change from chamber names to officeholder titles?
+            case meta.office of
+                President -> "President"
+                House -> "House"
+                Senate -> "Senate"
+                Governor -> "Governor"
+                StateSenate -> "State Senate"
+                StateHouse -> "State House"
+                _ -> "Referendum" -- Unreachable
 
         district = 
             case meta.district of
@@ -1161,16 +1166,16 @@ displayRaceName model meta =
                 then " (Special)"
                 else ""
     in
-    if member office2 ["House", "President"] then 
+    if member meta.office [House, President] then 
         text <|   
             office2 ++ " - " ++ state ++ " " ++ district ++ special
         
-    else if member office2 ["State House", "State Senate"] then
+    else if member meta.office [StateHouse, StateSenate] then
         text <|   
-            district ++ special
+            office2 ++ " District " ++ district ++ special
 
     else if meta.isReferendum then
-        case Maybe.andThen (Dict.get meta.office) model.bq_meta of
+        case Maybe.andThen (Dict.get c_id) model.bq_meta of
             Just bq_meta -> 
                 div []
                     [ text <| state ++ " - " ++ bq_meta.short_summary
@@ -1498,7 +1503,7 @@ pres model c =
             model.bq_meta 
                 |> Maybe.andThen (\v -> 
                                     case c.meta of
-                                        Just meta -> Dict.get meta.office v
+                                        Just meta -> Dict.get c.id v
                                         Nothing   -> Nothing
                                     )
 
@@ -1531,7 +1536,7 @@ pres model c =
                         then text <| cnd.name ++ "*"
                         else text <| cnd.name
             
-        racename = Maybe.map (displayRaceName model) c.meta
+        racename = Maybe.map (displayRaceName model c.id) c.meta
             |> Maybe.withDefault (text c.id)
 
         raceHeader =
