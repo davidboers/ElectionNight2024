@@ -1,0 +1,260 @@
+{
+    "id": "bq:az:140",
+    "counties": [
+        {
+            "id": "04005",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 406
+                },
+                {
+                    "id": "2",
+                    "votes": 227
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.69
+            }
+        },
+        {
+            "id": "04012",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 616
+                },
+                {
+                    "id": "2",
+                    "votes": 333
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.78
+            }
+        },
+        {
+            "id": "04017",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 706
+                },
+                {
+                    "id": "2",
+                    "votes": 959
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.64
+            }
+        },
+        {
+            "id": "04007",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 628
+                },
+                {
+                    "id": "2",
+                    "votes": 385
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.72
+            }
+        },
+        {
+            "id": "04015",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 452
+                },
+                {
+                    "id": "2",
+                    "votes": 122
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.72
+            }
+        },
+        {
+            "id": "04023",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 973
+                },
+                {
+                    "id": "2",
+                    "votes": 260
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.18
+            }
+        },
+        {
+            "id": "04027",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 579
+                },
+                {
+                    "id": "2",
+                    "votes": 377
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.14
+            }
+        },
+        {
+            "id": "04001",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 954
+                },
+                {
+                    "id": "2",
+                    "votes": 773
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.91
+            }
+        },
+        {
+            "id": "04011",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 886
+                },
+                {
+                    "id": "2",
+                    "votes": 679
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.39
+            }
+        },
+        {
+            "id": "04019",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 359
+                },
+                {
+                    "id": "2",
+                    "votes": 934
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.91
+            }
+        },
+        {
+            "id": "04013",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 963
+                },
+                {
+                    "id": "2",
+                    "votes": 835
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.0
+            }
+        },
+        {
+            "id": "04003",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 395
+                },
+                {
+                    "id": "2",
+                    "votes": 778
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.59
+            }
+        },
+        {
+            "id": "04025",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 633
+                },
+                {
+                    "id": "2",
+                    "votes": 480
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.64
+            }
+        },
+        {
+            "id": "04009",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 135
+                },
+                {
+                    "id": "2",
+                    "votes": 392
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.7
+            }
+        },
+        {
+            "id": "04021",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 287
+                },
+                {
+                    "id": "2",
+                    "votes": 684
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.81
+            }
+        }
+    ]
+}

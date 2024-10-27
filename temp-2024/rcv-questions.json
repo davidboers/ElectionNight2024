@@ -8,17 +8,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 500,
+                    "votes": 870,
                     "id": "1"
                 },
                 {
-                    "votes": 700,
+                    "votes": 422,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.74
             },
             "status": {
                 "tabulation": "active",
@@ -32,17 +32,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 500,
+                    "votes": 6729,
                     "id": "1"
                 },
                 {
-                    "votes": 700,
+                    "votes": 7538,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.64
             },
             "status": {
                 "tabulation": "active",
@@ -56,17 +56,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 666,
+                    "votes": 8972,
                     "id": "1"
                 },
                 {
-                    "votes": 500,
+                    "votes": 8218,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.4
             },
             "status": {
                 "tabulation": "active",
@@ -80,17 +80,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 120,
+                    "votes": 34254,
                     "id": "1"
                 },
                 {
-                    "votes": 150,
+                    "votes": 36339,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.07
             },
             "status": {
                 "tabulation": "active",
@@ -104,17 +104,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 999,
+                    "votes": 863,
                     "id": "1"
                 },
                 {
-                    "votes": 950,
+                    "votes": 474,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.21
             },
             "status": {
                 "tabulation": "active",
@@ -128,17 +128,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 93713732,
+                    "votes": 24297,
                     "id": "1"
                 },
                 {
-                    "votes": 1283722,
+                    "votes": 25187,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.61
             },
             "status": {
                 "tabulation": "active",
@@ -152,17 +152,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 14,
+                    "votes": 69455,
                     "id": "1"
                 },
                 {
-                    "votes": 15,
+                    "votes": 62616,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.03
             },
             "status": {
                 "tabulation": "active",
@@ -176,17 +176,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 1000,
+                    "votes": 32991,
                     "id": "1"
                 },
                 {
-                    "votes": 700,
+                    "votes": 29113,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.92
             },
             "status": {
                 "tabulation": "active",
@@ -200,17 +200,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 1000,
+                    "votes": 30379,
                     "id": "1"
                 },
                 {
-                    "votes": 700,
+                    "votes": 33169,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.5
             },
             "status": {
                 "tabulation": "active",
@@ -224,17 +224,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 1000,
+                    "votes": 9363,
                     "id": "1"
                 },
                 {
-                    "votes": 700,
+                    "votes": 8596,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.02
             },
             "status": {
                 "tabulation": "active",
@@ -248,17 +248,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 1000,
+                    "votes": 21675,
                     "id": "1"
                 },
                 {
-                    "votes": 700,
+                    "votes": 20255,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.06
             },
             "status": {
                 "tabulation": "active",
@@ -272,17 +272,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 1000,
+                    "votes": 34632,
                     "id": "1"
                 },
                 {
-                    "votes": 700,
+                    "votes": 34620,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.50
+                "pct": 0.87
             },
             "status": {
                 "tabulation": "active",

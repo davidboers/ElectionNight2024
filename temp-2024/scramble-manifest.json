@@ -22,5 +22,11 @@
         "meta-file": "./temp-2024/abortion-questions-meta.json",
         "summary-file": "./temp-2024/abortion-questions.json",
         "office": "abortion-questions"
+    },
+    {
+        "county-glob": "./temp-2024/rcv-questions/*/counties.json",
+        "meta-file": "./temp-2024/rcv-questions-meta.json",
+        "summary-file": "./temp-2024/rcv-questions.json",
+        "office": "rcv-questions"
     }
 ]

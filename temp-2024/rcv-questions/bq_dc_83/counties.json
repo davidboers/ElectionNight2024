@@ -1,0 +1,22 @@
+{
+    "id": "bq:dc:83",
+    "counties": [
+        {
+            "id": "11001",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 863
+                },
+                {
+                    "id": "2",
+                    "votes": 474
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.73
+            }
+        }
+    ]
+}

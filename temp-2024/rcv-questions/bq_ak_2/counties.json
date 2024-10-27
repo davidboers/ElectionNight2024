@@ -1,0 +1,22 @@
+{
+    "id": "bq:ak:2",
+    "counties": [
+        {
+            "id": "02000",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 870
+                },
+                {
+                    "id": "2",
+                    "votes": 422
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.4
+            }
+        }
+    ]
+}
