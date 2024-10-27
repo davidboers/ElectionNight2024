@@ -33,7 +33,7 @@ import ViewBox exposing (ViewBox(..))
 import ViewBox exposing (zoomDecoder)
 import ViewBox exposing (defaultBViewBox)
 import Html exposing (Attribute)
-import List exposing (concat)
+import Contest exposing (Summary, ContestMeta, Candidate, Contest, County)
 
 -- Model
 type alias Model =
@@ -52,9 +52,6 @@ type MapShowing
     = WinnerShare
     | Progress
 
-type alias Summary =
-    List Contest
-
 type alias Meta =
     { candidates : Dict String CandidateMeta
     , races : Dict String ContestMeta
@@ -67,43 +64,6 @@ type alias RaceShape =
     { abvr : String
     , geo : Maybe String
     , block : (Int, Int) 
-    }
-
-type alias ContestMeta = 
-    { office : Office
-    , fips : String
-    , district : Maybe String 
-    , isSpecial : Bool
-    , isUncontested : Bool
-    , isReferendum : Bool
-    , holdingParty : String
-    }
-
-type alias Contest =
-    { id : String
-    , progress : Float
-    , timestamp : String
-    , evs : Maybe Int
-    , results : List Candidate
-    , meta : Maybe ContestMeta
-    , counties : Maybe (List County)
-    }
-
-type alias Candidate =
-    { votes : Int
-    , cnd_id : String
-    , name : String -- Default: cnd_id
-    , party : Maybe String
-    , winner : Bool   -- isWinner
-    , isIncumbent : Bool
-    }
-
-type alias County =
-    { county_fips : String
-    , progress : Float
-    , results : Dict String Int -- keys: Candidate IDs and values: votes
-    , geo : Maybe String
-    , name : Maybe String
     }
 
 contestWinner : Contest -> Maybe Candidate
@@ -169,16 +129,19 @@ fromGeorgia gc =
             else
                 Just "oth"
 
+        stripTags : String -> String
+        stripTags =
+            String.replace "(I)" ""
+                >> String.replace "(Rep)" ""
+                >> String.replace "(Dem)" ""
+                >> String.replace "(Lib)" ""
+                >> String.trim
+
         fromGeorgiaCandidate : String -> Int -> Candidate
         fromGeorgiaCandidate cnd_name votes =
             { votes = votes
-            , cnd_id = cnd_name
-            , name = cnd_name
-                        |> String.replace "(I)" ""
-                        |> String.replace "(Rep)" ""
-                        |> String.replace "(Dem)" ""
-                        |> String.replace "(Lib)" ""
-                        |> String.trim
+            , cnd_id = stripTags cnd_name
+            , name = stripTags cnd_name
             , party = getParty cnd_name
             , winner = False
             , isIncumbent = contains "(I)" cnd_name
@@ -639,15 +602,9 @@ groupList model =
     let
         groups =
             if member staticOffice [StateSenate, StateHouse] then
-                {-filterMap .counties model.data
-                    |> concat
-                    |> filterMap .name
-                    |> sort
-                    |> unique-}
-                [ "Fulton County"
-                , "Gwinnett County"
-                ]
-
+                Maybe.map Dict.keys model.zoom_coords
+                    |> Maybe.withDefault []
+                    -- Could we merge these two?
             else
                 filterMap .meta model.data
                     |> map .fips
@@ -706,7 +663,7 @@ questionColorPalette results =
 partyColorPalette : List Candidate -> String
 partyColorPalette results =
     case sortBy .votes results |> reverse of
-        [] -> "white"
+        [] -> "purple"
 
         [winner] ->
             getPartyShade (Maybe.withDefault "oth" winner.party) 1
@@ -1123,7 +1080,6 @@ decodeGeorgiaDetailedContest summary =
         )
         (field "K" string) 
     
-
 decodeGeorgiaDetailedContests : Summary -> Decoder (Dict String (List County))
 decodeGeorgiaDetailedContests summary =
     list (decodeGeorgiaDetailedContest summary)
