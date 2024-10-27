@@ -25,14 +25,23 @@ import Office exposing (Office(..), staticOffice)
 import Office exposing (isGeorgia)
 import ShadePalettes exposing (getMetaShade)
 import Office exposing (officeDecoder)
+import Html exposing (li)
+import List exposing (sort)
+import List.Extra exposing (unique)
+import Html exposing (ul)
+import ViewBox exposing (ViewBox(..))
+import ViewBox exposing (zoomDecoder)
+import ViewBox exposing (defaultBViewBox)
+import Html exposing (Attribute)
 
 -- Model
 type alias Model =
     { data : Summary
-    , highlight_race : Maybe String -- Should be contest
+    , highlight_race : Maybe String 
     , map_data : Maybe Map
     , filter_state : Maybe String
     , bq_meta : Maybe (Dict String BallotQuestionMeta)
+    , zoom_coords : Maybe (Dict String ViewBox)
     , county_map_showing : MapShowing
     , state_map_showing : MapShowing
     , err : Maybe Http.Error
@@ -273,6 +282,7 @@ init =
     , map_data = Nothing 
     , filter_state = Nothing
     , bq_meta = Nothing
+    , zoom_coords = Nothing
     , county_map_showing = WinnerShare
     , state_map_showing = WinnerShare
     , err = Nothing
@@ -289,11 +299,13 @@ type Msg
     | GeorgiaResultFetched (Result Http.Error GeorgiaSummary)
     | MetaFetched (Result Http.Error Meta)
     | MapFetched (Result Http.Error Map)
+    | ZoomFetched (Result Http.Error (Dict String ViewBox))
     | CountyFetched String (Result Http.Error (List County))
     | GeorgiaCountyFetched (Result Http.Error (Dict String (List County)))
     | CountyMapFetched String (Result Http.Error GeoJson)
     | BallotQuestionMetaFetched (Result Http.Error (Dict String BallotQuestionMeta))
     | HoverRace String
+    | SelectState (Maybe String)
     | CountyMapShowing MapShowing
     | StateMapShowing MapShowing
     | Cycle
@@ -340,25 +352,27 @@ update msg model =
             }
             , if member staticOffice [AbortionQuestions, RCVQuestions]
                 then batch [ fetchMap, fetchBallotQuestionMeta ]
-                else fetchMap
+                else if staticOffice == House
+                    then batch [ fetchMap, fetchZoom ]
+                    else fetchMap
             )
 
-        MapFetched response ->
-            case response of
-                Ok map_data ->
-                    let
-                        new_model = { model | map_data = Just map_data }
-                    in
-                    ( new_model
-                    , if staticOffice == House
-                        then Cmd.none
-                        else if isGeorgia staticOffice 
-                            then fetchGeorgiaCounties new_model.data
-                            else batch <| map fetchCounties new_model.data
-                    )
+        MapFetched (Ok map_data) ->
+            let
+                new_model = { model | map_data = Just map_data }
+            in
+            ( new_model
+            , if staticOffice == House
+                then Cmd.none
+                else if isGeorgia staticOffice 
+                    then fetchGeorgiaCounties new_model.data
+                    else batch <| map fetchCounties new_model.data
+            )
 
-                Err e ->
-                    ({ model | err = Just e }, Cmd.none)
+        ZoomFetched (Ok zoom_coords) ->
+            ( { model | zoom_coords = Just zoom_coords }
+            , Cmd.none
+            )
 
         CountyFetched c_id (Ok counties) ->
             let
@@ -425,6 +439,8 @@ update msg model =
         ResultFetched (Err e)             -> ({ model | err = Just e }, fetchMeta )  -- Really fetchMeta?
         GeorgiaResultFetched (Err e)      -> ({ model | err = Just e }, Cmd.none)
         MetaFetched (Err e)               -> ({ model | err = Just e }, Cmd.none)
+        MapFetched (Err e)                -> ({ model | err = Just e }, Cmd.none)
+        ZoomFetched (Err e)               -> ({ model | err = Just e }, Cmd.none)
         CountyFetched _ (Err e)           -> ({ model | err = Just e }, Cmd.none)
         GeorgiaCountyFetched (Err e)      -> ({ model | err = Just e }, Cmd.none)
         CountyMapFetched _ (Err e)        -> ({ model | err = Just e }, Cmd.none)
@@ -459,6 +475,11 @@ update msg model =
             , Cmd.none
             )
 
+        SelectState fips ->
+            ( { model | filter_state = fips }
+            , Cmd.none
+            )
+
         Cycle ->
             let 
                 cycle data =
@@ -490,10 +511,16 @@ view model =
                 div [] [ text (errorToString err) ]
 
             Nothing ->
-                case model.data of
+                case filter (not << skipState model) model.data of
                     (x::_ as summary) ->
+                        let
+                            fips = Maybe.withDefault "00" <| Maybe.map .fips <| x.meta
+                        in
+                        
                         div [ style "font-family" "arial" ]
-                            [ div [] [ aggr summary ]
+                            [ div [] 
+                                [ aggr summary
+                                ]
                             , br [] []
                             , br [] []
                             , div
@@ -502,7 +529,7 @@ view model =
                                 , div 
                                     [ style "width" "500px" ]
                                     [ displayMapToggleButtons 
-                                        (mapAUnit <| Maybe.withDefault "00" <| Maybe.map .fips <| x.meta)
+                                        (mapAUnit fips)
                                         CountyMapShowing 
                                         model.county_map_showing
                                     , svg 
@@ -510,28 +537,31 @@ view model =
                                         ] 
                                         [ countyMap model.county_map_showing x ]
                                     ]
-                                ]
-                            , div []
-                                [ if not (Office.isReferendum staticOffice)
+                                , if not (Office.isReferendum staticOffice)
                                     then div
-                                        [ style "display" "flex" ]
-                                        [ div 
-                                            [ style "width" "500px" ]
+                                        [ style "display" "flex" 
+                                        , style "width" "700px"
+                                        ]
+                                        [ div []
                                             [ displayMapToggleButtons 
                                                 mapBUnit
                                                 StateMapShowing 
                                                 model.state_map_showing
-                                            , svg 
-                                                [ style "width" "500px"
-                                                , viewBox "0 0 950 700" 
+                                            , svg
+                                                [ viewBox <| ViewBox.toString <| pickViewBox model fips
+                                                , style "width" "500px"
+                                                , style "height" "400px"
                                                 ] 
-                                                [ g [] (map (statePath model) <| filter (not << skipState model) summary) 
+                                                [ g [] (map (statePath model) summary) 
                                                 ]
                                             ]
+                                        , if staticOffice == House
+                                            then stateList model
+                                            else span [] []
                                         ]
+                                        
                                     
                                     else g [] [] 
-                                , div [] [ text ("Selected State: Texas") ]
                                 ]
                             ]           
 
@@ -542,12 +572,12 @@ view model =
 mapAUnit : String -> String  
 mapAUnit state_fips =
     if member state_fips [ "09" -- Connecticut
-                            , "23" -- Maine
-                            , "25" -- Massachusetts
-                            , "33" -- New Hampshire
-                            , "44" -- Rhode Island
-                            , "50" -- Vermont
-                            ] then
+                         , "23" -- Maine
+                         , "25" -- Massachusetts
+                         , "33" -- New Hampshire
+                         , "44" -- Rhode Island
+                         , "50" -- Vermont
+                         ] then
         "municipalities"
 
     else if state_fips == "02" then -- Alaska
@@ -567,6 +597,55 @@ mapBUnit =
     if member staticOffice [House, StateSenate, StateHouse]
         then "districts"
         else "states"
+
+stateListItem :  Maybe String -> String -> Html Msg
+stateListItem selected fips =
+    let
+        selected_style = 
+            case selected of
+                Just a -> 
+                    if a == fips
+                        then selectedStyle ++ 
+                                [ onClick <| SelectState Nothing
+                                , style "border-radius" "6px"
+                                ]
+                        else [ onClick <| SelectState (Just fips) ]
+                Nothing -> [ onClick <| SelectState (Just fips) ]
+    in
+    li  (
+        [ style "cursor" "pointer"
+        , style "list-style" "none"
+        , style "padding" "3px"
+        ] ++ selected_style)
+        [ text <| fipsToName fips ]
+        
+
+stateList : Model -> Html Msg
+stateList model =
+    let
+        states =
+            filterMap .meta model.data
+                |> map .fips
+                |> sort
+                |> unique
+    in
+    ul
+        [ style "height" "400px"
+        , style "width" "max-content"
+        , style "overflow" "scroll"
+        ]
+        (map (stateListItem model.filter_state) states)
+
+pickViewBox : Model -> String -> ViewBox
+pickViewBox model fips =
+    case (model.filter_state, model.zoom_coords) of
+        (Just filter_state, Just zoom_coords) -> 
+            case Dict.get fips zoom_coords of
+                Just a -> a
+                Nothing -> defaultBViewBox
+            
+        _ -> 
+            defaultBViewBox
 
 colorPalette : Candidate -> List Candidate -> (Float -> String) -> String
 colorPalette winner results palette_func = 
@@ -609,23 +688,29 @@ partyColorPalette results =
         (winner :: _) ->
             colorPalette winner results (getPartyShade (Maybe.withDefault "oth" winner.party))
 
+selectedStyle : List (Attribute Msg)
+selectedStyle =
+    [ style "outline" "1px solid black"
+    , style "background-color" "gray"
+    , style "color" "white"
+    ]
+
+notSelectedStyle : List (Attribute Msg)
+notSelectedStyle =
+    [ style "outline" "1px solid lightgray"
+    , style "background-color" "white"
+    , style "color" "black"
+    ]
+
 displayMapToggleButtons : String -> (MapShowing -> Msg) -> MapShowing -> Html Msg
 displayMapToggleButtons unit_name toggleMsg current =
     let
         button_style option =
             let
-                (outline, fill, font) =
-                    if current == option then
-                        ( "1px solid black"
-                        , "gray"
-                        , "white"
-                        )
-
-                    else
-                        ( "1px solid lightgray"
-                        , "white"
-                        , "black"
-                        )
+                extra_style =
+                    if current == option 
+                        then selectedStyle
+                        else notSelectedStyle
 
                 (radius_attribute_top, radius_attribute_bottom) =
                     case option of
@@ -634,14 +719,11 @@ displayMapToggleButtons unit_name toggleMsg current =
             in
             [ style "display" "inline" 
             , style "padding" "inherit"
-            , style "outline" outline
             , style radius_attribute_top "8px"
             , style radius_attribute_bottom "8px"
-            , style "background-color" fill
-            , style "color" font
             , style "cursor" "pointer"
             , onClick (toggleMsg option)
-            ] 
+            ] ++ extra_style
     in
     div [] 
         [ div 
@@ -849,6 +931,13 @@ fetchMap =
     Http.get
         { url = "./map.json"
         , expect = Http.expectJson MapFetched (field (Office.toString staticOffice) mapDecoder)
+        }
+
+fetchZoom : Cmd Msg
+fetchZoom =
+    Http.get
+        { url = "./zoom.json"
+        , expect = Http.expectJson ZoomFetched (field (Office.toString staticOffice) (dict zoomDecoder))
         }
 
 fetchCounties : Contest -> Cmd Msg
@@ -1097,63 +1186,66 @@ resolveEvs c =
                 "56" -> 3 --"Wyoming"
                 _ -> 0
 
+fipsToName : String -> String
+fipsToName fips =
+    case fips of
+        "01" -> "Alabama"
+        "02" -> "Alaska"
+        "04" -> "Arizona"
+        "05" -> "Arkansas"
+        "06" -> "California"
+        "08" -> "Colorado"
+        "09" -> "Connecticut"
+        "10" -> "Delaware"
+        "11" -> "District of Columbia"
+        "12" -> "Florida"
+        "13" -> "Georgia"
+        "15" -> "Hawaii"
+        "16" -> "Idaho"
+        "17" -> "Illinois"
+        "18" -> "Indiana"
+        "19" -> "Iowa"
+        "20" -> "Kansas"
+        "21" -> "Kentucky"
+        "22" -> "Louisiana"
+        "23" -> "Maine"
+        "24" -> "Maryland"
+        "25" -> "Massachusetts"
+        "26" -> "Michigan"
+        "27" -> "Minnesota"
+        "28" -> "Mississippi"
+        "29" -> "Missouri"
+        "30" -> "Montana"
+        "31" -> "Nebraska"
+        "32" -> "Nevada"
+        "33" -> "New Hampshire"
+        "34" -> "New Jersey"
+        "35" -> "New Mexico"
+        "36" -> "New York"
+        "37" -> "North Carolina"
+        "38" -> "North Dakota"
+        "39" -> "Ohio"
+        "40" -> "Oklahoma"
+        "41" -> "Oregon"
+        "42" -> "Pennsylvania"
+        "44" -> "Rhode Island"
+        "45" -> "South Carolina"
+        "46" -> "South Dakota"
+        "47" -> "Tennessee"
+        "48" -> "Texas"
+        "49" -> "Utah"
+        "50" -> "Vermont"
+        "51" -> "Virginia"
+        "53" -> "Washington"
+        "54" -> "West Virginia"
+        "55" -> "Wisconsin"
+        "56" -> "Wyoming"
+        _ -> "Unknown FIPS code"
 
 displayRaceName : Model -> String -> ContestMeta -> Html Msg
 displayRaceName model c_id meta =
     let
-        state = case meta.fips of
-                "01" -> "Alabama"
-                "02" -> "Alaska"
-                "04" -> "Arizona"
-                "05" -> "Arkansas"
-                "06" -> "California"
-                "08" -> "Colorado"
-                "09" -> "Connecticut"
-                "10" -> "Delaware"
-                "11" -> "District of Columbia"
-                "12" -> "Florida"
-                "13" -> "Georgia"
-                "15" -> "Hawaii"
-                "16" -> "Idaho"
-                "17" -> "Illinois"
-                "18" -> "Indiana"
-                "19" -> "Iowa"
-                "20" -> "Kansas"
-                "21" -> "Kentucky"
-                "22" -> "Louisiana"
-                "23" -> "Maine"
-                "24" -> "Maryland"
-                "25" -> "Massachusetts"
-                "26" -> "Michigan"
-                "27" -> "Minnesota"
-                "28" -> "Mississippi"
-                "29" -> "Missouri"
-                "30" -> "Montana"
-                "31" -> "Nebraska"
-                "32" -> "Nevada"
-                "33" -> "New Hampshire"
-                "34" -> "New Jersey"
-                "35" -> "New Mexico"
-                "36" -> "New York"
-                "37" -> "North Carolina"
-                "38" -> "North Dakota"
-                "39" -> "Ohio"
-                "40" -> "Oklahoma"
-                "41" -> "Oregon"
-                "42" -> "Pennsylvania"
-                "44" -> "Rhode Island"
-                "45" -> "South Carolina"
-                "46" -> "South Dakota"
-                "47" -> "Tennessee"
-                "48" -> "Texas"
-                "49" -> "Utah"
-                "50" -> "Vermont"
-                "51" -> "Virginia"
-                "53" -> "Washington"
-                "54" -> "West Virginia"
-                "55" -> "Wisconsin"
-                "56" -> "Wyoming"
-                _ -> "Unknown FIPS code"
+        state = fipsToName meta.fips
 
         office2 =
             -- Change from chamber names to officeholder titles?
@@ -1571,7 +1663,7 @@ pres model c =
                 tr []
                     [ th (style "width" "7px"  :: bordered) []
                     , th (style "width" "200px" :: bordered) [ text "Response" ]
-                    , th (style "width" "75px" :: bordered) [ text "Votes" ]
+                    , th (style "width" "85px" :: bordered) [ text "Votes" ]
                     , th (style "width" "20px" :: bordered) [ text "Share" ]
                     ]
 
@@ -1580,7 +1672,7 @@ pres model c =
                     [ th (style "width" "7px"  :: bordered) []
                     , th (style "width" "200px" :: bordered) [ text "Candidate" ]
                     , th (style "width" "20px" :: bordered) [ text "Party" ]
-                    , th (style "width" "75px" :: bordered) [ text "Votes" ]
+                    , th (style "width" "85px" :: bordered) [ text "Votes" ]
                     , th (style "width" "20px" :: bordered) [ text "Share" ]
                     ]
 

@@ -17,7 +17,7 @@ type Office
 
 staticOffice : Office
 staticOffice =
-    Governor
+    House
 
 
 toString : Office -> String
@@ -58,6 +58,6 @@ officeDecoder =
             "abortion-questions" -> succeed AbortionQuestions
             "rcv-questions"      -> succeed RCVQuestions
             "GeorgiaQuestions"   -> succeed GeorgiaQuestions
-            _                    -> fail "Nothing"
+            _                    -> fail v
     )
     
