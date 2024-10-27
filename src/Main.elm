@@ -33,7 +33,7 @@ import ViewBox exposing (ViewBox(..))
 import ViewBox exposing (zoomDecoder)
 import ViewBox exposing (defaultBViewBox)
 import Html exposing (Attribute)
-import Contest exposing (Summary, ContestMeta, Candidate, Contest, County)
+import Contest exposing (..)
 
 -- Model
 type alias Model =
@@ -51,11 +51,6 @@ type alias Model =
 type MapShowing
     = WinnerShare
     | Progress
-
-type alias Meta =
-    { candidates : Dict String CandidateMeta
-    , races : Dict String ContestMeta
-    }
 
 type alias Map =
     Dict String RaceShape
@@ -227,10 +222,6 @@ skipState model c =
         Nothing ->
             False -- Really?
 
-isReferendum : Contest -> Bool
-isReferendum c = 
-    Maybe.map .isReferendum c.meta
-        |> Maybe.withDefault False
                             
 -- Main
 main : Program () Model Msg
@@ -985,12 +976,6 @@ candidate =
         (maybe (field "party" string))
         (succeed False)
         (succeed False)
-        
-type alias CandidateMeta =
-            { name : String
-            , party : String
-            , isIncumbent : Bool 
-            }
 
 metaDecoder : Decoder Meta
 metaDecoder =
