@@ -1,17 +1,17 @@
 {
     "Georgia Ballot Questions": {
-        "Proposed Constitutional Amendment 1": {
-            "short-summary": "Homestead Exemption",
+        "801000": {
+            "short-summary": "Amendment 1 (Homestead Exemption)",
             "long-summary": "Create statewide homestead exemption so as to limit the maximum increase in property values to the inflation rate.",
             "official-question": "Shall the Constitution of Georgia be amended so as to authorize the General Assembly to provide by general law for a state-wide homestead exemption that serves to limit increases in the assessed value of homesteads, but which any county, consolidated government, municipality, or local school system may opt out of upon the completion of certain procedures?"
         },
-        "Proposed Constitutional Amendment 2": {
-            "short-summary": "Tax Court",
+        "802000": {
+            "short-summary": "Amendment 2 (Tax Court)",
             "long-summary": "Create a statewide tax court with judicial power to replace the current administrative process.",
             "official-question": "Shall the Constitution of Georgia be amended so as to provide for the Georgia Tax Court to be vested with the judicial power of the state and to have venue, judges, and jurisdiction concurrent with superior courts?"
         },
-        "Statewide Referendum Question A": {
-            "short-summary": "Property Tax Exemption",
+        "901000": {
+            "short-summary": "Referendum A (Property Tax Exemption)",
             "long-summary": "Increase the tax exemption for tangible personal property from $7,500 to $20,000.",
             "official-question": "Do you approve the Act that increases an exemption from property tax for all tangible personal property from $7,500.00 to $20,000.00?"
         }

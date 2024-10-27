@@ -7,7 +7,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:ak:2",
-            "office": "bq:ak:2"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -32,7 +32,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:az:133",
-            "office": "bq:az:133"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -57,7 +57,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:az:140",
-            "office": "bq:az:140"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -82,7 +82,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:co:131",
-            "office": "bq:co:131"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -107,7 +107,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:dc:83",
-            "office": "bq:dc:83"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -132,7 +132,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:id:1",
-            "office": "bq:id:1"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -157,7 +157,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:mo:7",
-            "office": "bq:mo:7"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -182,7 +182,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:mt:126",
-            "office": "bq:mt:126"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -207,7 +207,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:mt:127",
-            "office": "bq:mt:127"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -232,7 +232,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:nv:3",
-            "office": "bq:nv:3"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -257,7 +257,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:or:117",
-            "office": "bq:or:117"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
@@ -282,7 +282,7 @@
             "isBallot": true,
             "contestType": "general",
             "id": "bq:sd:h",
-            "office": "bq:sd:h"
+            "office": "rcv-questions"
         },
         "candidates": {
             "1": {
