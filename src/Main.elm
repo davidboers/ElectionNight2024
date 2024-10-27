@@ -587,6 +587,9 @@ displayMapToggleButtons state_fips toggleMsg current =
 
             else if state_fips == "02" then -- Alaska
                 "state"
+
+            else if state_fips == "11" then -- Washington D.C.
+                "District"
             
             else if state_fips == "22" then -- Louisiana
                 "parishes"
