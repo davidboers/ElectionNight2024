@@ -17,7 +17,7 @@ type Office
 
 staticOffice : Office
 staticOffice =
-    House
+    StateHouse
 
 
 toString : Office -> String

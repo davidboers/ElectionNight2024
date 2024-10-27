@@ -33,6 +33,7 @@ import ViewBox exposing (ViewBox(..))
 import ViewBox exposing (zoomDecoder)
 import ViewBox exposing (defaultBViewBox)
 import Html exposing (Attribute)
+import List exposing (concat)
 
 -- Model
 type alias Model =
@@ -236,7 +237,7 @@ fromGeorgiaCounties c county =
         progress = (toFloat county.precincts_reporting) / (toFloat county.total_precincts)
         results = zip (map .name c.results) county.votes |> Dict.fromList
     in
-    { county_fips = "" -- Yeesh
+    { county_fips = "" -- Yeesh. Maybe just remove?
     , progress = progress
     , results = results
     , geo = Nothing
@@ -251,9 +252,15 @@ skipState : Model -> Contest -> Bool
 skipState model c =
     case c.meta of
         Just meta ->
-            case model.filter_state of
-                Just fips -> fips /= meta.fips
-                Nothing   -> False
+            if member staticOffice [StateSenate, StateHouse] then
+                case model.filter_state of
+                    Just fips -> not <| member fips (filterMap .name <| Maybe.withDefault [] c.counties)
+                    Nothing   -> False
+
+            else
+                case model.filter_state of
+                    Just fips -> fips /= meta.fips
+                    Nothing   -> False
         Nothing ->
             False -- Really?
 
@@ -326,7 +333,9 @@ update msg model =
                      }
             , if member staticOffice [GeorgiaQuestions]
                 then batch [ fetchMap, fetchBallotQuestionMeta ]
-                else fetchMap
+                else if member staticOffice [StateSenate, StateHouse]
+                    then batch [ fetchMap, fetchZoom ]
+                    else fetchMap
             )
 
         MetaFetched (Ok meta) ->
@@ -515,6 +524,11 @@ view model =
                     (x::_ as summary) ->
                         let
                             fips = Maybe.withDefault "00" <| Maybe.map .fips <| x.meta
+
+                            bViewBox = 
+                                if member staticOffice [StateSenate, StateHouse]
+                                    then pickViewBox model <| Maybe.withDefault "" model.filter_state
+                                    else pickViewBox model fips
                         in
                         
                         div [ style "font-family" "arial" ]
@@ -548,15 +562,15 @@ view model =
                                                 StateMapShowing 
                                                 model.state_map_showing
                                             , svg
-                                                [ viewBox <| ViewBox.toString <| pickViewBox model fips
+                                                [ viewBox <| ViewBox.toString <| bViewBox
                                                 , style "width" "500px"
                                                 , style "height" "400px"
                                                 ] 
                                                 [ g [] (map (statePath model) summary) 
                                                 ]
                                             ]
-                                        , if staticOffice == House
-                                            then stateList model
+                                        , if member staticOffice [House, StateSenate, StateHouse]
+                                            then groupList model
                                             else span [] []
                                         ]
                                         
@@ -598,8 +612,8 @@ mapBUnit =
         then "districts"
         else "states"
 
-stateListItem :  Maybe String -> String -> Html Msg
-stateListItem selected fips =
+groupListItem :  Maybe String -> String -> Html Msg
+groupListItem selected fips =
     let
         selected_style = 
             case selected of
@@ -620,26 +634,37 @@ stateListItem selected fips =
         [ text <| fipsToName fips ]
         
 
-stateList : Model -> Html Msg
-stateList model =
+groupList : Model -> Html Msg
+groupList model =
     let
-        states =
-            filterMap .meta model.data
-                |> map .fips
-                |> sort
-                |> unique
+        groups =
+            if member staticOffice [StateSenate, StateHouse] then
+                {-filterMap .counties model.data
+                    |> concat
+                    |> filterMap .name
+                    |> sort
+                    |> unique-}
+                [ "Fulton County"
+                , "Gwinnett County"
+                ]
+
+            else
+                filterMap .meta model.data
+                    |> map .fips
+                    |> sort
+                    |> unique
     in
     ul
         [ style "height" "400px"
         , style "width" "max-content"
         , style "overflow" "scroll"
         ]
-        (map (stateListItem model.filter_state) states)
+        (map (groupListItem model.filter_state) groups)
 
 pickViewBox : Model -> String -> ViewBox
 pickViewBox model fips =
     case (model.filter_state, model.zoom_coords) of
-        (Just filter_state, Just zoom_coords) -> 
+        (Just _, Just zoom_coords) -> 
             case Dict.get fips zoom_coords of
                 Just a -> a
                 Nothing -> defaultBViewBox
@@ -682,6 +707,7 @@ partyColorPalette : List Candidate -> String
 partyColorPalette results =
     case sortBy .votes results |> reverse of
         [] -> "white"
+
         [winner] ->
             getPartyShade (Maybe.withDefault "oth" winner.party) 1
 
@@ -1240,7 +1266,10 @@ fipsToName fips =
         "54" -> "West Virginia"
         "55" -> "Wisconsin"
         "56" -> "Wyoming"
-        _ -> "Unknown FIPS code"
+        _ -> 
+            if contains " County" fips
+                then fips --replace " County" "" fips
+                else fips
 
 displayRaceName : Model -> String -> ContestMeta -> Html Msg
 displayRaceName model c_id meta =
