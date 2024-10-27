@@ -17,7 +17,7 @@ type Office
 
 staticOffice : Office
 staticOffice =
-    RCVQuestions
+    Governor
 
 
 toString : Office -> String

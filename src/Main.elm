@@ -1,14 +1,13 @@
 module Main exposing (..)
 
 import Browser
-import Char exposing (toUpper)
 import Dict exposing (Dict)
 import Html exposing (a, br, Html, div, text, progress, span, table, td, th, tr)
 import Html.Attributes exposing (align, colspan, name, rowspan, style)
-import Html.Events exposing (onMouseOver)
+import Html.Events exposing (onMouseOver, onClick)
 import Http exposing (Error(..))
 import Json.Decode exposing (Decoder, bool, field, list, int, string, at, dict, fail, float, maybe, oneOf, succeed)
-import List exposing (any, concatMap, filter, filterMap, foldl, head, intersperse, length, map, member, partition, reverse, sortBy, sortWith, sum)
+import List exposing (concatMap, filter, filterMap, foldl, head, length, map, member, partition, reverse, sortBy, sortWith, sum)
 import List.Extra exposing (find, zip)
 import Platform.Cmd exposing (batch)
 import String exposing (contains, dropRight, left, right, startsWith, replace)
@@ -25,7 +24,6 @@ import ShadePalettes exposing (getPartyShade, getResponseShade)
 import Office exposing (Office(..), staticOffice)
 import Office exposing (isGeorgia)
 import ShadePalettes exposing (getMetaShade)
-import Html.Events exposing (onClick)
 import Office exposing (officeDecoder)
 
 -- Model
