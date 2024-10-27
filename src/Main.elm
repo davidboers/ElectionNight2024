@@ -502,7 +502,7 @@ view model =
                                 , div 
                                     [ style "width" "500px" ]
                                     [ displayMapToggleButtons 
-                                        (Maybe.withDefault "00" <| Maybe.map .fips <| x.meta)
+                                        (mapAUnit <| Maybe.withDefault "00" <| Maybe.map .fips <| x.meta)
                                         CountyMapShowing 
                                         model.county_map_showing
                                     , svg 
@@ -513,12 +513,22 @@ view model =
                                 ]
                             , div []
                                 [ if not (Office.isReferendum staticOffice)
-                                    then 
-                                        svg [ style "width" "1200px"
-                                            , viewBox "0 0 1200 800" 
-                                            ] 
-                                            [ g [] (map (statePath model) <| filter (not << skipState model) summary) 
+                                    then div
+                                        [ style "display" "flex" ]
+                                        [ div 
+                                            [ style "width" "500px" ]
+                                            [ displayMapToggleButtons 
+                                                mapBUnit
+                                                StateMapShowing 
+                                                model.state_map_showing
+                                            , svg 
+                                                [ style "width" "500px"
+                                                , viewBox "0 0 950 700" 
+                                                ] 
+                                                [ g [] (map (statePath model) <| filter (not << skipState model) summary) 
+                                                ]
                                             ]
+                                        ]
                                     
                                     else g [] [] 
                                 , div [] [ text ("Selected State: Texas") ]
@@ -528,6 +538,35 @@ view model =
                     _ ->
                         div [] [ text "Sorry, there are no races." ]  
         ]
+
+mapAUnit : String -> String  
+mapAUnit state_fips =
+    if member state_fips [ "09" -- Connecticut
+                            , "23" -- Maine
+                            , "25" -- Massachusetts
+                            , "33" -- New Hampshire
+                            , "44" -- Rhode Island
+                            , "50" -- Vermont
+                            ] then
+        "municipalities"
+
+    else if state_fips == "02" then -- Alaska
+        "state"
+
+    else if state_fips == "11" then -- Washington D.C.
+        "District"
+    
+    else if state_fips == "22" then -- Louisiana
+        "parishes"
+
+    else
+        "counties"
+
+mapBUnit : String
+mapBUnit =
+    if member staticOffice [House, StateSenate, StateHouse]
+        then "districts"
+        else "states"
 
 colorPalette : Candidate -> List Candidate -> (Float -> String) -> String
 colorPalette winner results palette_func = 
@@ -563,7 +602,7 @@ questionColorPalette results =
 partyColorPalette : List Candidate -> String
 partyColorPalette results =
     case sortBy .votes results |> reverse of
-        [] -> "pink"
+        [] -> "white"
         [winner] ->
             getPartyShade (Maybe.withDefault "oth" winner.party) 1
 
@@ -571,30 +610,8 @@ partyColorPalette results =
             colorPalette winner results (getPartyShade (Maybe.withDefault "oth" winner.party))
 
 displayMapToggleButtons : String -> (MapShowing -> Msg) -> MapShowing -> Html Msg
-displayMapToggleButtons state_fips toggleMsg current =
+displayMapToggleButtons unit_name toggleMsg current =
     let
-        unit_name =
-            if member state_fips [ "09" -- Connecticut
-                                 , "23" -- Maine
-                                 , "25" -- Massachusetts
-                                 , "33" -- New Hampshire
-                                 , "44" -- Rhode Island
-                                 , "50" -- Vermont
-                                 ] then
-                "municipalities"
-
-            else if state_fips == "02" then -- Alaska
-                "state"
-
-            else if state_fips == "11" then -- Washington D.C.
-                "District"
-            
-            else if state_fips == "22" then -- Louisiana
-                "parishes"
-
-            else
-                "counties"
-
         button_style option =
             let
                 (outline, fill, font) =
@@ -1502,11 +1519,7 @@ pres model c =
 
         bq_meta = 
             model.bq_meta 
-                |> Maybe.andThen (\v -> 
-                                    case c.meta of
-                                        Just meta -> Dict.get c.id v
-                                        Nothing   -> Nothing
-                                    )
+                |> Maybe.andThen (Dict.get c.id)
 
         displayName : Candidate -> Html Msg
         displayName cnd =
