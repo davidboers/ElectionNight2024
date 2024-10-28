@@ -51,6 +51,17 @@
         "55": "540 115 120 25",
         "56": "305 100 110 110"
     },
+    "State Senate": {
+        "Fulton County": "120 120 150 150",
+        "Gwinnett County": "210 120 100 100",
+        "Clayton County": "175 220 60 60",
+        "Cobb County": "140 145 70 70",
+        "DeKalb County": "195 165 70 70",
+        "Henry County": "200 210 80 80",
+        "Richmond County": "535 220 80 80",
+        "Muscogee County": "75 375 75 75",
+        "Chatham County": "680 450 110 110"
+    },
     "State House": {
         "Fulton County": "120 120 150 150",
         "Gwinnett County": "210 120 100 100",
