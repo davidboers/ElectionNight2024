@@ -34,6 +34,7 @@ import ViewBox exposing (zoomDecoder)
 import ViewBox exposing (defaultBViewBox)
 import Html exposing (Attribute)
 import Contest exposing (..)
+import ShadePalettes exposing (partyColor)
 
 -- Model
 type alias Model =
@@ -227,7 +228,7 @@ skipState model c =
 main : Program () Model Msg
 main =
     Browser.document 
-        { init = always ( init, fetchResult )
+        { init = always ( init, fetchResult staticOffice )
         , update = update
         , subscriptions = subscriptions
         , view = \model -> 
@@ -278,7 +279,7 @@ update msg model =
             (model, Cmd.none)
 
         ResultFetched (Ok results) ->
-            ({ model | data = results }, fetchMeta )
+            ({ model | data = results }, fetchMeta staticOffice )
 
         GeorgiaResultFetched (Ok results) ->
             ({ model | data = map fromGeorgia results 
@@ -293,26 +294,7 @@ update msg model =
             )
 
         MetaFetched (Ok meta) ->
-            ({ model | data = 
-                sortSummary <|
-                    map (\c -> 
-                            { c | meta = Dict.get c.id meta.races
-                                , results = map (\cnd ->
-                                        case Dict.get cnd.cnd_id meta.candidates of
-                                            Just {name, party, isIncumbent} ->
-                                                { cnd | name = name
-                                                      , party = Just party 
-                                                      , isIncumbent = isIncumbent
-                                                      }
-
-                                            Nothing ->
-                                                cnd
-                                        ) 
-                                    c.results 
-                            }
-                        )
-                        model.data
-            }
+            ({ model | data = sortSummary <| mergeMetas meta model.data }
             , if member staticOffice [AbortionQuestions, RCVQuestions]
                 then batch [ fetchMap, fetchBallotQuestionMeta ]
                 else if staticOffice == House
@@ -399,7 +381,7 @@ update msg model =
 
         CountyMapFetched c_id (Err (BadBody str)) -> ({ model | err = Just <| BadBody <| str ++ " " ++ c_id }, Cmd.none)
 
-        ResultFetched (Err e)             -> ({ model | err = Just e }, fetchMeta )  -- Really fetchMeta?
+        ResultFetched (Err e)             -> ({ model | err = Just e }, fetchMeta staticOffice)  -- Really fetchMeta?
         GeorgiaResultFetched (Err e)      -> ({ model | err = Just e }, Cmd.none)
         MetaFetched (Err e)               -> ({ model | err = Just e }, Cmd.none)
         MapFetched (Err e)                -> ({ model | err = Just e }, Cmd.none)
@@ -662,42 +644,47 @@ partyColorPalette results =
         (winner :: _) ->
             colorPalette winner results (getPartyShade (Maybe.withDefault "oth" winner.party))
 
-selectedStyle : List (Attribute Msg)
+selectedStyle : List (Attribute msg)
 selectedStyle =
     [ style "outline" "1px solid black"
     , style "background-color" "gray"
     , style "color" "white"
     ]
 
-notSelectedStyle : List (Attribute Msg)
+notSelectedStyle : List (Attribute msg)
 notSelectedStyle =
     [ style "outline" "1px solid lightgray"
     , style "background-color" "white"
     , style "color" "black"
     ]
 
+toggleButtonStyle : (a -> msg) -> a -> List (Attribute msg)
+toggleButtonStyle toggleMsg option =
+    [ style "display" "inline" 
+    , style "padding" "inherit"
+    , style "cursor" "pointer"
+    , onClick (toggleMsg option)
+    ]
+
 displayMapToggleButtons : String -> (MapShowing -> Msg) -> MapShowing -> Html Msg
 displayMapToggleButtons unit_name toggleMsg current =
     let
+        extra_style option =
+            if current == option 
+                then selectedStyle
+                else notSelectedStyle
+
         button_style option =
             let
-                extra_style =
-                    if current == option 
-                        then selectedStyle
-                        else notSelectedStyle
-
                 (radius_attribute_top, radius_attribute_bottom) =
                     case option of
                         WinnerShare -> ("border-top-left-radius", "border-bottom-left-radius")
                         Progress    -> ("border-top-right-radius", "border-bottom-right-radius")
             in
-            [ style "display" "inline" 
-            , style "padding" "inherit"
-            , style radius_attribute_top "8px"
-            , style radius_attribute_bottom "8px"
-            , style "cursor" "pointer"
-            , onClick (toggleMsg option)
-            ] ++ extra_style
+            (toggleButtonStyle toggleMsg option) ++
+                [ style radius_attribute_top "8px"
+                , style radius_attribute_bottom "8px"
+                ] ++ extra_style option
     in
     div [] 
         [ div 
@@ -856,49 +843,20 @@ errorToString error =
 
 -- Fetch Data
 
-electionDateForLink : String
-electionDateForLink =
-    "2024-11-05"
-    --"2020-11-03"
-
-fetchResult : Cmd Msg
-fetchResult =
-    if member staticOffice [President, Senate, House, Governor] then
-        -- Politico 
-        Http.get
-            --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ staticOffice ++ "/summaries.json"
-            { url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ Office.toString staticOffice ++ "/summaries.json"
-            , expect = Http.expectJson ResultFetched summaryDecoder
-            } 
-
-    else if Office.isReferendum staticOffice && not (Office.isGeorgia staticOffice) then
-        Http.get
-            { url = "./temp-2024/" ++ Office.toString staticOffice ++ ".json"
-            , expect = Http.expectJson ResultFetched summaryDecoder
-            }
-        
-    else 
-        -- Georgia Secretary of State
+fetchResult : Office -> Cmd Msg
+fetchResult office =
+    if Office.isGeorgia office then
         Http.get
             { url = "https://results.enr.clarityelections.com/GA/115465/314082/json/sum.json"
             , expect = Http.expectJson GeorgiaResultFetched georgiaSummaryDecoder
             } 
     
-
-fetchMeta : Cmd Msg
-fetchMeta =
-    if Office.isReferendum staticOffice && not (Office.isGeorgia staticOffice) then
-        Http.get
-            { url = "./temp-2024/" ++ Office.toString staticOffice ++ "-meta.json"
-            , expect = Http.expectJson MetaFetched metaDecoder
-            }
-        
     else 
-        Http.get
-            --{ url = "https://www.politico.com/election-data/pebble/metadata/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ staticOffice ++ "/combined.json"
-            { url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ Office.toString staticOffice ++ "/combined.json"
-            , expect = Http.expectJson MetaFetched metaDecoder
-            }
+        Contest.fetchResult ResultFetched office
+
+fetchMeta : Office -> Cmd Msg
+fetchMeta =
+    Contest.fetchMeta MetaFetched
 
 fetchMap : Cmd Msg
 fetchMap =
@@ -950,62 +908,8 @@ fetchBallotQuestionMeta =
         , expect = Http.expectJson BallotQuestionMetaFetched (field (Office.toString staticOffice) (dict decodeBallotQuestionMeta))
         }
 
+
 -- JSON Decoder
-summaryDecoder : Decoder Summary
-summaryDecoder =
-    at ["contests"] <|
-        list contest
-
-contest : Decoder Contest
-contest =
-    Json.Decode.map7 Contest
-        (field "id" string)
-        (at ["progress", "pct"] float)
-        (field "timestamp" string)
-        (maybe (field "evs" int))
-        (field "results" (list candidate))
-        (succeed Nothing)
-        (succeed Nothing)
-
-candidate : Decoder Candidate
-candidate =
-    Json.Decode.map6 Candidate
-        (field "votes" int)
-        (field "id" string)
-        (field "id" string)
-        (maybe (field "party" string))
-        (succeed False)
-        (succeed False)
-
-metaDecoder : Decoder Meta
-metaDecoder =
-    let
-        decodeCandidateMeta : Decoder (Dict String CandidateMeta)
-        decodeCandidateMeta = 
-            Json.Decode.map3 CandidateMeta
-                (field "fullName" string)
-                (field "party" string)
-                (oneOf [field "isIncumbent" bool, succeed False])
-                |> dict
-
-        decodeContestMeta : Decoder (String, ContestMeta)
-        decodeContestMeta =
-            Json.Decode.map2 pair 
-                (field "id" string)
-                (Json.Decode.map7 ContestMeta
-                    (field "office" officeDecoder)
-                    (field "stateFips" string)
-                    (maybe (field "districtNumber" string))
-                    (field "isSpecial" bool)
-                    (field "isUncontested" bool)
-                    (field "isBallot" bool)
-                    (oneOf [field "holdingParty" string, succeed "oth"])) 
-    in
-    Json.Decode.map2 Meta 
-        (list (field "candidates" decodeCandidateMeta)
-            |> Json.Decode.map (Dict.fromList << concatMap Dict.toList))
-        (list (field "contest" decodeContestMeta)
-            |> Json.Decode.map Dict.fromList)
 
 mapDecoder : Decoder Map
 mapDecoder =
@@ -1153,65 +1057,6 @@ resolveEvs c =
                 "56" -> 3 --"Wyoming"
                 _ -> 0
 
-fipsToName : String -> String
-fipsToName fips =
-    case fips of
-        "01" -> "Alabama"
-        "02" -> "Alaska"
-        "04" -> "Arizona"
-        "05" -> "Arkansas"
-        "06" -> "California"
-        "08" -> "Colorado"
-        "09" -> "Connecticut"
-        "10" -> "Delaware"
-        "11" -> "District of Columbia"
-        "12" -> "Florida"
-        "13" -> "Georgia"
-        "15" -> "Hawaii"
-        "16" -> "Idaho"
-        "17" -> "Illinois"
-        "18" -> "Indiana"
-        "19" -> "Iowa"
-        "20" -> "Kansas"
-        "21" -> "Kentucky"
-        "22" -> "Louisiana"
-        "23" -> "Maine"
-        "24" -> "Maryland"
-        "25" -> "Massachusetts"
-        "26" -> "Michigan"
-        "27" -> "Minnesota"
-        "28" -> "Mississippi"
-        "29" -> "Missouri"
-        "30" -> "Montana"
-        "31" -> "Nebraska"
-        "32" -> "Nevada"
-        "33" -> "New Hampshire"
-        "34" -> "New Jersey"
-        "35" -> "New Mexico"
-        "36" -> "New York"
-        "37" -> "North Carolina"
-        "38" -> "North Dakota"
-        "39" -> "Ohio"
-        "40" -> "Oklahoma"
-        "41" -> "Oregon"
-        "42" -> "Pennsylvania"
-        "44" -> "Rhode Island"
-        "45" -> "South Carolina"
-        "46" -> "South Dakota"
-        "47" -> "Tennessee"
-        "48" -> "Texas"
-        "49" -> "Utah"
-        "50" -> "Vermont"
-        "51" -> "Virginia"
-        "53" -> "Washington"
-        "54" -> "West Virginia"
-        "55" -> "Wisconsin"
-        "56" -> "Wyoming"
-        _ -> 
-            if contains " County" fips
-                then fips --replace " County" "" fips
-                else fips
-
 displayRaceName : Model -> String -> ContestMeta -> Html Msg
 displayRaceName model c_id meta =
     let
@@ -1273,25 +1118,6 @@ displayRaceName model c_id meta =
     else
         text <|   
             office2 ++ " - " ++ state ++ special
-
-
-
-partyColor : String -> String
-partyColor party =
-    case party of
-        "gop" -> "#cf222c"
-        "dem" -> "#1a80c4"
-        "lib" -> "#fed105"
-        "grn" -> "#17aa5c"
-        "psl" -> "#ff0000"
-        "asp" -> "#F37120" -- American Solidarity Party
-        "con" -> "#A356DE" -- Constitution Party
-        "phb" -> "#FF00FF" -- Prohibition Party
-        "soc" -> "#CD3700" -- Socialist Party USA
-        "swp" -> "#AA0000" -- Socialist Workers Party
-        "sep" -> "#D30101" -- Socialist Equality Party
-        _ -> "#cccccc"
-
 
 aggr : Summary -> Html Msg
 aggr summary =

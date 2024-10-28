@@ -61,3 +61,22 @@ getMetaShade share =
         tint = tintFunc share
     in
     displayColor 0 0 (tint 0 255)
+
+
+-- Party colors
+
+partyColor : String -> String
+partyColor party =
+    case party of
+        "gop" -> "#cf222c"
+        "dem" -> "#1a80c4"
+        "lib" -> "#fed105"
+        "grn" -> "#17aa5c"
+        "psl" -> "#ff0000"
+        "asp" -> "#F37120" -- American Solidarity Party
+        "con" -> "#A356DE" -- Constitution Party
+        "phb" -> "#FF00FF" -- Prohibition Party
+        "soc" -> "#CD3700" -- Socialist Party USA
+        "swp" -> "#AA0000" -- Socialist Workers Party
+        "sep" -> "#D30101" -- Socialist Equality Party
+        _ -> "#cccccc"
