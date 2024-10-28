@@ -513,7 +513,7 @@ mapArray2 func a b =
         |> Array.fromList
 
 presNominee : Model -> String -> String -> Html Msg
-presNominee model year nominee =
+presNominee _ year nominee =
     div [ style "width" <| (String.fromFloat equalPct) ++ "%" 
         , style "text-align" "center"
         , style "padding" "5px"
