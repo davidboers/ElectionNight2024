@@ -17,7 +17,7 @@ type Office
 
 staticOffice : Office
 staticOffice =
-    StateHouse
+    President
 
 
 toString : Office -> String

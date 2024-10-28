@@ -1203,7 +1203,7 @@ aggr summary =
 
                 count_evs pty =
                     filter (isWinner pty) summary
-                        |> map resolveEvs --|> map .evs
+                        |> filterMap .evs
                         |> sum
 
                 total_evs = 538
