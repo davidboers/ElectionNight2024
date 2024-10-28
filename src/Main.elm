@@ -34,6 +34,8 @@ import ViewBox exposing (defaultBViewBox)
 import Html exposing (Attribute)
 import Contest exposing (..)
 import ShadePalettes exposing (partyColor)
+import Html.Events exposing (onMouseEnter)
+import Html.Events exposing (onMouseLeave)
 
 -- Model
 type alias Model =
@@ -46,6 +48,7 @@ type alias Model =
     , zoom_coords : Maybe (Dict String ViewBox)
     , county_map_showing : MapShowing
     , state_map_showing : MapShowing
+    , county_selected : Maybe County
     , err : Maybe Http.Error
     }
 
@@ -248,6 +251,7 @@ init =
     , zoom_coords = Nothing
     , county_map_showing = WinnerShare
     , state_map_showing = WinnerShare
+    , county_selected = Nothing
     , err = Nothing
     }
 
@@ -272,6 +276,7 @@ type Msg
     | SelectState (Maybe String)
     | CountyMapShowing MapShowing
     | StateMapShowing MapShowing
+    | SelectCounty (Maybe County)
     | Cycle
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -434,6 +439,9 @@ update msg model =
             , Cmd.none
             )
 
+        SelectCounty county_selected ->
+            ({ model | county_selected = county_selected }, Cmd.none)
+
         Cycle ->
             let 
                 cycle data =
@@ -451,9 +459,14 @@ update msg model =
                 mergeTuple (a, b) =
                     a ++ b
             in
-            ( { model | data = cycle <| mergeTuple <| partition (not << excludeFromCycle) model.data }
-            , Cmd.none
-            )
+            case model.county_selected of
+                Just _ ->
+                    (model, Cmd.none)
+
+                Nothing ->
+                    ( { model | data = cycle <| mergeTuple <| partition (not << excludeFromCycle) model.data }
+                    , Cmd.none
+                    )
 
 
 -- View
@@ -496,6 +509,7 @@ view model =
                                         [ viewBox "0 0 600 400"
                                         ] 
                                         [ countyMap model.county_map_showing x ]
+                                    , countyTable model.county_selected
                                     ]
                                 , if not (Office.isReferendum model.office_selected)
                                     then div
@@ -557,6 +571,18 @@ mapBUnit model =
     if member model.office_selected [House, StateSenate, StateHouse]
         then "districts"
         else "states"
+
+countyTable : Maybe County -> Html Msg
+countyTable m_county =
+    case m_county of
+        Just county ->
+            div [ style "position" "absolute" 
+                ]
+                []
+
+        Nothing ->
+            div [ style "opacity" "0" ]
+                []
 
 groupListItem :  Maybe String -> String -> Html Msg
 groupListItem selected fips =
@@ -828,6 +854,8 @@ countyPath map_showing c county =
                 , stroke "white"
                 , strokeWidth "0.5px"
                 , Svg.Attributes.id county.county_fips
+                , onMouseEnter (SelectCounty (Just county))
+                , onMouseLeave (SelectCounty Nothing)
                 ] 
                 []
 
