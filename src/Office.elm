@@ -1,4 +1,4 @@
-module Office exposing (Office(..), staticOffice, toString, isGeorgia, isReferendum, officeDecoder)
+module Office exposing (Office(..), toString, isGeorgia, isReferendum, officeDecoder)
 
 import List exposing (member)
 import Json.Decode exposing (Decoder, string, fail, succeed)
@@ -15,9 +15,9 @@ type Office
     | GeorgiaQuestions
 
 
-staticOffice : Office
+{-staticOffice : Office
 staticOffice =
-    President
+    President-}
 
 
 toString : Office -> String

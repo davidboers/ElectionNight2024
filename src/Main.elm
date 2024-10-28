@@ -21,7 +21,7 @@ import DisplayNumber exposing (displayNumber)
 import GeoJson exposing (featureToSvg, GeoJson, geoJsonDecoder)
 import Georgia exposing (GeorgiaContest, GeorgiaCounty, GeorgiaSummary, georgiaCounties, georgiaSummaryDecoder)
 import ShadePalettes exposing (getPartyShade, getResponseShade)
-import Office exposing (Office(..), staticOffice)
+import Office exposing (Office(..))
 import Office exposing (isGeorgia)
 import ShadePalettes exposing (getMetaShade)
 import Html exposing (li)
@@ -38,6 +38,7 @@ import ShadePalettes exposing (partyColor)
 -- Model
 type alias Model =
     { data : Summary
+    , office_selected : Office
     , highlight_race : Maybe String 
     , map_data : Maybe Map
     , filter_state : Maybe String
@@ -210,7 +211,7 @@ skipState : Model -> Contest -> Bool
 skipState model c =
     case c.meta of
         Just meta ->
-            if member staticOffice [StateSenate, StateHouse] then
+            if member model.office_selected [StateSenate, StateHouse] then
                 case model.filter_state of
                     Just fips -> not <| member fips (filterMap .name <| Maybe.withDefault [] c.counties)
                     Nothing   -> False
@@ -227,7 +228,7 @@ skipState model c =
 main : Program () Model Msg
 main =
     Browser.document 
-        { init = always ( init, fetchResult staticOffice )
+        { init = always ( init, fetchResult President )
         , update = update
         , subscriptions = subscriptions
         , view = \model -> 
@@ -239,6 +240,7 @@ main =
 init : Model
 init =
     { data = []
+    , office_selected = President
     , highlight_race = Nothing
     , map_data = Nothing 
     , filter_state = Nothing
@@ -256,6 +258,7 @@ subscriptions _ =
 -- Update
 type Msg
     = FetchData
+    | SelectOffice Office
     | ResultFetched (Result Http.Error Summary)
     | GeorgiaResultFetched (Result Http.Error GeorgiaSummary)
     | MetaFetched (Result Http.Error Meta)
@@ -277,28 +280,35 @@ update msg model =
         FetchData ->
             (model, Cmd.none)
 
+        SelectOffice office ->
+            (   { model | office_selected = office 
+                        , filter_state = Nothing
+                }
+            , fetchResult office
+            )
+
         ResultFetched (Ok results) ->
-            ({ model | data = results }, fetchMeta staticOffice )
+            ({ model | data = results }, fetchMeta model.office_selected )
 
         GeorgiaResultFetched (Ok results) ->
             ({ model | data = map fromGeorgia results 
-                                |> filter (Maybe.withDefault False << Maybe.map (\v -> v.office == staticOffice) << .meta)
+                                |> filter (Maybe.withDefault False << Maybe.map (\v -> v.office == model.office_selected) << .meta)
                                 -- ^^ Very bad
                      }
-            , if member staticOffice [GeorgiaQuestions]
-                then batch [ fetchMap, fetchBallotQuestionMeta ]
-                else if member staticOffice [StateSenate, StateHouse]
-                    then batch [ fetchMap, fetchZoom ]
-                    else fetchMap
+            , if member model.office_selected [GeorgiaQuestions]
+                then batch [ fetchMap model, fetchBallotQuestionMeta model ]
+                else if member model.office_selected [StateSenate, StateHouse]
+                    then batch [ fetchMap model, fetchZoom model ]
+                    else fetchMap model
             )
 
         MetaFetched (Ok meta) ->
             ({ model | data = sortSummary <| mergeMetas meta model.data }
-            , if member staticOffice [AbortionQuestions, RCVQuestions]
-                then batch [ fetchMap, fetchBallotQuestionMeta ]
-                else if staticOffice == House
-                    then batch [ fetchMap, fetchZoom ]
-                    else fetchMap
+            , if member model.office_selected [AbortionQuestions, RCVQuestions]
+                then batch [ fetchMap model, fetchBallotQuestionMeta model ]
+                else if model.office_selected == House
+                    then batch [ fetchMap model, fetchZoom model ]
+                    else fetchMap model
             )
 
         MapFetched (Ok map_data) ->
@@ -306,11 +316,11 @@ update msg model =
                 new_model = { model | map_data = Just map_data }
             in
             ( new_model
-            , if staticOffice == House
+            , if model.office_selected == House
                 then Cmd.none
-                else if isGeorgia staticOffice 
+                else if isGeorgia model.office_selected 
                     then fetchGeorgiaCounties new_model.data
-                    else batch <| map fetchCounties new_model.data
+                    else batch <| map (fetchCounties model) new_model.data
             )
 
         ZoomFetched (Ok zoom_coords) ->
@@ -380,7 +390,7 @@ update msg model =
 
         CountyMapFetched c_id (Err (BadBody str)) -> ({ model | err = Just <| BadBody <| str ++ " " ++ c_id }, Cmd.none)
 
-        ResultFetched (Err e)             -> ({ model | err = Just e }, fetchMeta staticOffice)  -- Really fetchMeta?
+        ResultFetched (Err e)             -> ({ model | err = Just e }, fetchMeta model.office_selected)  -- Really fetchMeta?
         GeorgiaResultFetched (Err e)      -> ({ model | err = Just e }, Cmd.none)
         MetaFetched (Err e)               -> ({ model | err = Just e }, Cmd.none)
         MapFetched (Err e)                -> ({ model | err = Just e }, Cmd.none)
@@ -461,14 +471,15 @@ view model =
                             fips = Maybe.withDefault "00" <| Maybe.map .fips <| x.meta
 
                             bViewBox = 
-                                if member staticOffice [StateSenate, StateHouse]
+                                if member model.office_selected [StateSenate, StateHouse]
                                     then pickViewBox model <| Maybe.withDefault "" model.filter_state
                                     else pickViewBox model fips
                         in
                         
                         div [ style "font-family" "arial" ]
                             [ div [] 
-                                [ aggr summary
+                                [ nav model
+                                , aggr model summary
                                 ]
                             , br [] []
                             , br [] []
@@ -486,14 +497,14 @@ view model =
                                         ] 
                                         [ countyMap model.county_map_showing x ]
                                     ]
-                                , if not (Office.isReferendum staticOffice)
+                                , if not (Office.isReferendum model.office_selected)
                                     then div
                                         [ style "display" "flex" 
                                         , style "width" "700px"
                                         ]
                                         [ div []
                                             [ displayMapToggleButtons 
-                                                mapBUnit
+                                                (mapBUnit model)
                                                 StateMapShowing 
                                                 model.state_map_showing
                                             , svg
@@ -504,7 +515,7 @@ view model =
                                                 [ g [] (map (statePath model) summary) 
                                                 ]
                                             ]
-                                        , if member staticOffice [House, StateSenate, StateHouse]
+                                        , if member model.office_selected [House, StateSenate, StateHouse]
                                             then groupList model
                                             else span [] []
                                         ]
@@ -541,9 +552,9 @@ mapAUnit state_fips =
     else
         "counties"
 
-mapBUnit : String
-mapBUnit =
-    if member staticOffice [House, StateSenate, StateHouse]
+mapBUnit : Model -> String
+mapBUnit model =
+    if member model.office_selected [House, StateSenate, StateHouse]
         then "districts"
         else "states"
 
@@ -573,7 +584,7 @@ groupList : Model -> Html Msg
 groupList model =
     let
         groups =
-            if member staticOffice [StateSenate, StateHouse] then
+            if member model.office_selected [StateSenate, StateHouse] then
                 Maybe.map Dict.keys model.zoom_coords
                     |> Maybe.withDefault []
                     -- Could we merge these two?
@@ -857,25 +868,25 @@ fetchMeta : Office -> Cmd Msg
 fetchMeta =
     Contest.fetchMeta MetaFetched
 
-fetchMap : Cmd Msg
-fetchMap =
+fetchMap : Model -> Cmd Msg
+fetchMap model =
     Http.get
         { url = "./map.json"
-        , expect = Http.expectJson MapFetched (field (Office.toString staticOffice) mapDecoder)
+        , expect = Http.expectJson MapFetched (field (Office.toString model.office_selected) mapDecoder)
         }
 
-fetchZoom : Cmd Msg
-fetchZoom =
+fetchZoom : Model -> Cmd Msg
+fetchZoom model =
     Http.get
         { url = "./zoom.json"
-        , expect = Http.expectJson ZoomFetched (field (Office.toString staticOffice) (dict zoomDecoder))
+        , expect = Http.expectJson ZoomFetched (field (Office.toString model.office_selected) (dict zoomDecoder))
         }
 
-fetchCounties : Contest -> Cmd Msg
-fetchCounties c =
+fetchCounties : Model -> Contest -> Cmd Msg
+fetchCounties model c =
     Http.get
         --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/contests/" ++ c.id ++ "/counties.json"
-        { url = "./temp-2024/" ++ Office.toString staticOffice ++ "/" ++ (replace ":" "_" c.id) ++ "/counties.json"
+        { url = "./temp-2024/" ++ Office.toString model.office_selected ++ "/" ++ (replace ":" "_" c.id) ++ "/counties.json"
         , expect = Http.expectJson (CountyFetched c.id) (field "counties" (list countyDecoder))
         }
         {-let
@@ -900,11 +911,11 @@ fetchCountyMap fips =
         , expect = Http.expectJson (CountyMapFetched fips) geoJsonDecoder
         }
 
-fetchBallotQuestionMeta : Cmd Msg
-fetchBallotQuestionMeta =
+fetchBallotQuestionMeta : Model -> Cmd Msg
+fetchBallotQuestionMeta model =
     Http.get
         { url = "./ballot-questions.json"
-        , expect = Http.expectJson BallotQuestionMetaFetched (field (Office.toString staticOffice) (dict decodeBallotQuestionMeta))
+        , expect = Http.expectJson BallotQuestionMetaFetched (field (Office.toString model.office_selected) (dict decodeBallotQuestionMeta))
         }
 
 
@@ -1118,8 +1129,72 @@ displayRaceName model c_id meta =
         text <|   
             office2 ++ " - " ++ state ++ special
 
-aggr : Summary -> Html Msg
-aggr summary =
+nav : Model -> Html Msg
+nav model =
+    div
+        []
+        [ table
+            [ style "left" "2%"
+            , style "position" "absolute"
+            ]
+            [ tr [] 
+                [ td 
+                    (navStyle ++ [ colspan 2, onClick <| SelectOffice President ])
+                    [ text "President" ] 
+                , td
+                    (navStyle ++ [ colspan 2, onClick <| SelectOffice Governor ])
+                    [ text "Governors" ]
+                ]
+            , tr [] 
+                [ td 
+                    (navStyle ++ [ onClick <| SelectOffice Senate ])
+                    [ text "Senate" ] 
+                , td
+                    (navStyle ++ [ onClick <| SelectOffice House ])
+                    [ text "House" ]
+                , td 
+                    (navStyle ++ [ onClick <| SelectOffice StateSenate ])
+                    [ text "State Senate" ] 
+                , td
+                    (navStyle ++ [ onClick <| SelectOffice StateHouse ])
+                    [ text "State House" ]
+                ]
+            ]
+        , table
+            [ style "right" "2%"
+            , style "position" "absolute"
+            ]
+            [ tr [] 
+                [ td 
+                    (navStyle ++ [ onClick <| SelectOffice GeorgiaQuestions ])
+                    [ text "Georgia Referenda" ] 
+                , td
+                    (navStyle ++ [ onClick <| SelectOffice AbortionQuestions ])
+                    [ text "Abortion Referenda" ]
+                ]
+            , tr [] 
+                [ td 
+                    (navStyle ++ [ onClick <| SelectOffice RCVQuestions ])
+                    [ text "RCV Referenda" ] 
+                , td
+                    (navStyle ++ [ onClick <| SelectOffice House ])
+                    [ text "Other Referenda" ]
+                ]
+            ]
+        ]
+
+navStyle : List (Attribute Msg)
+navStyle =
+    [ style "padding" "10px"
+    , style "text-align" "center"
+    , style "cursor" "pointer"
+    , style "border" "1px solid black"
+    , style "border-radius" "8px"
+    , style "width" "10px"
+    ]
+
+aggr : Model -> Summary -> Html Msg
+aggr model summary =
     let
         dem_color = partyColor "dem"
         oth_color = partyColor "oth"
@@ -1178,7 +1253,7 @@ aggr summary =
                     ]
                 ]    
     in
-    case staticOffice of
+    case model.office_selected of
         GeorgiaQuestions ->
             br [] [] -- Maybe a row of squares for each question?
 
@@ -1227,7 +1302,7 @@ aggr summary =
             div [ style "padding-left" "25%" 
                 , style "padding-right" "25%" ] 
                 [ div [ align "center" ] 
-                    [ text <| String.toUpper <| Office.toString staticOffice ]
+                    [ text <| String.toUpper <| Office.toString model.office_selected ]
                 , div
                     [ style "display" "flex" 
                     , style "font-weight" "bold"
@@ -1315,7 +1390,7 @@ aggr summary =
                 , style "padding-right" "25%" 
                 ] 
                 [ div [ align "center" ] 
-                    [ text <| String.toUpper <| Office.toString staticOffice ]  -- Office name
+                    [ text <| String.toUpper <| Office.toString model.office_selected ]  -- Office name
                 , div                                                           -- Party names
                     [ style "display" "flex" 
                     , style "font-weight" "bold"
@@ -1489,7 +1564,7 @@ pres model c =
                 ] 
 
         footer_left =
-            if staticOffice == President then
+            if model.office_selected == President then
                 th [ colspan 2, rowspan 3 ] 
                     [ text 
                         (case c.evs of
@@ -1499,7 +1574,7 @@ pres model c =
                         )
                     ]
 
-            else if Office.isReferendum staticOffice then
+            else if Office.isReferendum model.office_selected then
                 th [ rowspan 3 ] []
 
             else 
