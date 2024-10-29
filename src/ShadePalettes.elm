@@ -80,3 +80,10 @@ partyColor party =
         "swp" -> "#AA0000" -- Socialist Workers Party
         "sep" -> "#D30101" -- Socialist Equality Party
         _ -> "#cccccc"
+
+responseColor : String -> String
+responseColor cnd =
+    case cnd of
+        "Yes" -> "#008800"
+        "No"  -> "#ff0000"
+        _     -> "#cccccc" -- Puerto Rico?

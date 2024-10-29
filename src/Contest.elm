@@ -1,4 +1,4 @@
-module Contest exposing (..)
+module Contest exposing (Candidate, Contest, fetchMeta, fetchResult, Meta, mergeMetas, Summary, smallContestResults, fipsToName, County, officeIs, isReferendum, ContestMeta, countyToContest)
 
 import Dict exposing (Dict)
 import Office exposing (Office(..), officeDecoder)
@@ -25,19 +25,12 @@ import ShadePalettes exposing (partyColor)
 import DisplayNumber exposing (displayNumber)
 import DisplayNumber exposing (displayPct)
 import Html exposing (Attribute)
+import List.Extra exposing (find)
+import List exposing (filterMap)
+import ShadePalettes exposing (responseColor)
 
 type alias Summary =
     List Contest
-
-type alias ContestMeta = 
-    { office : Office
-    , fips : String
-    , district : Maybe String 
-    , isSpecial : Bool
-    , isUncontested : Bool
-    , isReferendum : Bool
-    , holdingParty : String
-    }
 
 
 -- Contest 
@@ -52,6 +45,20 @@ type alias Contest =
     , counties : Maybe (List County)
     }
 
+type alias Meta =
+    { candidates : Dict String CandidateMeta
+    , races : Dict String ContestMeta
+    }
+
+type alias ContestMeta = 
+    { office : Office
+    , fips : String
+    , district : Maybe String 
+    , isSpecial : Bool
+    , isUncontested : Bool
+    , isReferendum : Bool
+    , holdingParty : String
+    }
 
 isReferendum : Contest -> Bool
 isReferendum c = 
@@ -86,6 +93,7 @@ officeIs office c =
         |> Maybe.map (\v -> v.office == office)
         |> Maybe.withDefault False
 
+
 -- Candidate
 
 type alias Candidate =
@@ -93,9 +101,18 @@ type alias Candidate =
     , cnd_id : String
     , name : String -- Default: cnd_id
     , party : Maybe String
-    , winner : Bool   -- isWinner
+    , winner : Bool -- isWinner
     , isIncumbent : Bool
     }
+
+type alias CandidateMeta =
+    { name : String
+    , party : String
+    , isIncumbent : Bool 
+    }
+
+
+-- County
 
 type alias County =
     { county_fips : String
@@ -105,15 +122,21 @@ type alias County =
     , name : Maybe String
     }
 
-type alias Meta =
-    { candidates : Dict String CandidateMeta
-    , races : Dict String ContestMeta
-    }
-
-type alias CandidateMeta =
-    { name : String
-    , party : String
-    , isIncumbent : Bool 
+{- Re-creates the contest object with the results of the county -}
+countyToContest : Contest -> County -> Contest 
+countyToContest c county =
+    let
+        makeCandidate (cnd_id, votes) =
+            find ((==) cnd_id << .cnd_id) c.results
+                    |> Maybe.map (\cnd ->
+                            { cnd | votes = votes }
+                        )
+    in
+    
+    { c | progress = county.progress
+        , id = Maybe.withDefault county.county_fips county.name
+        , results =
+            filterMap makeCandidate (Dict.toList county.results)
     }
 
 
@@ -366,7 +389,10 @@ smallRowStyle =
 smallCandidate : Int -> Candidate -> List (Html msg)
 smallCandidate total_votes cnd =
     let
-        color = partyColor <| Maybe.withDefault "oth" cnd.party
+        color = 
+            if member cnd.name ["Yes", "No"]
+                then responseColor cnd.name
+                else partyColor <| Maybe.withDefault "oth" cnd.party
     in
     [ td 
         [ style "background-color" color

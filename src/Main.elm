@@ -39,6 +39,7 @@ import Html.Events exposing (onMouseLeave)
 import Georgia exposing (fromGeorgia)
 import DisplayNumber exposing (displayPctRnd)
 import DisplayNumber exposing (displayPct)
+import ShadePalettes exposing (responseColor)
 
 -- Model
 type alias Model =
@@ -425,7 +426,7 @@ view model =
                                         [ viewBox "0 0 600 400"
                                         ] 
                                         [ countyMap model.county_map_showing x ]
-                                    , countyTable model.county_selected
+                                    , countyTable x model.county_selected
                                     ]
                                 , if not (Office.isReferendum model.office_selected)
                                     then div
@@ -488,13 +489,15 @@ mapBUnit model =
         then "districts"
         else "states"
 
-countyTable : Maybe County -> Html Msg
-countyTable m_county =
+countyTable : Contest -> Maybe County -> Html Msg
+countyTable contest m_county =
     case m_county of
         Just county ->
-            div [ style "position" "absolute" 
-                ]
-                []
+            let
+                new_contest = countyToContest contest county
+            in
+            div [ style "position" "absolute" ]
+                [ smallContestResults .id new_contest ]
 
         Nothing ->
             div [ style "opacity" "0" ]
@@ -1380,15 +1383,10 @@ pres model c =
                 Nothing -> False
 
         party_color cnd =
-            if isReferendum c then
-                case cnd.name of
-                    "Yes" -> "#008800"
-                    "No"  -> "#ff0000"
-                    _     -> "#cccccc" -- Puerto Rico?
-            
-            else
-                Maybe.withDefault "na" cnd.party 
-                    |> partyColor
+            if isReferendum c 
+                then responseColor cnd.name
+                else Maybe.withDefault "na" cnd.party 
+                        |> partyColor
 
         shade_color =
              if isReferendum c then
