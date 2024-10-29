@@ -41,7 +41,6 @@ import Html.Events exposing (onMouseLeave)
 type alias Model =
     { data : Summary
     , office_selected : Office
-    , highlight_race : Maybe String 
     , map_data : Maybe Map
     , filter_state : Maybe String
     , bq_meta : Maybe (Dict String BallotQuestionMeta)
@@ -244,7 +243,6 @@ init : Model
 init =
     { data = []
     , office_selected = President
-    , highlight_race = Nothing
     , map_data = Nothing 
     , filter_state = Nothing
     , bq_meta = Nothing
@@ -272,7 +270,7 @@ type Msg
     | GeorgiaCountyFetched (Result Http.Error (Dict String (List County)))
     | CountyMapFetched String (Result Http.Error GeoJson)
     | BallotQuestionMetaFetched (Result Http.Error (Dict String BallotQuestionMeta))
-    | HoverRace String
+    | JumpToRace String
     | SelectState (Maybe String)
     | CountyMapShowing MapShowing
     | StateMapShowing MapShowing
@@ -415,22 +413,19 @@ update msg model =
             , Cmd.none
             )
 
-        HoverRace c_id -> 
+        JumpToRace c_id -> 
             let
                 bringToFront data =
                     case data of
                         (x::xs) ->
                             if x.id == c_id
                                 then x :: xs
-                                else bringToFront xs ++ [x]
+                                else (bringToFront xs) ++ [x]
                         
                         _ ->
                             data
             in
-            ( 
-                { model | highlight_race = Just c_id 
-                        , data = bringToFront model.data
-                }
+            ( { model | data = bringToFront model.data }
             , Cmd.none
             )
 
@@ -446,7 +441,10 @@ update msg model =
             let 
                 cycle data =
                     case data of
-                        (x::xs) -> xs ++ [x]
+                        (x::xs) -> 
+                            if excludeFromCycle x
+                                then (cycle xs) ++ [x]
+                                else xs ++ [x]
                         _ -> data
 
                 excludeFromCycle c =
@@ -455,16 +453,13 @@ update msg model =
                         Just meta -> 
                             skipState model c 
                             || meta.isUncontested
-           
-                mergeTuple (a, b) =
-                    a ++ b
             in
             case model.county_selected of
                 Just _ ->
                     (model, Cmd.none)
 
                 Nothing ->
-                    ( { model | data = cycle <| mergeTuple <| partition (not << excludeFromCycle) model.data }
+                    ( { model | data = cycle model.data }
                     , Cmd.none
                     )
 
@@ -757,14 +752,9 @@ statePath model c =
                     getMetaShade c.progress
 
         outline =
-            case model.highlight_race of
-                Just a -> 
-                    if c.id == a
-                        then "2px"
-                        else "0.5px"
-                
-                Nothing ->
-                    "1px"
+            if c.id == (Maybe.withDefault "0" <| Maybe.map .id <| head model.data)
+                then "2px"
+                else "0.5px"
 
     in
         case Maybe.andThen (Dict.get c.id) model.map_data of
@@ -778,7 +768,7 @@ statePath model c =
                                 , stroke "white"
                                 , strokeWidth outline
                                 , Svg.Attributes.id c.id 
-                                , onMouseOver (HoverRace c.id)
+                                , onMouseOver (JumpToRace c.id)
                                 ]
                                 []
                             ]
@@ -803,7 +793,7 @@ statePath model c =
                                 , stroke "lightgray"
                                 , strokeWidth outline
                                 , Svg.Attributes.id c.id 
-                                , onMouseOver (HoverRace c.id)
+                                , onMouseOver (JumpToRace c.id)
                                 ]
                                 []
                             , txt
