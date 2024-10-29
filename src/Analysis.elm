@@ -26,6 +26,17 @@ import ShadePalettes exposing (partyColor)
 import String exposing (left, split)
 import Svg exposing (circle, line, svg, Svg, text_)
 import Svg.Attributes exposing (cx, cy, fill, r, stroke, strokeWidth, x, x1, x2, y, y1, y2)
+import Json.Decode exposing (list)
+import List exposing (member)
+import Html exposing (hr)
+import List exposing (intersperse)
+import Contest exposing (smallContestResults)
+import Georgia
+import Georgia exposing (GeorgiaSummary)
+import Contest exposing (officeIs)
+import Georgia exposing (fromGeorgia)
+import List exposing (singleton)
+import Contest exposing (fipsToName)
 
 
 -- Model
@@ -38,14 +49,18 @@ type alias Model =
     , senate : List Contest
     , house : List Contest
     , gov : List Contest
+    , state_senate : List Contest
+    , state_house : List Contest
     , abortion : List Contest
     , hist_pres : Maybe HistPres
+    , battleground_list : Maybe BattlegroundsList
     , err : Maybe Http.Error
     }
 
 type Analysis
     = StateComparison
     | Presidential
+    | Battlegrounds
 
 
 -- Msg
@@ -55,8 +70,10 @@ type Msg
     | SelectParty Party
     | SelectState String
     | ResultFetched Office (Result Http.Error Summary)
+    | GeorgiaResultFetched (Result Http.Error GeorgiaSummary)
     | MetaFetched Office (Result Http.Error Meta)
     | HistFetched (Result Http.Error HistPres)
+    | BattlegroundsFetched (Result Http.Error BattlegroundsList)
 
 
 -- Party
@@ -87,6 +104,13 @@ type alias HistPres =
     }
 
 
+-- Battleground list
+
+{- A dict (keys are office names) of lists, each containing the contest ids of the battleground races -}
+type alias BattlegroundsList =
+    Dict String (List String)
+
+
 -- Main
 
 main : Program () Model Msg
@@ -103,14 +127,16 @@ main =
 
 init : () -> (Model, Cmd Msg)
 init _ =
-    ( Model Democratic "11" Presidential [] [] [] [] [] Nothing Nothing
+    ( Model Democratic "11" Battlegrounds [] [] [] [] [] [] [] Nothing Nothing Nothing
     , batch 
-        [ fetchResult (ResultFetched President) President 
-        , fetchResult (ResultFetched Senate) Senate
-        , fetchResult (ResultFetched House) House 
-        , fetchResult (ResultFetched Governor) Governor
-        , fetchResult (ResultFetched AbortionQuestions) AbortionQuestions
+        [ Contest.fetchResult (ResultFetched President) President 
+        , Contest.fetchResult (ResultFetched Senate) Senate
+        , Contest.fetchResult (ResultFetched House) House 
+        , Contest.fetchResult (ResultFetched Governor) Governor
+        , Georgia.fetchResult GeorgiaResultFetched
+        , Contest.fetchResult (ResultFetched AbortionQuestions) AbortionQuestions
         , fetchHistPres
+        , fetchBattlegrounds
         ]
     )
 
@@ -132,10 +158,24 @@ update msg model =
         ResultFetched Governor (Ok summary)          -> ({ model | gov = summary }     , fetchMeta (MetaFetched Governor) Governor)
         ResultFetched AbortionQuestions (Ok summary) -> ({ model | abortion = summary }, fetchMeta (MetaFetched AbortionQuestions) AbortionQuestions)
 
+        GeorgiaResultFetched (Ok georgia_summary) ->
+            let
+                summary = map fromGeorgia georgia_summary
+            in
+            ( 
+                { model | state_senate = filter (officeIs StateSenate) summary
+                        , state_house = filter (officeIs StateHouse) summary
+                }    
+            , Cmd.none 
+            )
+
         ResultFetched _ (Ok _) -> -- Unreachable
             (model, Cmd.none)
 
         ResultFetched _ (Err e) ->
+            ({ model | err = Just e }, Cmd.none)
+
+        GeorgiaResultFetched (Err e) ->
             ({ model | err = Just e }, Cmd.none)
 
         MetaFetched President (Ok meta)         -> ({ model | pres = mergeMetas meta model.pres }, Cmd.none)
@@ -156,11 +196,24 @@ update msg model =
         HistFetched (Err e) ->
             ({ model | err = Just e }, Cmd.none)
 
+        BattlegroundsFetched (Ok lst) ->
+            ({ model | battleground_list = Just lst }, Cmd.none)
+
+        BattlegroundsFetched (Err e) ->
+            ({ model | err = Just e }, Cmd.none)
+
 fetchHistPres : Cmd Msg
 fetchHistPres =
     Http.get
         { url = "./hist-pres.json"
         , expect = Http.expectJson HistFetched decodePresidential
+        }
+
+fetchBattlegrounds : Cmd Msg
+fetchBattlegrounds =
+    Http.get
+        { url = "./battlegrounds.json"
+        , expect = Http.expectJson BattlegroundsFetched decodeBattlegrounds            
         }
 
 
@@ -191,6 +244,7 @@ view model =
         case model.analysis of
             StateComparison -> stateComparison model
             Presidential    -> presidential model
+            Battlegrounds   -> battleground model
         ]
     
 
@@ -380,6 +434,10 @@ decodePresidential =
         (field "nominees" (dict (array string)))
         (field "state-results" (dict (dict (array float))))
 
+decodeBattlegrounds : Decoder BattlegroundsList
+decodeBattlegrounds =
+    dict (list (field "id" string))
+
 presidential : Model -> Html Msg
 presidential model =
     case (model.pres, model.hist_pres) of
@@ -540,6 +598,95 @@ nomineeLastName name =
 equalPct : Float
 equalPct =
     1 / (toFloat numElections) * 100
+
+
+-- Battleground
+
+battleground : Model -> Html Msg
+battleground model =
+    case (model.battleground_list, (model.pres, model.senate, (model.house, model.state_senate, model.state_house))) of
+        (Nothing, _                     ) -> loading
+        (_      , ([], _ , (_ , _ , _ ))) -> loading
+        (_      , (_ , [], (_ , _ , _ ))) -> loading
+        (_      , (_ , _ , ([], _ , _ ))) -> loading
+        (_      , (_ , _ , (_ , [], _ ))) -> loading
+        (_      , (_ , _ , (_ , _ , []))) -> loading
+
+        (Just battleground_list, _) ->
+            let
+                isBattleground office contest =
+                    case Dict.get (Office.toString office) battleground_list of
+                        Just ids ->
+                            member contest.id ids
+
+                        Nothing ->
+                            False
+                        
+                pres = filter (isBattleground President) model.pres
+                senate = filter (isBattleground Senate) model.senate
+                house = filter (isBattleground House) model.house
+                state_senate = filter (isBattleground StateSenate) model.state_senate
+                state_house = filter (isBattleground StateHouse) model.state_house
+            in
+            [ (President, pres) 
+            , (Senate, senate)
+            , (House, house)
+            , (StateSenate, state_senate)
+            , (StateHouse, state_house)
+            ]
+                |> map battlegroundSet
+                |> intersperse (hr [] [])
+                |> div [ style "padding" "30px" ]
+
+
+battlegroundSet : (Office, List Contest) -> Html Msg
+battlegroundSet (office, contests) =
+    let
+        header =
+            case office of
+                President -> "President"
+                Senate -> "US Senate"
+                House -> "US House"
+                StateSenate -> "Georgia Senate"
+                StateHouse -> "Georgia House"
+                _ -> "Others"
+        
+        blockStyle =
+            [ style "padding" "10px"
+            , style "display" "inline-block"
+            , style "height" "inherit"
+            ]
+    in
+    div [ style "width" "1300px"
+        , style "overflow-x" "scroll"
+        ]
+        [ h2 [] [ text header ]
+        , div 
+            [ style "padding" "20px"
+            , style "width" "max-content"
+            , style "height" "150px"
+        
+            ]
+            (map (div blockStyle << singleton << smallContestResults getState) contests)
+        ]
+            
+getState : Contest -> String
+getState c =
+    case c.meta of
+        Just meta ->
+            let
+                defaultDistrict = Maybe.withDefault "0"
+            in
+            if member meta.office [StateSenate, StateHouse]
+                then "District " ++ (defaultDistrict meta.district)
+                else if meta.office == House
+                    then fipsToName meta.fips ++ " - " ++ (defaultDistrict meta.district)
+                    else fipsToName meta.fips
+
+        Nothing ->
+            c.id
+
+
 
 -- Both
 

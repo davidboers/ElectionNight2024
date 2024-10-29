@@ -8,6 +8,23 @@ import Json.Decode exposing (Decoder, at, list, float, maybe, succeed, field, st
 import List exposing (map)
 import Tuple exposing (pair)
 import String exposing (contains)
+import Html exposing (Html)
+import Html exposing (table)
+import Html.Attributes exposing (style)
+import Html exposing (tr)
+import Html.Attributes exposing (colspan)
+import Html exposing (text)
+import Html exposing (th)
+import Html exposing (tbody)
+import List exposing (sum)
+import List exposing (sortBy)
+import List exposing (reverse)
+import Html exposing (br)
+import Html exposing (td)
+import ShadePalettes exposing (partyColor)
+import DisplayNumber exposing (displayNumber)
+import DisplayNumber exposing (displayPct)
+import Html exposing (Attribute)
 
 type alias Summary =
     List Contest
@@ -63,6 +80,11 @@ mergeMetas : Meta -> Summary -> Summary
 mergeMetas meta =
     map (mergeMeta meta)
 
+officeIs : Office -> Contest -> Bool
+officeIs office c =
+    c.meta
+        |> Maybe.map (\v -> v.office == office)
+        |> Maybe.withDefault False
 
 -- Candidate
 
@@ -253,3 +275,111 @@ fipsToName fips =
             if contains " County" fips
                 then fips --replace " County" "" fips
                 else fips
+
+
+-- Contest results small
+
+smallContestResults : (Contest -> String) -> Contest -> Html msg
+smallContestResults getname c =
+    let
+        total_votes =
+            sum <| map .votes c.results
+
+        sorted_results =
+            c.results
+                |> sortBy .votes
+                |> reverse
+    in
+    ( tr 
+        []
+        [ th 
+            [ colspan 10 ]
+            [ text (getname c) 
+            ]
+        ]
+    ) :: (smallRows total_votes sorted_results) ++
+        [ tr 
+            []
+            [ th [] []
+            , th [] [ text "Total Votes" ]
+            , th [ colspan 2 ] [ text <| displayNumber total_votes ]
+            ]
+        , tr
+            []
+            [ th [] []
+            , th [] [ text "Progress" ]
+            , th [ colspan 2 ] [ text <| (String.fromInt <| round <| c.progress * 100) ++ "%" ]
+            ]
+        ]
+        |> table 
+            [ style "border-collapse" "collapse" 
+            , style "max-width" "fit-content"
+            , style "display" "inline"
+            ]
+
+smallRows : Int -> List Candidate -> List (Html msg)
+smallRows total_votes sorted_results =
+    case sorted_results of
+        [] -> 
+            [ text "No candidates." ] 
+
+        [uncontested] -> -- Shouldn't be any uncontested races
+            [ tr [] (smallCandidate total_votes uncontested)
+            ]
+
+        [first, second] ->
+            [ tr [] (smallCandidate total_votes first)
+            , tr [] (smallCandidate total_votes second)
+            ]
+
+        [first, second, third] ->
+            [ tr [] (smallCandidate total_votes first)
+            , tr [] (smallCandidate total_votes second)
+            , tr [] (smallCandidate total_votes third)
+            ]
+
+        first :: second :: others ->
+            let
+                third =
+                    { votes = sum <| map .votes others
+                    , cnd_id = "others"
+                    , name = "Others"
+                    , party = Just "oth"
+                    , winner = False
+                    , isIncumbent = False
+                    }
+            in
+            [ tr [] (smallCandidate total_votes first)
+            , tr [] (smallCandidate total_votes second)
+            , tr [] (smallCandidate total_votes third)
+            ]
+
+smallRowStyle : List (Attribute msg)
+smallRowStyle =
+    [ style "padding" "4px"
+    , style "border-bottom" "1px solid black"
+    , style "border-top" "1px solid black"
+    , style "max-width" "fit-content"
+    ]
+
+
+smallCandidate : Int -> Candidate -> List (Html msg)
+smallCandidate total_votes cnd =
+    let
+        color = partyColor <| Maybe.withDefault "oth" cnd.party
+    in
+    [ td 
+        [ style "background-color" color
+        , style "width" "5px"
+        ] 
+        []
+    , td
+        smallRowStyle
+        [ text cnd.name ]
+    , td
+        smallRowStyle
+        [ text <| displayNumber cnd.votes ]
+    , td
+        smallRowStyle
+        [ text <| displayPct cnd.votes total_votes ]
+    ]

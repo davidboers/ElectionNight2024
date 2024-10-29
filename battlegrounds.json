@@ -1,0 +1,146 @@
+{
+    "president": [
+        {
+            "id": "ap:04:0",
+            "name": "Arizona"
+        },
+        {
+            "id": "ap:13:0",
+            "name": "Georgia"
+        },
+        {
+            "id": "ap:26:0",
+            "name": "Michigan"
+        },
+        {
+            "id": "ap:32:0",
+            "name": "Nevada"
+        },
+        {
+            "id": "ap:37:0",
+            "name": "North Carolina"
+        },
+        {
+            "id": "ap:42:0",
+            "name": "Pennsylvania"
+        },
+        {
+            "id": "ap:55:0",
+            "name": "Wisconsin"
+        }
+    ],
+    "senate": [
+        {
+            "id": "ap:04:4021",
+            "name": "Arizona"
+        },
+        {
+            "id": "ap:12:10005",
+            "name": "Florida"
+        },
+        {
+            "id": "ap:24:22452",
+            "name": "Maryland"
+        },
+        {
+            "id": "ap:30:28089",
+            "name": "Montana"
+        },
+        {
+            "id": "ap:31:28944",
+            "name": "Nebraska (Fischer)"
+        },
+        {
+            "id": "ap:32:29866",
+            "name": "Nevada"
+        },
+        {
+            "id": "ap:39:37213",
+            "name": "Ohio"
+        },
+        {
+            "id": "ap:48:45870",
+            "name": "Texas"
+        },
+        {
+            "id": "ap:54:49607",
+            "name": "West Virginia"
+        }
+    ],
+    "State Senate": [
+        {
+            "id": "40700",
+            "name": "Islam Parkes"
+        },
+        {
+            "id": "40900",
+            "name": "Merritt"
+        },
+        {
+            "id": "43700",
+            "name": "Setzler"
+        },
+        {
+            "id": "44800",
+            "name": "Still/Ramaswami"
+        }
+    ],
+    "State House": [
+        {
+            "id": "54400",
+            "name": "Don Parsons"
+        },
+        {
+            "id": "54500",
+            "name": "Sharon Cooper"
+        },
+        {
+            "id": "54600",
+            "name": "John Carson"
+        },
+        {
+            "id": "54800",
+            "name": "Scott Hilton"
+        },
+        {
+            "id": "54900",
+            "name": "Chuck Martin"
+        },
+        {
+            "id": "55300",
+            "name": "Deborah Silcox"
+        },
+        {
+            "id": "55600",
+            "name": "Mainor/Berry"
+        },
+        {
+            "id": "59900",
+            "name": "Reeves/Kang"
+        },
+        {
+            "id": "60500",
+            "name": "Farooq Mughal"
+        },
+        {
+            "id": "60800",
+            "name": "Jasmine Clark"
+        },
+        {
+            "id": "62100",
+            "name": "Marcus Wiedower"
+        },
+        {
+            "id": "62800",
+            "name": "Mack Jackson"
+        },
+        {
+            "id": "65000",
+            "name": "Patty Marie Stinson"
+        },
+        {
+            "id": "65400",
+            "name": "Gerald Greene"
+        }
+    ]
+}

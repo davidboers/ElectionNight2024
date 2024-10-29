@@ -36,6 +36,9 @@ import Contest exposing (..)
 import ShadePalettes exposing (partyColor)
 import Html.Events exposing (onMouseEnter)
 import Html.Events exposing (onMouseLeave)
+import Georgia exposing (fromGeorgia)
+import DisplayNumber exposing (displayPctRnd)
+import DisplayNumber exposing (displayPct)
 
 -- Model
 type alias Model =
@@ -110,87 +113,6 @@ compareContests a b =
                                     GT -> GT
                                     EQ -> compareSpecial
                             _ -> compareSpecial  
-
-fromGeorgia : GeorgiaContest -> Contest 
-fromGeorgia gc =
-    let
-        progress = (toFloat gc.precincts_reporting) / (toFloat gc.total_precincts)
-        results = List.map2 fromGeorgiaCandidate gc.candidates gc.votes
-
-        getParty cnd_name = 
-            if contains "(Rep)" cnd_name then
-                Just "gop"
-            else if contains "(Dem)" cnd_name then
-                Just "dem"
-            else if contains "(Lib)" cnd_name then
-                Just "lib"
-            else
-                Just "oth"
-
-        stripTags : String -> String
-        stripTags =
-            String.replace "(I)" ""
-                >> String.replace "(Rep)" ""
-                >> String.replace "(Dem)" ""
-                >> String.replace "(Lib)" ""
-                >> String.trim
-
-        fromGeorgiaCandidate : String -> Int -> Candidate
-        fromGeorgiaCandidate cnd_name votes =
-            { votes = votes
-            , cnd_id = stripTags cnd_name
-            , name = stripTags cnd_name
-            , party = getParty cnd_name
-            , winner = False
-            , isIncumbent = contains "(I)" cnd_name
-            }          
-
-        k =
-            gc.version -- rename
-                |> dropRight 2
-                |> String.toInt
-                |> Maybe.withDefault 0
-
-        (office, district) =
-            if k > 500 && k < 700 then -- State House
-                ( StateHouse
-                , Just <| String.fromInt <| (k - 500)
-                )
-
-            else if k > 400 && k < 500 then -- State Senate
-                ( StateSenate
-                , Just <| String.fromInt <| (k - 400)
-                )
-
-            else if contains "Statewide Referendum Question" gc.name || contains "Proposed Constitutional Amendment" gc.name then -- Ballot Questions
-                ( GeorgiaQuestions
-                , Nothing
-                )
-
-            else
-                ( President
-                , Nothing
-                )
-
-        name =
-            gc.version
-    in
-    { id = name
-    , progress = progress
-    , timestamp = gc.version
-    , evs = Nothing
-    , results = results
-    , meta = Just
-        { office = office
-        , fips = "13"
-        , district = district
-        , isSpecial = False
-        , isUncontested = length results == 1
-        , isReferendum = Office.isReferendum office
-        , holdingParty = "gop" -- Very wrong
-        }
-    , counties = Nothing
-    }
 
 fromGeorgiaCounties : Contest -> GeorgiaCounty -> County
 fromGeorgiaCounties c county =
@@ -295,8 +217,7 @@ update msg model =
 
         GeorgiaResultFetched (Ok results) ->
             ({ model | data = map fromGeorgia results 
-                                |> filter (Maybe.withDefault False << Maybe.map (\v -> v.office == model.office_selected) << .meta)
-                                -- ^^ Very bad
+                                |> filter (officeIs model.office_selected)
                      }
             , if member model.office_selected [GeorgiaQuestions]
                 then batch [ fetchMap model, fetchBallotQuestionMeta model ]
@@ -874,10 +795,7 @@ errorToString error =
 fetchResult : Office -> Cmd Msg
 fetchResult office =
     if Office.isGeorgia office then
-        Http.get
-            { url = "https://results.enr.clarityelections.com/GA/115465/314082/json/sum.json"
-            , expect = Http.expectJson GeorgiaResultFetched georgiaSummaryDecoder
-            } 
+        Georgia.fetchResult GeorgiaResultFetched
     
     else 
         Contest.fetchResult ResultFetched office
@@ -1005,26 +923,6 @@ decodeGeorgiaDetailedContests summary =
 
 
 -- Displays
-
-displayPct : Int -> Int -> String
-displayPct n d = 
-    if d == 0 then
-        "-"
-    else
-        (toFloat n) / (toFloat d) * 100
-            |> String.fromFloat
-            |> left 4
-
-displayPctRnd : Int -> Int -> String
-displayPctRnd n d =
-    if d == 0 then
-        "0%"
-
-    else
-        ((toFloat n) / (toFloat d) * 100
-            |> round
-            |> String.fromInt)
-            ++ ("%")
 
 resolveEvs : Contest -> Int
 resolveEvs c =
@@ -1628,7 +1526,6 @@ pres model c =
                 [ tr []
                     [ td 
                         [ colspan 10 
-                        --, style "text-align" "center"
                         , style "padding" "10px"
                         , style "font-size" "15px"
                         ]
