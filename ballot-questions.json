@@ -159,5 +159,46 @@
             "yes-tag": "(pro-RCV)",
             "no-tag": "(anti-RCV)"
         }
+    },
+    "other-questions": {
+        "bq:fl:3": {
+            "short-summary": "Amendment 3",
+            "long-summary": "Legalizes possession of up to 3 ounces of marijuana for adults aged 21 and over, allows Medical Marijuana Treatment Centers, and other state licensed entities, to acquire, process and distribute cannabis products.",
+            "threshold": 0.6
+        },
+        "bq:ne:437": {
+            "short-summary": "Initiative 437",
+            "long-summary": "Legalizes the use of up to five ounces of marijuana for medical use by qualified patients.",
+            "threshold": 0.6
+        },
+        "bq:nd:5": {
+            "short-summary": "Constitutional Measure 5",
+            "long-summary": "Legalizes production, processing, and sale of marijuana for recreational use for adults 21 and older."
+        },
+        "bq:sd:46": {
+            "short-summary": "Initiated Measure 29",
+            "long-summary": "Legalizes the possession of, distribution and recreational usage of marijuana for adults 21 or older."
+        },
+        "bq:ca:3": {
+            "short-summary": "Proposition 3",
+            "long-summary": "Repeals 2008's Proposition 8, which outlawed same-sex marriage in the state."
+        },
+        "bq:co:j": {
+            "short-summary": "Amendment J",
+            "long-summary": "Repeals 2006's Amendment 43, which outlawed same-sex marriage in the state."
+        },
+        "bq:hi:2802": {
+            "short-summary": "2802 HD1",
+            "long-summary": "Repeals the state legislature's authority to restrict same-sex marriage.",
+            "total-vote-threshold": 0.5
+        },
+        "bq:oh:1": {
+            "short-summary": "Issue 1",
+            "long-summary": "Replace the seven-member Ohio Redistricting Commission, consisting of elected officials, with a Ohio Citizens Redistricting Commission (CRC), a 15-member citizen-only non-partisan commission for redrawing congressional and legislative districts."
+        },
+        "bq:ma:14": {
+            "short-summary": "Shrooms referendum",
+            "long-summary": "Legalize some psychedelic substances for medical and research use."
+        }
     }
 }

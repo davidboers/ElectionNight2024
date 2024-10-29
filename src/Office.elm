@@ -13,6 +13,7 @@ type Office
     | AbortionQuestions
     | RCVQuestions
     | GeorgiaQuestions
+    | OtherQuestions
 
 
 {-staticOffice : Office
@@ -32,6 +33,7 @@ toString office =
         AbortionQuestions -> "abortion-questions"
         RCVQuestions      -> "rcv-questions"
         GeorgiaQuestions  -> "Georgia Ballot Questions"
+        OtherQuestions    -> "other-questions"
 
 {- This function only resolves to true if the respective results need to be pulled from the Georgia Secretary of State's website.
 -}
@@ -42,7 +44,7 @@ isGeorgia office =
 
 isReferendum : Office -> Bool
 isReferendum office =
-    member office [AbortionQuestions, RCVQuestions, GeorgiaQuestions]
+    member office [AbortionQuestions, RCVQuestions, GeorgiaQuestions, OtherQuestions]
 
 
 officeDecoder : Decoder Office
@@ -58,6 +60,7 @@ officeDecoder =
             "abortion-questions" -> succeed AbortionQuestions
             "rcv-questions"      -> succeed RCVQuestions
             "GeorgiaQuestions"   -> succeed GeorgiaQuestions
+            "other-questions"    -> succeed OtherQuestions
             _                    -> fail v
     )
     

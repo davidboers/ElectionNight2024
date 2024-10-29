@@ -309,7 +309,7 @@ update msg model =
 
         MetaFetched (Ok meta) ->
             ({ model | data = sortSummary <| mergeMetas meta model.data }
-            , if member model.office_selected [AbortionQuestions, RCVQuestions]
+            , if member model.office_selected [AbortionQuestions, RCVQuestions, OtherQuestions]
                 then batch [ fetchMap model, fetchBallotQuestionMeta model ]
                 else if model.office_selected == House
                     then batch [ fetchMap model, fetchZoom model ]
@@ -1205,7 +1205,7 @@ nav model =
                     (navStyle ++ [ onClick <| SelectOffice RCVQuestions ])
                     [ text "RCV Referenda" ] 
                 , td
-                    (navStyle ++ [ onClick <| SelectOffice House ])
+                    (navStyle ++ [ onClick <| SelectOffice OtherQuestions ])
                     [ text "Other Referenda" ]
                 ]
             ]
@@ -1290,6 +1290,16 @@ aggr model summary =
 
         RCVQuestions ->
             br [] [] -- Decide?
+
+        OtherQuestions ->
+            div []
+                [ br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                ]
 
         President ->
             let

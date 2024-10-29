@@ -28,5 +28,11 @@
         "meta-file": "./temp-2024/rcv-questions-meta.json",
         "summary-file": "./temp-2024/rcv-questions.json",
         "office": "rcv-questions"
+    },
+    {
+        "county-glob": "./temp-2024/other-questions/*/counties.json",
+        "meta-file": "./temp-2024/other-questions-meta.json",
+        "summary-file": "./temp-2024/other-questions.json",
+        "office": "other-questions"
     }
 ]

@@ -1,0 +1,991 @@
+{
+    "id": "bq:ca:3",
+    "counties": [
+        {
+            "id": "06057",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 203
+                },
+                {
+                    "id": "2",
+                    "votes": 798
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.09
+            }
+        },
+        {
+            "id": "06019",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 519
+                },
+                {
+                    "id": "2",
+                    "votes": 723
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.68
+            }
+        },
+        {
+            "id": "06005",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 816
+                },
+                {
+                    "id": "2",
+                    "votes": 756
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.15
+            }
+        },
+        {
+            "id": "06053",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 326
+                },
+                {
+                    "id": "2",
+                    "votes": 930
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.75
+            }
+        },
+        {
+            "id": "06105",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 307
+                },
+                {
+                    "id": "2",
+                    "votes": 627
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.57
+            }
+        },
+        {
+            "id": "06079",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 778
+                },
+                {
+                    "id": "2",
+                    "votes": 414
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.13
+            }
+        },
+        {
+            "id": "06071",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 313
+                },
+                {
+                    "id": "2",
+                    "votes": 282
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.92
+            }
+        },
+        {
+            "id": "06069",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 568
+                },
+                {
+                    "id": "2",
+                    "votes": 536
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.15
+            }
+        },
+        {
+            "id": "06089",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 880
+                },
+                {
+                    "id": "2",
+                    "votes": 992
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.06
+            }
+        },
+        {
+            "id": "06029",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 732
+                },
+                {
+                    "id": "2",
+                    "votes": 488
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.56
+            }
+        },
+        {
+            "id": "06017",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 958
+                },
+                {
+                    "id": "2",
+                    "votes": 772
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.0
+            }
+        },
+        {
+            "id": "06061",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 139
+                },
+                {
+                    "id": "2",
+                    "votes": 787
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.98
+            }
+        },
+        {
+            "id": "06091",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 140
+                },
+                {
+                    "id": "2",
+                    "votes": 929
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.21
+            }
+        },
+        {
+            "id": "06103",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 952
+                },
+                {
+                    "id": "2",
+                    "votes": 188
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.86
+            }
+        },
+        {
+            "id": "06099",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 892
+                },
+                {
+                    "id": "2",
+                    "votes": 997
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.72
+            }
+        },
+        {
+            "id": "06107",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 729
+                },
+                {
+                    "id": "2",
+                    "votes": 237
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.33
+            }
+        },
+        {
+            "id": "06065",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 341
+                },
+                {
+                    "id": "2",
+                    "votes": 966
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.89
+            }
+        },
+        {
+            "id": "06111",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 702
+                },
+                {
+                    "id": "2",
+                    "votes": 575
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.64
+            }
+        },
+        {
+            "id": "06081",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 249
+                },
+                {
+                    "id": "2",
+                    "votes": 199
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.7
+            }
+        },
+        {
+            "id": "06047",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 158
+                },
+                {
+                    "id": "2",
+                    "votes": 648
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.43
+            }
+        },
+        {
+            "id": "06075",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 668
+                },
+                {
+                    "id": "2",
+                    "votes": 568
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.88
+            }
+        },
+        {
+            "id": "06101",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 375
+                },
+                {
+                    "id": "2",
+                    "votes": 959
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.35
+            }
+        },
+        {
+            "id": "06007",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 186
+                },
+                {
+                    "id": "2",
+                    "votes": 655
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.88
+            }
+        },
+        {
+            "id": "06093",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 442
+                },
+                {
+                    "id": "2",
+                    "votes": 687
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.47
+            }
+        },
+        {
+            "id": "06049",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 195
+                },
+                {
+                    "id": "2",
+                    "votes": 996
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.12
+            }
+        },
+        {
+            "id": "06011",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 487
+                },
+                {
+                    "id": "2",
+                    "votes": 237
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.71
+            }
+        },
+        {
+            "id": "06039",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 261
+                },
+                {
+                    "id": "2",
+                    "votes": 764
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.7
+            }
+        },
+        {
+            "id": "06015",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 217
+                },
+                {
+                    "id": "2",
+                    "votes": 406
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.87
+            }
+        },
+        {
+            "id": "06067",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 618
+                },
+                {
+                    "id": "2",
+                    "votes": 136
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.96
+            }
+        },
+        {
+            "id": "06041",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 129
+                },
+                {
+                    "id": "2",
+                    "votes": 982
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.55
+            }
+        },
+        {
+            "id": "06001",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 867
+                },
+                {
+                    "id": "2",
+                    "votes": 818
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.36
+            }
+        },
+        {
+            "id": "06027",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 169
+                },
+                {
+                    "id": "2",
+                    "votes": 980
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.87
+            }
+        },
+        {
+            "id": "06043",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 397
+                },
+                {
+                    "id": "2",
+                    "votes": 628
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.68
+            }
+        },
+        {
+            "id": "06085",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 991
+                },
+                {
+                    "id": "2",
+                    "votes": 692
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.07
+            }
+        },
+        {
+            "id": "06059",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 382
+                },
+                {
+                    "id": "2",
+                    "votes": 273
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.43
+            }
+        },
+        {
+            "id": "06045",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 919
+                },
+                {
+                    "id": "2",
+                    "votes": 737
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.77
+            }
+        },
+        {
+            "id": "06037",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 104
+                },
+                {
+                    "id": "2",
+                    "votes": 826
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.13
+            }
+        },
+        {
+            "id": "06009",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 511
+                },
+                {
+                    "id": "2",
+                    "votes": 248
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.21
+            }
+        },
+        {
+            "id": "06003",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 411
+                },
+                {
+                    "id": "2",
+                    "votes": 541
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.84
+            }
+        },
+        {
+            "id": "06073",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 960
+                },
+                {
+                    "id": "2",
+                    "votes": 852
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.6
+            }
+        },
+        {
+            "id": "06077",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 813
+                },
+                {
+                    "id": "2",
+                    "votes": 719
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.97
+            }
+        },
+        {
+            "id": "06083",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 390
+                },
+                {
+                    "id": "2",
+                    "votes": 617
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.69
+            }
+        },
+        {
+            "id": "06025",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 577
+                },
+                {
+                    "id": "2",
+                    "votes": 193
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.44
+            }
+        },
+        {
+            "id": "06063",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 894
+                },
+                {
+                    "id": "2",
+                    "votes": 639
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.41
+            }
+        },
+        {
+            "id": "06033",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 740
+                },
+                {
+                    "id": "2",
+                    "votes": 992
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.51
+            }
+        },
+        {
+            "id": "06013",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 336
+                },
+                {
+                    "id": "2",
+                    "votes": 947
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.02
+            }
+        },
+        {
+            "id": "06109",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 697
+                },
+                {
+                    "id": "2",
+                    "votes": 469
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.1
+            }
+        },
+        {
+            "id": "06051",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 875
+                },
+                {
+                    "id": "2",
+                    "votes": 722
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.45
+            }
+        },
+        {
+            "id": "06031",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 167
+                },
+                {
+                    "id": "2",
+                    "votes": 909
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.45
+            }
+        },
+        {
+            "id": "06097",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 403
+                },
+                {
+                    "id": "2",
+                    "votes": 628
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.71
+            }
+        },
+        {
+            "id": "06113",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 463
+                },
+                {
+                    "id": "2",
+                    "votes": 323
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.03
+            }
+        },
+        {
+            "id": "06087",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 993
+                },
+                {
+                    "id": "2",
+                    "votes": 256
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.14
+            }
+        },
+        {
+            "id": "06115",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 401
+                },
+                {
+                    "id": "2",
+                    "votes": 888
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.4
+            }
+        },
+        {
+            "id": "06035",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 481
+                },
+                {
+                    "id": "2",
+                    "votes": 112
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.25
+            }
+        },
+        {
+            "id": "06095",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 969
+                },
+                {
+                    "id": "2",
+                    "votes": 300
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.42
+            }
+        },
+        {
+            "id": "06055",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 446
+                },
+                {
+                    "id": "2",
+                    "votes": 335
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.96
+            }
+        },
+        {
+            "id": "06021",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 323
+                },
+                {
+                    "id": "2",
+                    "votes": 874
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.25
+            }
+        },
+        {
+            "id": "06023",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 398
+                },
+                {
+                    "id": "2",
+                    "votes": 391
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.49
+            }
+        }
+    ]
+}

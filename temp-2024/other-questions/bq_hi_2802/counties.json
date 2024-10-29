@@ -1,0 +1,90 @@
+{
+    "id": "bq:hi:2802",
+    "counties": [
+        {
+            "id": "15009",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 969
+                },
+                {
+                    "id": "2",
+                    "votes": 513
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.46
+            }
+        },
+        {
+            "id": "15005",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 946
+                },
+                {
+                    "id": "2",
+                    "votes": 591
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.4
+            }
+        },
+        {
+            "id": "15007",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 858
+                },
+                {
+                    "id": "2",
+                    "votes": 514
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.73
+            }
+        },
+        {
+            "id": "15001",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 815
+                },
+                {
+                    "id": "2",
+                    "votes": 525
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.41
+            }
+        },
+        {
+            "id": "15003",
+            "results": [
+                {
+                    "id": "1",
+                    "votes": 208
+                },
+                {
+                    "id": "2",
+                    "votes": 135
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.81
+            }
+        }
+    ]
+}

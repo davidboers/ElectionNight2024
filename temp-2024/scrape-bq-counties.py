@@ -43,3 +43,4 @@ def scrape_bq_counties(group_name, meta_file_name):
 
 scrape_bq_counties('abortion-questions', './temp-2024/abortion-questions-meta.json')
 scrape_bq_counties('rcv-questions', './temp-2024/rcv-questions-meta.json')
+scrape_bq_counties('other-questions', './temp-2024/other-questions-meta.json')
