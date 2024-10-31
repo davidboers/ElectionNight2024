@@ -6,16 +6,16 @@
             "results": [
                 {
                     "id": "1",
-                    "votes": 969
+                    "votes": 575
                 },
                 {
                     "id": "2",
-                    "votes": 513
+                    "votes": 625
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.46
+                "pct": 0.55
             }
         },
         {
@@ -23,16 +23,16 @@
             "results": [
                 {
                     "id": "1",
-                    "votes": 946
+                    "votes": 308
                 },
                 {
                     "id": "2",
-                    "votes": 591
+                    "votes": 750
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.4
+                "pct": 0.72
             }
         },
         {
@@ -40,16 +40,16 @@
             "results": [
                 {
                     "id": "1",
-                    "votes": 858
+                    "votes": 578
                 },
                 {
                     "id": "2",
-                    "votes": 514
+                    "votes": 227
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.73
+                "pct": 0.88
             }
         },
         {
@@ -57,16 +57,16 @@
             "results": [
                 {
                     "id": "1",
-                    "votes": 815
+                    "votes": 865
                 },
                 {
                     "id": "2",
-                    "votes": 525
+                    "votes": 539
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.41
+                "pct": 0.37
             }
         },
         {
@@ -74,16 +74,16 @@
             "results": [
                 {
                     "id": "1",
-                    "votes": 208
+                    "votes": 287
                 },
                 {
                     "id": "2",
-                    "votes": 135
+                    "votes": 386
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.81
+                "pct": 0.57
             }
         }
     ]

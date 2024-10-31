@@ -2,10 +2,17 @@ import glob
 import os
 import json
 import random
+import datetime
 
 random.seed(201636415)
 
 candidate_agg = {}
+
+start_time = datetime.datetime(2024, 11, 5, 18, 0, 0)
+end_time = datetime.datetime(2024, 11, 6, 3, 0, 0)
+
+def rand_time():
+    return start_time + datetime.timedelta(hours=random.randint(0, 9), minutes=random.randint(0, 60), seconds=random.randint(0, 60))
 
 def update_votes(meta_file, c_id, data):
     if isinstance(data, dict):
@@ -43,6 +50,13 @@ def update_votes_agg(data):
                     result['votes'] = candidate_agg[c_id][cnd_id]
 
             item['progress']['pct'] = random.randint(0, 100) / 100
+            item['calls'] = [{
+                'type': 'winner',
+                'timestamp': rand_time().isoformat(),
+                'contestId': c_id,
+                'subjectId': sorted(results, key=lambda k: k['votes'], reverse=True)[0]['id'],
+                'callerId': 'scrambler'
+            }]
             
 def get_party(meta, cnd_id: str):
     for c in meta:
