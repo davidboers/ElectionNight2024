@@ -20,7 +20,7 @@ def update_votes(meta_file, c_id, data):
             if key == 'votes':
                 cnd_id = data['id']
                 party = get_party(meta_file, cnd_id)
-                if party in ['gop', 'dem'] or cnd_id == '1445': # Democrat, Republican, or Bernie Sanders
+                if party in ['gop', 'dem'] or cnd_id in ['1445', '62418', '168007']: # Bernie Sanders, Angus King, and Dan Osborn
                     data[key] = random.randint(10000, 100000)
                 else:
                     data[key] = random.randint(100, 1000)

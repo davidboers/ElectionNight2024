@@ -7,51 +7,51 @@
         {
             "results": [
                 {
-                    "votes": 25332,
+                    "votes": 12415,
                     "id": "10289"
                 },
                 {
-                    "votes": 26501,
+                    "votes": 29946,
                     "id": "103922"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.81
+                "pct": 0.61
             },
             "id": "10001"
         },
         {
             "results": [
                 {
-                    "votes": 79246,
+                    "votes": 63096,
                     "id": "10289"
                 },
                 {
-                    "votes": 60442,
+                    "votes": 92567,
                     "id": "103922"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.62
+                "pct": 0.64
             },
             "id": "10003"
         },
         {
             "results": [
                 {
-                    "votes": 92610,
+                    "votes": 31942,
                     "id": "10289"
                 },
                 {
-                    "votes": 45438,
+                    "votes": 57331,
                     "id": "103922"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.54
+                "pct": 0.69
             },
             "id": "10005"
         },
@@ -60,16 +60,16 @@
             "results": [
                 {
                     "id": "10289",
-                    "votes": 67089
+                    "votes": 64230
                 },
                 {
                     "id": "103922",
-                    "votes": 45987
+                    "votes": 68890
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.44
+                "pct": 0.82
             }
         }
     ]

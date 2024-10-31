@@ -6,16 +6,16 @@
             "results": [
                 {
                     "id": "1",
-                    "votes": 907
+                    "votes": 521
                 },
                 {
                     "id": "2",
-                    "votes": 818
+                    "votes": 750
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.51
+                "pct": 0.99
             }
         }
     ]
