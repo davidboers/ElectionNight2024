@@ -549,7 +549,7 @@ colorPalette winner results palette_func =
         winner_votes = winner.votes
         winner_share = (toFloat winner_votes) / (toFloat total)
 
-        premium = 0.5
+        premium = 0.4
         share_a = (winner_share - premium) / (1.0 - premium)
 
         tie = 
@@ -576,7 +576,7 @@ questionColorPalette results =
 partyColorPalette : List Candidate -> String
 partyColorPalette results =
     case sortBy .votes results |> reverse of
-        [] -> "purple"
+        [] -> "white"
 
         [winner] ->
             getPartyShade (Maybe.withDefault "oth" winner.party) 1
