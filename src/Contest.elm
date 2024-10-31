@@ -73,9 +73,9 @@ mergeMeta meta c =
             case Dict.get cnd.cnd_id meta.candidates of
                 Just {name, party, isIncumbent} ->
                     { cnd | name = name
-                            , party = Just party 
-                            , isIncumbent = isIncumbent
-                            }
+                          , party = Just <| smallPartyCandidates party cnd.cnd_id 
+                          , isIncumbent = isIncumbent
+                          }
 
                 Nothing ->
                     cnd
@@ -409,3 +409,286 @@ smallCandidate total_votes cnd =
         smallRowStyle
         [ text <| displayPct cnd.votes total_votes ]
     ]
+
+
+-- Small party candidates
+
+smallPartyCandidates : String -> String -> String
+smallPartyCandidates default_party cnd_id =
+    case cnd_id of
+        "69459" -> "lib" -- Chase Oliver
+        "895" -> "grn" -- Jill Stein
+        "61513" -> "con" -- Randall Terry
+        "73180" -> "psl" -- Claudia de la Cruz
+        "167760" -> "swp" -- Rochele Fruit
+        "69442" -> "sep" -- Joseph Kishore
+
+        -- Utah gubernatorial
+        "44473" -> "lib"
+
+        -- Montana gubernatorial
+        "167872" -> "lib"
+
+        -- Missouri gubernatorial
+        "62422" -> "lib"
+        "131746" -> "grn"
+
+        -- Indiana gubernatorial
+        "69533" -> "lib"
+
+        -- West Virginia gubernatorial
+        "69619" -> "lib"
+        "166876" -> "grn"
+        "155104" -> "con"
+
+        -- North Carolina gubernatorial
+        "166375" -> "grn"
+        "166374" -> "lib"
+        "167551" -> "con"
+
+        -- New Hampshire gubernatorial
+        "168217" -> "lib"
+        
+        -- Arizona Senate
+        "167853" -> "grn"
+
+        -- Connecticut Senate
+        "69655" -> "grn"
+
+        -- Florida Senate
+        "167867" -> "lib"
+        "167868" -> "ind"
+        "71777" -> "ind"
+
+        -- Hawaii Senate
+        "71492" -> "grn"
+
+        -- Indiana Senate
+        "732" -> "lib"
+
+        -- Maryland Senate
+        "166877" -> "lib"
+
+        -- Michigan Senate
+        "168022" -> "lib"
+        "168024" -> "grn"
+        "168023" -> "con"
+
+        -- Minnesota Senate
+        "167707" -> "lib"
+
+        -- Missouri Senate
+        "167941" -> "lib"
+        "131752" -> "grn"
+
+        -- Montana Senate
+        "130039" -> "lib"
+        "68680" -> "grn"
+
+        -- Nevada Senate
+        "132873" -> "lib"
+
+        -- New Jersey Senate
+        "60050" -> "lib"
+        "166841" -> "grn"
+        "166842" -> "swp"
+        "60901" -> "lib"
+
+        -- Pennsylvania Senate
+        "167810" -> "grn"
+        "167811" -> "con"
+        "167809" -> "lib"
+        
+        -- Texas Senate
+        "69634" -> "lib"
+
+        -- Vermont Senate
+        "167778" -> "lib"
+
+        -- West Virginia Senate
+        "62658" -> "lib"
+
+        -- Arizona House
+        "167854" -> "grn"
+        "167855" -> "grn"
+        "167577" -> "grn"
+
+        -- Arkansas House
+        "104074" -> "lib"
+        "167499" -> "lib"
+
+        -- Colorado House
+        "62893" -> "lib"
+        "168013" -> "lib"
+        "164306" -> "lib"
+        "71795" -> "con"
+        "168016" -> "lib"
+        "167354" -> "ind"
+        "71789" -> "lib"
+        "168018" -> "lib"
+
+        -- Connnecticut House
+        "71820" -> "grn"
+
+        -- Florida House
+        "167869" -> "ind"
+        "71588" -> "ind"
+        "167870" -> "lib"
+
+        -- Hawaii House
+        "166496" -> "lib"
+        "166495" -> "ind"
+
+        -- Idaho House
+        "167082" -> "lib"
+        "112913" -> "con"
+        "112486" -> "con"
+        "167083" -> "lib"
+
+        -- Indiana House
+        "167501" -> "lib"
+        "71635" -> "lib"
+        "167502" -> "lib"
+        "167503" -> "lib"
+        "167506" -> "lib"
+        "65433" -> "lib"
+        "71633" -> "lib"
+        "70022" -> "lib"
+        "167505" -> "lib"
+
+        -- Iowa House
+        "167897" -> "ind"
+        
+        -- Kansas House
+        "167749" -> "lib"
+        "69293" -> "lib"
+
+        -- Louisiana House
+        "118439" -> "ind"
+
+        -- Maryland House
+        "166878" -> "lib"
+        "65572" -> "lib"
+        "166879" -> "lib"
+        "65573" -> "grn"
+        "58668" -> "lib"
+
+        -- Michigan House
+        "71660" -> "lib"
+        "167758" -> "lib"
+        "167759" -> "con"
+        "130509" -> "lib"
+        "71745" -> "con"
+        "167761" -> "grn"
+        "59834" -> "grn"
+        "127269" -> "lib"
+        "167762" -> "lib"
+        "167763" -> "lib"
+        "167764" -> "con"
+        "64441" -> "grn"
+        "167765" -> "lib"
+        "69512" -> "lib"
+        "1321" -> "grn"
+        "129641" -> "grn"
+        "167766" -> "lib"
+        "71669" -> "con"
+
+        -- Missouri House
+        "167943" -> "lib"
+        "65814" -> "grn"
+        "167945" -> "lib"
+        "167946" -> "grn"
+        "131332" -> "grn"
+        "167947" -> "lib"
+        "60807" -> "lib"
+        "167948" -> "grn"
+        "130357" -> "lib"
+        "167949" -> "lib"
+        "65817" -> "grn"
+        "50436" -> "lib"
+        "167950" -> "lib"
+
+        -- Montana House
+        "167340" -> "lib"
+
+        -- Nevada House
+        "166653" -> "lib"
+        "64034" -> "ind"
+        "166654" -> "ind"
+        "166656" -> "ind"
+        "132867" -> "lib"
+        "166655" -> "con"
+        "132597" -> "con"
+        "166658" -> "lib"
+        "60752" -> "con"
+
+        -- New Jersey House
+        "166845" -> "grn"
+        "166847" -> "grn"
+        "71520" -> "lib"
+        "58874" -> "grn"
+        "134586" -> "grn"
+        "134588" -> "lib"
+        "166851" -> "grn"
+        "67760" -> "lib"
+        "166854" -> "lib"
+        "51584" -> "grn"
+        "166856" -> "lib"
+        "166855" -> "lib"
+        "166857" -> "grn"
+        "71530" -> "swp"
+        "166858" -> "grn"
+        "166859" -> "lib"
+        "166861" -> "grn"
+        "166863" -> "grn"
+        "166865" -> "grn"
+        "166866" -> "lib"
+
+        -- North Carolina House
+        "34158" -> "lib"
+        "166370" -> "grn"
+        "166371" -> "lib"
+        "136179" -> "lib"
+        "68325" -> "con"
+        "166372" -> "ind"
+        "167550" -> "con"
+        "166373" -> "lib"
+
+        -- Ohio House
+        "168203" -> "ind"
+
+        -- Oregon House
+        "167316" -> "con"
+        "167318" -> "grn"
+        "64477" -> "ind"
+        "167319" -> "grn"
+        "167608" -> "lib"
+
+        -- South Carolina House
+        "69446" -> "con"
+        "167757" -> "lib"
+
+        -- Texas House
+        "157656" -> "lib"
+        "167507" -> "lib"
+        "167508" -> "lib"
+        "65546" -> "lib"
+        "65015" -> "lib"
+        "69627" -> "lib"
+
+        -- Utah
+        "68829" -> "lib"
+        "70425" -> "con"
+        "167350" -> "lib"
+        "167351" -> "ind"
+
+        -- Wisconsin
+        "167715" -> "grn"
+
+        -- Wyoming
+        "69551" -> "con"
+        "62702" -> "lib"
+
+
+        _ -> 
+            default_party

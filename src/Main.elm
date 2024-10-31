@@ -178,7 +178,7 @@ init =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    every (5 * 1000) (always Cycle)
+    every (30 * 1000) (always Cycle)
 
 -- Update
 type Msg
@@ -1421,15 +1421,18 @@ pres model c =
                                     )
                     in
                     case tag_maybe of
-                        Just tag -> span []
-                                        [ text cnd.name
-                                        , span 
-                                            [ style "font-size" "15px" 
-                                            , style "padding-left" "5px"
-                                            ]
-                                            [ text tag ]
-                                        ]
-                        _        -> text cnd.name
+                        Just tag -> 
+                            span []
+                                [ text cnd.name
+                                , span 
+                                    [ style "font-size" "15px" 
+                                    , style "padding-left" "5px"
+                                    ]
+                                    [ text tag ]
+                                ]
+
+                        _ -> 
+                            text cnd.name
                 
 
                 else if cnd.isIncumbent
@@ -1476,7 +1479,7 @@ pres model c =
                     ( style "background-color" (party_color cnd) :: bordered)
                     [] 
 
-                , td bordered                     [ displayName cnd ]
+                , td bordered                     [ displayName cnd, text <| " " ++ cnd.cnd_id ]
 
                 , if isReferendum c
                     then text ""
