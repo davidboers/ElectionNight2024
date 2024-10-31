@@ -1401,11 +1401,7 @@ aggr model summary =
                 , style "padding-right" "25%" 
                 ] 
                 [ div [ align "center" ] 
-                    [ text <| String.toUpper <| Office.toString model.office_selected 
-                    , text <| " "
-                    , text <| String.fromInt total_seats
-                    , text <| " "
-                    , text <| String.fromInt total_seats_with_carryover
+                    [ text <| String.toUpper <| Office.toString model.office_selected
                     ]
                 , party_line "Dem" "GOP"
                 , bars [dem_carryover, dem, other, und, gop, gop_carryover] maj                                                                
