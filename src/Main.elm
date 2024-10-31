@@ -1461,7 +1461,7 @@ pres model c =
                     ( style "background-color" (party_color cnd) :: bordered)
                     [] 
 
-                , td bordered                     [ displayName cnd, text <| " " ++ cnd.cnd_id ]
+                , td bordered                     [ displayName cnd ]
 
                 , if isReferendum c
                     then text ""
