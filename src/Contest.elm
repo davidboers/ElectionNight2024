@@ -1,4 +1,4 @@
-module Contest exposing (Candidate, Contest, fetchMeta, fetchResult, Meta, mergeMetas, Summary, smallContestResults, fipsToName, County, officeIs, isReferendum, ContestMeta, countyToContest)
+module Contest exposing (Candidate, Contest, fetchMeta, fetchResult, Meta, mergeMetas, Summary, smallContestResults, fipsToName, County, officeIs, isReferendum, ContestMeta, countyToContest, contestWinner, displayCalls, getCalls)
 
 import Dict exposing (Dict)
 import Office exposing (Office(..), officeDecoder)
@@ -28,6 +28,15 @@ import Html exposing (Attribute)
 import List.Extra exposing (find)
 import List exposing (filterMap)
 import ShadePalettes exposing (responseColor)
+import List exposing (head)
+import Html exposing (div)
+import Time exposing (Posix)
+import Iso8601
+import Iso8601 exposing (fromTime)
+import Time exposing (toHour)
+import Time exposing (Zone)
+import Time exposing (utc)
+import Time exposing (toMinute)
 
 type alias Summary =
     List Contest
@@ -41,6 +50,7 @@ type alias Contest =
     , timestamp : String
     , evs : Maybe Int
     , results : List Candidate
+    , calls : List Call
     , meta : Maybe ContestMeta
     , counties : Maybe (List County)
     }
@@ -173,12 +183,13 @@ summaryDecoder =
 
 contest : Decoder Contest
 contest =
-    Json.Decode.map7 Contest
+    Json.Decode.map8 Contest
         (field "id" string)
         (at ["progress", "pct"] float)
         (field "timestamp" string)
         (maybe (field "evs" int))
         (field "results" (list candidate))
+        (field "calls" (list decodeCall))
         (succeed Nothing)
         (succeed Nothing)
 
@@ -236,6 +247,26 @@ metaDecoder =
             |> Json.Decode.map (Dict.fromList << concatMap Dict.toList))
         (list (field "contest" decodeContestMeta)
             |> Json.Decode.map Dict.fromList)
+
+contestWinner : Contest -> Maybe Candidate
+contestWinner c =
+    case Maybe.map .isUncontested c.meta of
+        Just True ->
+            case c.results of
+                [x] -> Just x
+                _   -> Nothing -- Unreachable
+
+        _ ->
+            let
+                --winners = filter .winner c.results
+                winners = 
+                    case head <| reverse <| sortBy .votes c.results of
+                        Just a  -> [a]
+                        Nothing -> []
+            in
+            case winners of
+                [x] -> Just x
+                _   -> Nothing -- No multi-winner elections this year
 
 
 -- State fips
@@ -409,6 +440,96 @@ smallCandidate total_votes cnd =
         smallRowStyle
         [ text <| displayPct cnd.votes total_votes ]
     ]
+
+
+-- Election calls
+
+type alias Call =
+    { caller_id : String
+    , c_id : String
+    , subject_id : String
+    , timestamp : Posix
+    , type_ : String
+    }
+
+
+decodeCall : Decoder Call
+decodeCall =
+    Json.Decode.map5 Call
+        (field "callerId" string)
+        (field "contestId" string)
+        (field "subjectId" string)
+        (field "timestamp" Iso8601.decoder)
+        (field "type" string)
+
+
+getCallsContest : Contest -> List (Contest, Call)
+getCallsContest c =
+    map (\call -> (c, call)) c.calls
+
+getCalls : List Contest -> List (Contest, Call)
+getCalls summary = 
+    concatMap getCallsContest summary
+        |> sortBy (Time.posixToMillis << .timestamp << Tuple.second)
+
+displayCalls : List (Contest, Call) -> List (Html msg)
+displayCalls calls = 
+    map displayCall calls
+
+displayCall : (Contest, Call) -> Html msg
+displayCall (c, call) =
+    case c.meta of
+        Just meta ->
+            if meta.isReferendum then
+                text "Referendum"
+
+            else
+                let
+                    office = meta.office
+                    office_str =
+                        Office.toString office
+                            |> String.toUpper
+                    state = fipsToName meta.fips
+                    winner = contestWinner c
+                    winning_party = Maybe.andThen .party winner
+                        |> Maybe.withDefault meta.holdingParty
+                    gain = winning_party /= meta.holdingParty
+                in
+                div []
+                    [ div 
+                        [ style "color" "gray" ]
+                        [ text <| displayTimestamp call.timestamp ] 
+                    , div
+                        [ style "background-color" (partyColor winning_party)
+                        ]
+                        [ text office_str
+                        , text " - "
+                        , text state -- Should change this to racename
+                        , text ": "
+                        , br [] []
+                        , text (String.toUpper winning_party)
+                        , if gain
+                            then text <| " gain from " ++ meta.holdingParty
+                            else text " hold"
+                        ]
+
+                    ]
+
+        Nothing ->
+            text "No meta"
+
+
+-- Timestamp display
+
+displayTimeElement : (Zone -> Posix -> Int) -> Posix -> String
+displayTimeElement func posix =
+    String.fromInt (func utc posix)
+
+displayTimestamp : Posix -> String
+displayTimestamp posix =
+    displayTimeElement toHour posix
+        ++ ":"
+        ++ displayTimeElement toMinute posix
 
 
 -- Small party candidates

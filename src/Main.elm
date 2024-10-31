@@ -67,26 +67,6 @@ type alias RaceShape =
     , geo : Maybe String
     , block : (Int, Int) 
     }
-
-contestWinner : Contest -> Maybe Candidate
-contestWinner c =
-    case Maybe.map .isUncontested c.meta of
-        Just True ->
-            case c.results of
-                [x] -> Just x
-                _   -> Nothing -- Unreachable
-
-        _ ->
-            let
-                --winners = filter .winner c.results
-                winners = 
-                    case head <| reverse <| sortBy .votes c.results of
-                        Just a  -> [a]
-                        Nothing -> []
-            in
-            case winners of
-                [x] -> Just x
-                _   -> Nothing -- No multi-winner elections this year
         
 compareContests : Contest -> Contest -> Order
 compareContests a b =
@@ -178,7 +158,7 @@ init =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    every (30 * 1000) (always Cycle)
+    every (5 * 1000) (always Cycle)
 
 -- Update
 type Msg
@@ -453,6 +433,8 @@ view model =
                                         
                                     
                                     else g [] [] 
+                                , div [ style "overflow-y" "scroll" ]
+                                    (displayCalls (getCalls summary))
                                 ]
                             ]           
 

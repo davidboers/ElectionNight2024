@@ -140,6 +140,7 @@ fromGeorgia gc =
     , timestamp = gc.version
     , evs = Nothing
     , results = results
+    , calls = []
     , meta = Just
         { office = office
         , fips = "13"
