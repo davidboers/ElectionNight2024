@@ -280,6 +280,7 @@ mergeHouseContests summary =
     , timestamp = ""
     , evs = Nothing
     , results = results
+    , calls = [] -- Doesnt matter
     , meta = Just
         { office = House
         , fips = ""

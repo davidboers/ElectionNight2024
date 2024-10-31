@@ -81,6 +81,14 @@ partyColor party =
         "sep" -> "#D30101" -- Socialist Equality Party
         _ -> "#cccccc"
 
+dem_color_dark : String
+dem_color_dark =
+    "#1a4e92"
+
+gop_color_dark : String
+gop_color_dark =
+    "#96222c"
+
 responseColor : String -> String
 responseColor cnd =
     case cnd of

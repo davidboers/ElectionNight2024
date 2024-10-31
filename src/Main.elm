@@ -40,6 +40,9 @@ import Georgia exposing (fromGeorgia)
 import DisplayNumber exposing (displayPctRnd)
 import DisplayNumber exposing (displayPct)
 import ShadePalettes exposing (responseColor)
+import List exposing (concatMap)
+import ShadePalettes exposing (dem_color_dark)
+import ShadePalettes exposing (gop_color_dark)
 
 -- Model
 type alias Model =
@@ -1094,6 +1097,13 @@ navStyle =
     , style "width" "10px"
     ]
 
+type alias Bar =
+    { pct_width : String
+    , color : String
+    , text_ : String
+    , text_align : String
+    }
+
 aggr : Model -> Summary -> Html Msg
 aggr model summary =
     let
@@ -1102,37 +1112,30 @@ aggr model summary =
         und_color = "#ffffff"
         gop_color = partyColor "gop"
 
-        bars dem_seat_shr oth_seat_shr und_seat_shr gop_seat_shr maj =
+        bar : Bar -> Html Msg
+        bar b =
+            div 
+                [ style "width" b.pct_width
+                , style "background-color" b.color
+                , style "height" "inherit" 
+                ] 
+                [ div 
+                    [ style "text-align" b.text_align
+                    , style "color" "white"
+                    , style "font-size" "25px"
+                    , style "padding" "10px 5px"
+                    ]
+                    [ text b.text_ ]
+                ]
+
+        bars bar_list maj =
             div 
                 [ style "border" "1px solid black"
                 , style "height" "50px" 
                 , style "display" "flex"
                 ]
+                ( (map bar bar_list) ++
                 [ div 
-                    [ style "width" dem_seat_shr
-                    , style "background-color" dem_color
-                    , style "height" "inherit" 
-                    ] 
-                    []
-                , div 
-                    [ style "width" oth_seat_shr 
-                    , style "background-color" oth_color
-                    , style "height" "inherit" 
-                    ] 
-                    []     
-                , div 
-                    [ style "width" und_seat_shr 
-                    , style "background-color" und_color
-                    , style "height" "inherit" 
-                    ] 
-                    []              
-                , div 
-                    [ style "width" gop_seat_shr
-                    , style "background-color" gop_color
-                    , style "height" "inherit" 
-                    ] 
-                    []  
-                , div 
                     [ style "display" "block"
                     , style "position" "absolute"
                     , style "left" "50%" 
@@ -1152,7 +1155,26 @@ aggr model summary =
                         ]
                         [ text <| String.fromInt maj ++ " to win" ]
                     ]
-                ]    
+                ])
+        
+        party_line dem_displ gop_displ =
+            div
+                [ style "display" "flex" 
+                , style "font-weight" "bold"
+                , style "padding" "5px"
+                ]               
+                [ div
+                    [ style "color" dem_color
+                    , style "width" "50%"
+                    ] 
+                    [ text dem_displ ]
+                , div
+                    [ style "text-align" "right"
+                    , style "color" gop_color
+                    , style "width" "50%"
+                    ] 
+                    [ text gop_displ ]
+                ]
     in
     case model.office_selected of
         GeorgiaQuestions ->
@@ -1204,41 +1226,63 @@ aggr model summary =
                 und_evs_share = displayPctRnd und_evs total_evs
                 trump_evs_share = displayPctRnd trump_evs total_evs
 
-                {-candidate_votes c_id =     Make new Contest for national popular vote?
+                kamala = 
+                    Bar
+                        kamala_evs_share
+                        dem_color
+                        (String.fromInt kamala_evs)
+                        "left"
+
+                other = 
+                    Bar
+                        oth_evs_share
+                        oth_color
+                        (String.fromInt oth_evs)
+                        "center"
+
+                und = 
+                    Bar
+                        und_evs_share
+                        und_color
+                        ""
+                        ""
+
+                trump = 
+                    Bar
+                        trump_evs_share
+                        gop_color
+                        (String.fromInt trump_evs)
+                        "right"
+
+                candidate_votes cnd_id =     -- Make new Contest for national popular vote?
                     concatMap .results summary 
-                        |> filter ((==) c_id << .c_id)
+                        |> filter ((==) cnd_id << .cnd_id)
                         |> map .votes
-                        |> sum -}
+                        |> sum
+
+                total_votes = 
+                    concatMap .results summary
+                        |> map .votes
+                        |> sum
+
+                kamala_votes = candidate_votes "64984"
+                trump_votes = candidate_votes "8639"
             in
             div [ style "padding-left" "25%" 
                 , style "padding-right" "25%" ] 
                 [ div [ align "center" ] 
                     [ text <| String.toUpper <| Office.toString model.office_selected ]
-                , div
-                    [ style "display" "flex" 
-                    , style "font-weight" "bold"
-                    , style "padding" "5px"
-                    ]               
-                    [ div
-                        [ style "color" dem_color
-                        , style "width" "50%"
-                        ] 
-                        [ text "Kamala Harris" ]
-                    , div
-                        [ style "text-align" "right"
-                        , style "color" gop_color
-                        , style "width" "50%"
-                        ] 
-                        [ text "Donald Trump" ]
-                    ]
-                , bars kamala_evs_share oth_evs_share und_evs_share trump_evs_share 270 
+                , party_line "Kamala Harris" "Donald Trump"
+                , bars [kamala, other, und, trump] 270 
+                , party_line (displayNumber kamala_votes) (displayNumber trump_votes)
+                , party_line (displayPct kamala_votes total_votes) (displayPct trump_votes total_votes)
                 ]
 
         _ ->
             let 
                 winners = filterMap contestWinner summary
                 total_seats = length <| filter (Maybe.withDefault False << Maybe.map (not << .isSpecial) << .meta) summary
-
+            
                 party_count pty =
                     winners
                         |> map .party
@@ -1282,64 +1326,92 @@ aggr model summary =
                         LT -> div [] [ text <| String.fromInt chg ]
                         GT -> div [] [ text <| "+" ++ String.fromInt chg ]
 
+                dem_carryover_seats =
+                    case model.office_selected of
+                        Senate -> 28
+                        Governor -> 20
+                        _ -> 0
                 dem_seats = party_count "dem"
                 oth_seats = party_count "oth"
                 und_seats = total_seats - dem_seats - oth_seats - gop_seats -- Undeclared
                 gop_seats = party_count "gop"
+                gop_carryover_seats =
+                    case model.office_selected of
+                        Senate -> 38
+                        Governor -> 19
+                        _ -> 0
+                
+                total_seats_with_carryover = total_seats + dem_carryover_seats + gop_carryover_seats
 
-                dem_seat_shr = displayPctRnd dem_seats total_seats
-                oth_seat_shr = displayPctRnd oth_seats total_seats
-                und_seat_shr = displayPctRnd und_seats total_seats
-                gop_seat_shr = displayPctRnd gop_seats total_seats
+                carryover_dem_seat_shr = displayPctRnd dem_carryover_seats total_seats_with_carryover
+                dem_seat_shr = displayPctRnd dem_seats total_seats_with_carryover
+                oth_seat_shr = displayPctRnd oth_seats total_seats_with_carryover
+                und_seat_shr = displayPctRnd und_seats total_seats_with_carryover
+                gop_seat_shr = displayPctRnd gop_seats total_seats_with_carryover
+                carryover_gop_seat_shr = displayPctRnd gop_carryover_seats total_seats_with_carryover
 
-                maj = toFloat total_seats / 2
+                maj = toFloat total_seats_with_carryover / 2
                     |> floor
                     |> (+) 1
+
+                dem_carryover = 
+                    Bar
+                        carryover_dem_seat_shr
+                        dem_color_dark
+                        ""
+                        ""
+
+                dem = 
+                    Bar
+                        dem_seat_shr
+                        dem_color
+                        ""
+                        ""
+
+                other = 
+                    Bar
+                        oth_seat_shr
+                        oth_color
+                        ""
+                        ""
+
+                und = 
+                    Bar
+                        und_seat_shr
+                        und_color
+                        ""
+                        ""
+
+                gop = 
+                    Bar
+                        gop_seat_shr
+                        gop_color
+                        ""
+                        ""
+
+                gop_carryover = 
+                    Bar
+                        carryover_gop_seat_shr
+                        gop_color_dark
+                        ""
+                        ""
             in
             div 
                 [ style "padding-left" "25%" 
                 , style "padding-right" "25%" 
                 ] 
                 [ div [ align "center" ] 
-                    [ text <| String.toUpper <| Office.toString model.office_selected ]  -- Office name
-                , div                                                           -- Party names
-                    [ style "display" "flex" 
-                    , style "font-weight" "bold"
-                    , style "padding" "5px"
-                    ]               
-                    [ div
-                        [ style "color" dem_color
-                        , style "width" "50%"
-                        ] 
-                        [ text "Dem" ]
-                    , div
-                        [ style "text-align" "right"
-                        , style "color" gop_color
-                        , style "width" "50%"
-                        ] 
-                        [ text "GOP" ]
+                    [ text <| String.toUpper <| Office.toString model.office_selected 
+                    , text <| " "
+                    , text <| String.fromInt total_seats
+                    , text <| " "
+                    , text <| String.fromInt total_seats_with_carryover
                     ]
-                , bars dem_seat_shr oth_seat_shr und_seat_shr gop_seat_shr maj                                                                
-                , div                                                       -- Party Seat counts
+                , party_line "Dem" "GOP"
+                , bars [dem_carryover, dem, other, und, gop, gop_carryover] maj                                                                
+                , party_line (String.fromInt dem_seats ++ " seats") (String.fromInt gop_seats)
+                , div
                     [ style "display" "flex" 
-                    , style "font-weight" "bold"
-                    , style "padding" "5px"
-                    ]         
-                    [ div 
-                        [ style "color" dem_color
-                        , style "width" "50%"
-                        ] 
-                        [ text <| String.fromInt dem_seats ++ " seats" ]
-                    , div 
-                        [ style "text-align" "right" 
-                        , style "color" gop_color
-                        , style "width" "50%"
-                        ] 
-                        [ text <| String.fromInt gop_seats ]
-                    ]
-                , div                                                       -- Party Seat changes
-                    [ style "display" "flex" 
-                    --, style "font-weight" "bold"
                     , style "padding" "5px"
                     ]         
                     [ div 
