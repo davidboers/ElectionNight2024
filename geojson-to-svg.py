@@ -1,21 +1,11 @@
 import geopandas as gpd
 import json
-import us
+
+import utils
 
 # curl https://www.politico.com/2024-election/results/_next/static/media/districts.asset.87823d2b.json -o districts.json
 # Then use mapshaper.org to convert ArcGIS to GeoJSON
 # Thanks again to ChatGPT for this script!
-
-def fips_to_state(fips_code):
-    # Ensure the FIPS code is a string
-    fips_code = str(fips_code).zfill(2)  # Pad with zero if necessary
-
-    # Search for the state by FIPS code
-    for state in us.states.STATES:
-        if state.fips == fips_code:
-            return state.abbr
-    
-    return "Invalid FIPS code"
 
 def geometry_to_svg_path(geometry):
     """Convert a geometry into an SVG path string."""
@@ -50,7 +40,7 @@ def geojson_to_svg(geojson_file):
         geometry = row.geometry
         fips = str(row.code)
         svg_path = geometry_to_svg_path(geometry)
-        nm = fips_to_state(fips[:2]) + '-' + fips[2:]
+        nm = utils.fips_to_state(fips[:2]) + '-' + fips[2:]
 
         if svg_path is not None:
             out.append({"id": nm, "geo": svg_path})
