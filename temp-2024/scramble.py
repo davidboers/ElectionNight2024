@@ -3,8 +3,33 @@ import os
 import json
 import random
 import datetime
+import csv
 
-random.seed(201636415)
+# Create test by inserting either randomized vote results or 2020 results
+RANDOMIZE = True
+
+if RANDOMIZE:
+    random.seed(201636415)
+else:
+    past_results = {}
+    with open('./swing_from.csv', 'r') as swing_file:
+        csv_reader = csv.reader(swing_file)
+
+        for office,contest_id,contest_name,county_id,county_name,var_type,candidate_id,candidate_name,var in csv_reader:
+            if not var_type == 'results':
+                continue
+        
+            if contest_id not in past_results:
+                past_results[contest_id] = {}
+
+            if county_id not in past_results[contest_id]:
+                past_results[contest_id][county_id] = {}
+
+            try:
+                past_results[contest_id][county_id][candidate_id] = int(var)
+            except ValueError:
+                print(var)
+
 
 candidate_agg = {}
 
@@ -14,16 +39,27 @@ end_time = datetime.datetime(2024, 11, 6, 3, 0, 0)
 def rand_time():
     return start_time + datetime.timedelta(hours=random.randint(0, 9), minutes=random.randint(0, 60), seconds=random.randint(0, 60))
 
-def update_votes(meta_file, c_id, data):
+def update_votes(meta_file, c_id, county_fips, data):
     if isinstance(data, dict):
         for key, value in data.items():
             if key == 'votes':
                 cnd_id = data['id']
                 party = get_party(meta_file, cnd_id)
-                if party in ['gop', 'dem'] or cnd_id in ['1445', '62418', '168007']: # Bernie Sanders, Angus King, and Dan Osborn
-                    data[key] = random.randint(10000, 100000)
+
+                if RANDOMIZE:
+                    if party in ['gop', 'dem'] or cnd_id in ['1445', '62418', '168007']: # Bernie Sanders, Angus King, and Dan Osborn
+                        data[key] = random.randint(10000, 100000)
+                    else:
+                        data[key] = random.randint(100, 1000)
+
                 else:
-                    data[key] = random.randint(100, 1000)
+                    try:
+                        votes = past_results[c_id][county_fips][cnd_id]
+                    except KeyError:
+                        print(county_fips)
+                        votes = 0
+
+                    data[key] = votes
 
                 if cnd_id in candidate_agg[c_id].keys():
                     candidate_agg[c_id][cnd_id] += data[key]
@@ -32,11 +68,15 @@ def update_votes(meta_file, c_id, data):
 
             elif key == 'pct':
                 data[key] = random.randint(0, 100) / 100
+
             else:
-                update_votes(meta_file, c_id, value)  # Recursively update nested dictionaries
+                if key == 'results':
+                    county_fips = data['id']
+
+                update_votes(meta_file, c_id, county_fips, value)  # Recursively update nested dictionaries
     elif isinstance(data, list):
         for item in data:
-            update_votes(meta_file, c_id, item)  # Recursively update items in the list
+            update_votes(meta_file, c_id, county_fips, item)  # Recursively update items in the list
 
 def update_votes_agg(data):
     if isinstance(data, list):
@@ -82,7 +122,7 @@ def scramble_for_office(counties_glob_path, meta_path, summary_path, office):
                 print('json decode error in ' + file_name)
                 continue
 
-        update_votes(meta, c_id, data)
+        update_votes(meta, c_id, '', data)
 
         with open(file_name, 'w') as file:
             json.dump(data, file, indent=4)
