@@ -608,6 +608,7 @@ smallPartyCandidates default_party cnd_id =
 
         -- Nevada Senate
         "132873" -> "lib"
+        "1348" -> "con"
 
         -- New Jersey Senate
         "60050" -> "lib"
