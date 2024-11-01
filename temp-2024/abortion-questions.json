@@ -8,17 +8,17 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 8400,
+                    "votes": 7900,
                     "id": "1"
                 },
                 {
-                    "votes": 8270,
+                    "votes": 9567,
                     "id": "2"
                 }
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.89
+                "pct": 0.57
             },
             "status": {
                 "tabulation": "active",
@@ -27,9 +27,9 @@
             "calls": [
                 {
                     "type": "winner",
-                    "timestamp": "2024-11-05T21:28:54",
+                    "timestamp": "2024-11-06T02:34:22",
                     "contestId": "bq:az:139",
-                    "subjectId": "1",
+                    "subjectId": "2",
                     "callerId": "scrambler"
                 }
             ]
@@ -41,11 +41,110 @@
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 36013,
+                    "votes": 35197,
                     "id": "1"
                 },
                 {
-                    "votes": 36251,
+                    "votes": 37343,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.03
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            },
+            "calls": [
+                {
+                    "type": "winner",
+                    "timestamp": "2024-11-06T00:53:30",
+                    "contestId": "bq:co:79",
+                    "subjectId": "2",
+                    "callerId": "scrambler"
+                }
+            ]
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:fl:4",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 40036,
+                    "id": "1"
+                },
+                {
+                    "votes": 34870,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.96
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            },
+            "calls": [
+                {
+                    "type": "winner",
+                    "timestamp": "2024-11-05T18:43:46",
+                    "contestId": "bq:fl:4",
+                    "subjectId": "1",
+                    "callerId": "scrambler"
+                }
+            ]
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:md:1",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 14130,
+                    "id": "1"
+                },
+                {
+                    "votes": 13481,
+                    "id": "2"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.22
+            },
+            "status": {
+                "tabulation": "active",
+                "recount": "none"
+            },
+            "calls": [
+                {
+                    "type": "winner",
+                    "timestamp": "2024-11-05T21:28:54",
+                    "contestId": "bq:md:1",
+                    "subjectId": "1",
+                    "callerId": "scrambler"
+                }
+            ]
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "bq:mo:3",
+            "timestamp": "2024-06-07T14:37:13.496000Z",
+            "results": [
+                {
+                    "votes": 60357,
+                    "id": "1"
+                },
+                {
+                    "votes": 65533,
                     "id": "2"
                 }
             ],
@@ -61,7 +160,7 @@
                 {
                     "type": "winner",
                     "timestamp": "2024-11-05T22:17:59",
-                    "contestId": "bq:co:79",
+                    "contestId": "bq:mo:3",
                     "subjectId": "2",
                     "callerId": "scrambler"
                 }
@@ -70,15 +169,15 @@
         {
             "eventId": "2024-11-05",
             "resultsType": "live",
-            "id": "bq:fl:4",
+            "id": "bq:mt:128",
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 39509,
+                    "votes": 29414,
                     "id": "1"
                 },
                 {
-                    "votes": 35561,
+                    "votes": 28042,
                     "id": "2"
                 }
             ],
@@ -94,7 +193,7 @@
                 {
                     "type": "winner",
                     "timestamp": "2024-11-06T03:24:22",
-                    "contestId": "bq:fl:4",
+                    "contestId": "bq:mt:128",
                     "subjectId": "1",
                     "callerId": "scrambler"
                 }
@@ -103,15 +202,15 @@
         {
             "eventId": "2024-11-05",
             "resultsType": "live",
-            "id": "bq:md:1",
+            "id": "bq:ne:434",
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 13684,
+                    "votes": 50424,
                     "id": "1"
                 },
                 {
-                    "votes": 13362,
+                    "votes": 49593,
                     "id": "2"
                 }
             ],
@@ -127,7 +226,7 @@
                 {
                     "type": "winner",
                     "timestamp": "2024-11-06T03:51:48",
-                    "contestId": "bq:md:1",
+                    "contestId": "bq:ne:434",
                     "subjectId": "1",
                     "callerId": "scrambler"
                 }
@@ -136,15 +235,15 @@
         {
             "eventId": "2024-11-05",
             "resultsType": "live",
-            "id": "bq:mo:3",
+            "id": "bq:ne:439",
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 61585,
+                    "votes": 53046,
                     "id": "1"
                 },
                 {
-                    "votes": 65973,
+                    "votes": 50224,
                     "id": "2"
                 }
             ],
@@ -160,8 +259,8 @@
                 {
                     "type": "winner",
                     "timestamp": "2024-11-05T23:33:20",
-                    "contestId": "bq:mo:3",
-                    "subjectId": "2",
+                    "contestId": "bq:ne:439",
+                    "subjectId": "1",
                     "callerId": "scrambler"
                 }
             ]
@@ -169,15 +268,15 @@
         {
             "eventId": "2024-11-05",
             "resultsType": "live",
-            "id": "bq:mt:128",
+            "id": "bq:nv:6",
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 28591,
+                    "votes": 9035,
                     "id": "1"
                 },
                 {
-                    "votes": 28211,
+                    "votes": 7054,
                     "id": "2"
                 }
             ],
@@ -193,7 +292,7 @@
                 {
                     "type": "winner",
                     "timestamp": "2024-11-05T19:18:05",
-                    "contestId": "bq:mt:128",
+                    "contestId": "bq:nv:6",
                     "subjectId": "1",
                     "callerId": "scrambler"
                 }
@@ -202,15 +301,15 @@
         {
             "eventId": "2024-11-05",
             "resultsType": "live",
-            "id": "bq:ne:434",
+            "id": "bq:ny:1",
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 50897,
+                    "votes": 32917,
                     "id": "1"
                 },
                 {
-                    "votes": 49415,
+                    "votes": 36374,
                     "id": "2"
                 }
             ],
@@ -226,8 +325,8 @@
                 {
                     "type": "winner",
                     "timestamp": "2024-11-05T21:09:17",
-                    "contestId": "bq:ne:434",
-                    "subjectId": "1",
+                    "contestId": "bq:ny:1",
+                    "subjectId": "2",
                     "callerId": "scrambler"
                 }
             ]
@@ -235,15 +334,15 @@
         {
             "eventId": "2024-11-05",
             "resultsType": "live",
-            "id": "bq:ne:439",
+            "id": "bq:sd:g",
             "timestamp": "2024-06-07T14:37:13.496000Z",
             "results": [
                 {
-                    "votes": 52435,
+                    "votes": 39284,
                     "id": "1"
                 },
                 {
-                    "votes": 49932,
+                    "votes": 37386,
                     "id": "2"
                 }
             ],
@@ -259,105 +358,6 @@
                 {
                     "type": "winner",
                     "timestamp": "2024-11-05T22:28:51",
-                    "contestId": "bq:ne:439",
-                    "subjectId": "1",
-                    "callerId": "scrambler"
-                }
-            ]
-        },
-        {
-            "eventId": "2024-11-05",
-            "resultsType": "live",
-            "id": "bq:nv:6",
-            "timestamp": "2024-06-07T14:37:13.496000Z",
-            "results": [
-                {
-                    "votes": 10382,
-                    "id": "1"
-                },
-                {
-                    "votes": 8611,
-                    "id": "2"
-                }
-            ],
-            "progress": {
-                "mode": "eevp",
-                "pct": 0.81
-            },
-            "status": {
-                "tabulation": "active",
-                "recount": "none"
-            },
-            "calls": [
-                {
-                    "type": "winner",
-                    "timestamp": "2024-11-05T23:18:32",
-                    "contestId": "bq:nv:6",
-                    "subjectId": "1",
-                    "callerId": "scrambler"
-                }
-            ]
-        },
-        {
-            "eventId": "2024-11-05",
-            "resultsType": "live",
-            "id": "bq:ny:1",
-            "timestamp": "2024-06-07T14:37:13.496000Z",
-            "results": [
-                {
-                    "votes": 32306,
-                    "id": "1"
-                },
-                {
-                    "votes": 35240,
-                    "id": "2"
-                }
-            ],
-            "progress": {
-                "mode": "eevp",
-                "pct": 0.15
-            },
-            "status": {
-                "tabulation": "active",
-                "recount": "none"
-            },
-            "calls": [
-                {
-                    "type": "winner",
-                    "timestamp": "2024-11-06T01:10:55",
-                    "contestId": "bq:ny:1",
-                    "subjectId": "2",
-                    "callerId": "scrambler"
-                }
-            ]
-        },
-        {
-            "eventId": "2024-11-05",
-            "resultsType": "live",
-            "id": "bq:sd:g",
-            "timestamp": "2024-06-07T14:37:13.496000Z",
-            "results": [
-                {
-                    "votes": 40162,
-                    "id": "1"
-                },
-                {
-                    "votes": 38048,
-                    "id": "2"
-                }
-            ],
-            "progress": {
-                "mode": "eevp",
-                "pct": 0.25
-            },
-            "status": {
-                "tabulation": "active",
-                "recount": "none"
-            },
-            "calls": [
-                {
-                    "type": "winner",
-                    "timestamp": "2024-11-05T22:43:56",
                     "contestId": "bq:sd:g",
                     "subjectId": "1",
                     "callerId": "scrambler"
