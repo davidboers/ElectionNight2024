@@ -1,0 +1,206 @@
+{
+    "office": {
+        "president": "US PRESIDENT",
+        "senate": "US SENATE"
+    },
+    "candidates": {
+        "president": {
+            "Harris": "JOSEPH R BIDEN JR",
+            "Trump": "DONALD J TRUMP",
+            "Oliver": "JO JORGENSEN",
+            "Stein": "HOWIE HAWKINS",
+            "West": "NA",
+            "De la Cruz": "NA",
+            "Kennedy": "NA",
+            "Ayyadurai": "NA",
+            "Fruit": "NA",
+            "Preston": "NA"
+        },
+        "senate": {
+            "AZ": {
+                "Lake": "MARTHA MCSALLY",
+                "Gallego": "KYRSTEN SINEMA",
+                "Quintana": "ANGELA GREEN"
+            },
+            "CA": {
+                "Schiff": "DIANNE FEINSTEIN",
+                "Garvey": "NA"
+            },
+            "CT": {
+                "Murphy": "CHRISTOPHER S MURPHY",
+                "Corey": "MATTHEW COREY",
+                "Paglino": "JEFF RUSSELL",
+                "Finley Hyde": "NA"
+            },
+            "DE": {
+                "Rochester": "THOMAS R CARPER",
+                "Hansen": "ROBERT B ARLETT",
+                "Katz": "NA"
+            },
+            "FL": {
+                "Scott": "RICK SCOTT",
+                "Mucarsel-Powell": "BILL NELSON",
+                "Nguyen": "NA",
+                "Everidge": "NA",
+                "Bonoan": "NA"
+            },
+            "HI": {
+                "Hirono": "MAZIE K HIRONO",
+                "McDermott": "RON CURTIS",
+                "Pohlman": "NA",
+                "Billionaire": "NA"
+            },
+            "IN": {
+                "Banks": "MIKE BRAUN",
+                "McCray": "JOE DONNELLY",
+                "Horning": "LUCY M BRENTON"
+            },
+            "MA": {
+                "Warren": "ELIZABETH A WARREN",
+                "Deaton": "GEOFF DIEHL"
+            },
+            "MD": {
+                "Scott": "ARVIN VOHRA",
+                "Alsobrooks": "BEN CARDIN",
+                "Hogan": "TONY CAMPBELL"
+            },
+            "ME": {
+                "King": "ANGUS S KING JR",
+                "Cherry": "NA",
+                "Kouzounas": "ERIC L BRAKEY",
+                "Costello": "ZAK RINGELSTEIN"
+            },
+            "MI": {
+                "Rogers": "JOHN JAMES",
+                "Slotkin": "DEBBIE STABENOW",
+                "Solis-Mullen": "NA",
+                "Stein": "GEORGE E HUFFMAN III",
+                "Dern": "JOHN HOWARD WILHELM",
+                "Marsh": "NA"
+            },
+            "MN": {
+                "Klobuchar": "AMY KLOBUCHAR",
+                "White": "JIM NEWBERGER",
+                "Whiting": "NA",
+                "Lacey": "DENNIS SCHULLER"
+            },
+            "MO": {
+                "Hawley": "JOSH HAWLEY",
+                "Kunce": "CLAIRE MCCASKILL",
+                "Kline": "JO CRAIN",
+                "Young": "JAPHETH CAMPBELL"
+            },
+            "MS": {
+                "Wicker": "ROGER F WICKER",
+                "Pinkins": "DAVID BARIA"
+            },
+            "MT": {
+                "Tester": "JON TESTER",
+                "Sheehy": "MATT ROSENDALE",
+                "Barb": "NA",
+                "Daoud": "RICK BRECKENRIDGE"
+            },
+            "ND": {
+                "Cramer": "KEVIN CRAMER",
+                "Christiansen": "HEIDI HEITKAMP"
+            },
+            "NE": {
+                "Fischer": "DEB FISCHER",
+                "Osborn": "NA"
+            },
+            "NJ": {
+                "Kim": "ROBERT MENENDEZ",
+                "Bashaw": "BOB HUGIN",
+                "Kaplan": "MURRAY SABRIN",
+                "Khalil": "MADELYN R HOFFMAN",
+                "Mooneyham": "NA",
+                "Kuniansky": "NA"
+            },
+            "NM": {
+                "Heinrich": "MARTIN T HEINRICH",
+                "Domenici": "MICK RICH"
+            },
+            "NV": {
+                "Rosen": "JACKY ROSEN",
+                "Brown": "DEAN HELLER",
+                "Cunningham": "TIM HAGAN",
+                "None of These Candidates": "NONE OF THESE CANDIDATES",
+                "Hansen": "KAMAU A BAKARI"
+            },
+            "NY": {
+                "Gillibrand": "KIRSTEN E GILLIBRAND",
+                "Sapraicone": "CHELE CHIAVACCI FARLEY",
+                "Sare": "NA"
+            },
+            "OH": {
+                "Brown": "SHERROD BROWN",
+                "Moreno": "JIM RENACCI",
+                "Kissick": "NA"
+            },
+            "PA": {
+                "Casey": "ROBERT P CASEY JR",
+                "McCormick": "LOUIS J BARLETTA",
+                "Hazou": "NEAL TAYLOR GALE",
+                "Thomas": "DALE R KERNS JR",
+                "Selker": "NA"
+            },
+            "RI": {
+                "Whitehouse": "SHELDON WHITEHOUSE",
+                "Morgan": "ROBERT FLANDERS"
+            },
+            "TN": {
+                "Blackburn": "MARSHA BLACKBURN",
+                "Robinson": "NA",
+                "Chandler": "NA",
+                "Johnson": "PHIL BREDESEN",
+                "Moses": "NA"
+            },
+            "TX": {
+                "Allred": "O'ROURKE",
+                "Cruz": "CRUZ",
+                "Brown": "DIKEMAN"
+            },
+            "UT": {
+                "Curtis": "MITT ROMNEY",
+                "Gleich": "JENNY WILSON",
+                "Bowen": "REED C MCCANDLESS"
+            },
+            "VA": {
+                "Kaine": "TIMOTHY KAINE",
+                "Cao": "COREY STEWART"
+            },
+            "VT": {
+                "Sanders": "BERNIE SANDERS",
+                "Malloy": "LAWRENCE ZUPAN",
+                "Greenstein": "NA",
+                "Berry": "NA",
+                "Schoville": "NA",
+                "Hill": "NA"
+            },
+            "WA": {
+                "Cantwell": "MARIA CANTWELL",
+                "Garcia": "SUSAN HUTCHISON"
+            },
+            "WI": {
+                "Baldwin": "TAMMY BALDWIN",
+                "Hovde": "LEAH VUKMIR",
+                "Leager": "NA",
+                "Anderson": "NA"
+            },
+            "WV": {
+                "Elliott": "JOSEPH MANCHIN III",
+                "Justice": "PATRICK MORRISEY",
+                "Moran": "RUSTY HOLLEN"
+            },
+            "WY": {
+                "Barrasso": "JOHN BARRASSO",
+                "Morrow": "GARY TRAUNER"
+            }
+        },
+        "governor": {
+            "DE": {
+                "Meyer": "JOHN CARNEY"
+            }
+        }
+    }
+}
