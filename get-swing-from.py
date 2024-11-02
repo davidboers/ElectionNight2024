@@ -97,6 +97,8 @@ def get_votes(office, state, county_fips, candidate):
     except:
         print('other error')
 
+# Somehow idk make a residual entry in the .csv file for each county. 
+
 def get_vars_for_contest(meta: list, office):
     for c_meta in meta:
         if c_meta['contest']['isBallot']:
