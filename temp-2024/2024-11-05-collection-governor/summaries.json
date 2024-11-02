@@ -19,7 +19,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.13
+                "pct": 0.66
             },
             "status": {
                 "tabulation": "before",
@@ -28,7 +28,7 @@
             "calls": [
                 {
                     "type": "winner",
-                    "timestamp": "2024-11-06T01:08:19",
+                    "timestamp": "2024-11-05T22:15:19",
                     "contestId": "ap:10:8080",
                     "subjectId": "10289",
                     "callerId": "scrambler"
@@ -56,7 +56,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.01
+                "pct": 0.13
             },
             "status": {
                 "tabulation": "before",
@@ -65,7 +65,7 @@
             "calls": [
                 {
                     "type": "winner",
-                    "timestamp": "2024-11-06T03:53:04",
+                    "timestamp": "2024-11-06T01:08:19",
                     "contestId": "ap:18:15007",
                     "subjectId": "162889",
                     "callerId": "scrambler"
@@ -97,7 +97,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.13
+                "pct": 0.01
             },
             "status": {
                 "tabulation": "before",
@@ -106,7 +106,7 @@
             "calls": [
                 {
                     "type": "winner",
-                    "timestamp": "2024-11-05T20:47:14",
+                    "timestamp": "2024-11-06T03:53:04",
                     "contestId": "ap:29:26795",
                     "subjectId": "130548",
                     "callerId": "scrambler"
@@ -134,7 +134,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.04
+                "pct": 0.13
             },
             "status": {
                 "tabulation": "before",
@@ -143,7 +143,7 @@
             "calls": [
                 {
                     "type": "winner",
-                    "timestamp": "2024-11-05T18:59:19",
+                    "timestamp": "2024-11-05T20:47:14",
                     "contestId": "ap:30:27003",
                     "subjectId": "163469",
                     "callerId": "scrambler"
@@ -179,7 +179,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.89
+                "pct": 0.04
             },
             "status": {
                 "tabulation": "before",
@@ -188,7 +188,7 @@
             "calls": [
                 {
                     "type": "winner",
-                    "timestamp": "2024-11-05T22:44:57",
+                    "timestamp": "2024-11-05T18:59:19",
                     "contestId": "ap:37:35392",
                     "subjectId": "134769",
                     "callerId": "scrambler"
@@ -216,7 +216,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.43
+                "pct": 0.89
             },
             "status": {
                 "tabulation": "before",
@@ -225,7 +225,7 @@
             "calls": [
                 {
                     "type": "winner",
-                    "timestamp": "2024-11-05T20:23:34",
+                    "timestamp": "2024-11-05T22:44:57",
                     "contestId": "ap:38:35343",
                     "subjectId": "66922",
                     "callerId": "scrambler"
@@ -253,7 +253,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.32
+                "pct": 0.43
             },
             "status": {
                 "tabulation": "before",
@@ -262,7 +262,7 @@
             "calls": [
                 {
                     "type": "winner",
-                    "timestamp": "2024-11-05T18:31:33",
+                    "timestamp": "2024-11-05T20:23:34",
                     "contestId": "ap:33:30005",
                     "subjectId": "61040",
                     "callerId": "scrambler"
@@ -298,7 +298,7 @@
             ],
             "progress": {
                 "mode": "eevp",
-                "pct": 0.44
+                "pct": 0.32
             },
             "status": {
                 "tabulation": "before",
@@ -307,7 +307,7 @@
             "calls": [
                 {
                     "type": "winner",
-                    "timestamp": "2024-11-05T22:11:28",
+                    "timestamp": "2024-11-05T18:31:33",
                     "contestId": "ap:49:45672",
                     "subjectId": "68830",
                     "callerId": "scrambler"
@@ -321,24 +321,57 @@
             "timestamp": "2024-09-25T14:34:31.777000Z",
             "results": [
                 {
-                    "votes": 14125873,
+                    "votes": 14057734,
                     "id": "164617"
                 },
                 {
-                    "votes": 14107461,
+                    "votes": 14051106,
                     "id": "45443"
                 },
                 {
-                    "votes": 141276,
+                    "votes": 141149,
                     "id": "69498"
                 },
                 {
-                    "votes": 138669,
+                    "votes": 138129,
                     "id": "167786"
                 },
                 {
-                    "votes": 137827,
+                    "votes": 137545,
                     "id": "167782"
+                }
+            ],
+            "progress": {
+                "mode": "eevp",
+                "pct": 0.44
+            },
+            "status": {
+                "tabulation": "before",
+                "recount": "none"
+            },
+            "calls": [
+                {
+                    "type": "winner",
+                    "timestamp": "2024-11-05T22:11:28",
+                    "contestId": "ap:50:46375",
+                    "subjectId": "164617",
+                    "callerId": "scrambler"
+                }
+            ]
+        },
+        {
+            "eventId": "2024-11-05",
+            "resultsType": "live",
+            "id": "ap:53:48022",
+            "timestamp": "2024-09-25T14:34:18.942000Z",
+            "results": [
+                {
+                    "votes": 2294369,
+                    "id": "149729"
+                },
+                {
+                    "votes": 2013900,
+                    "id": "50215"
                 }
             ],
             "progress": {
@@ -353,8 +386,8 @@
                 {
                     "type": "winner",
                     "timestamp": "2024-11-06T01:37:49",
-                    "contestId": "ap:50:46375",
-                    "subjectId": "164617",
+                    "contestId": "ap:53:48022",
+                    "subjectId": "149729",
                     "callerId": "scrambler"
                 }
             ]
@@ -362,16 +395,28 @@
         {
             "eventId": "2024-11-05",
             "resultsType": "live",
-            "id": "ap:53:48022",
-            "timestamp": "2024-09-25T14:34:18.942000Z",
+            "id": "ap:54:49136",
+            "timestamp": "2024-09-28T02:50:17.990000Z",
             "results": [
                 {
-                    "votes": 2250312,
-                    "id": "149729"
+                    "votes": 27848,
+                    "id": "155104"
                 },
                 {
-                    "votes": 2109020,
-                    "id": "50215"
+                    "votes": 2929628,
+                    "id": "162001"
+                },
+                {
+                    "votes": 29327,
+                    "id": "166876"
+                },
+                {
+                    "votes": 3221136,
+                    "id": "66287"
+                },
+                {
+                    "votes": 31609,
+                    "id": "69619"
                 }
             ],
             "progress": {
@@ -386,51 +431,6 @@
                 {
                     "type": "winner",
                     "timestamp": "2024-11-05T18:28:06",
-                    "contestId": "ap:53:48022",
-                    "subjectId": "149729",
-                    "callerId": "scrambler"
-                }
-            ]
-        },
-        {
-            "eventId": "2024-11-05",
-            "resultsType": "live",
-            "id": "ap:54:49136",
-            "timestamp": "2024-09-28T02:50:17.990000Z",
-            "results": [
-                {
-                    "votes": 27869,
-                    "id": "155104"
-                },
-                {
-                    "votes": 2928040,
-                    "id": "162001"
-                },
-                {
-                    "votes": 29706,
-                    "id": "166876"
-                },
-                {
-                    "votes": 3256198,
-                    "id": "66287"
-                },
-                {
-                    "votes": 31266,
-                    "id": "69619"
-                }
-            ],
-            "progress": {
-                "mode": "eevp",
-                "pct": 0.21
-            },
-            "status": {
-                "tabulation": "before",
-                "recount": "none"
-            },
-            "calls": [
-                {
-                    "type": "winner",
-                    "timestamp": "2024-11-05T20:34:41",
                     "contestId": "ap:54:49136",
                     "subjectId": "66287",
                     "callerId": "scrambler"

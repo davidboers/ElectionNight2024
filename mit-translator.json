@@ -1,7 +1,8 @@
 {
     "office": {
         "president": "US PRESIDENT",
-        "senate": "US SENATE"
+        "senate": "US SENATE",
+        "governor": "GOVERNOR"
     },
     "candidates": {
         "president": {
@@ -199,7 +200,66 @@
         },
         "governor": {
             "DE": {
-                "Meyer": "JOHN CARNEY"
+                "Meyer": "JOHN C CARNEY JR",
+                "Ramone": "JULIANNE E MURRAY"
+            },
+            "IN": {
+                "McCormick": "WOODY MYERS",
+                "Braun": "ERIC HOLCOMB",
+                "Rainwater": "DONALD G RAINWATER II"
+            },
+            "MO": {
+                "Quade": "NICOLE GALLOWAY",
+                "Kehoe": "MIKE PARSON",
+                "Slantz": "RIK COMBS",
+                "Lehmann": "NA"
+            },
+            "MT": {
+                "Busse": "MIKE COONEY AND CASEY SCHREINER",
+                "Gianforte": "GREG GIANYES",
+                "Leib": "LYMAN BISHOP AND JOHN NESPER"
+            },
+            "NC": {
+                "Stein": "ROY COOPER",
+                "Robinson": "DAN FOREST",
+                "Ross": "STEVEN J DIFIORE",
+                "Turner": "NA",
+                "Smith": "NA"
+            },
+            "ND": {
+                "Armstrong": "DOUG BURGUM AND BRENT SANFORD",
+                "Piepkorn": "SHELLEY LENZ AND BEN VIG",
+                "Coachman": "NA"
+            },
+            "NH": {
+                "Ayotte": "CHRIS SUNUNU",
+                "Craig": "DAN FELTES",
+                "Villee": "DARRYL W PERRY"
+            },
+            "UT": {
+                "Cox": "SPENCER J COX",
+                "Smith King": "CHRIS PETERSON",
+                "Latham": "DANIEL RHEAD COTTAM",
+                "Tomeny": "NA",
+                "Williams": "GREG DUERDEN"
+            },
+            "VT": {
+                "Scott": "PHIL SCOTT",
+                "Charlestin": "DAVID ZUCKERMAN",
+                "Hoyt": "KEVIN HOYT",
+                "Mutino": "NA",
+                "Goodband": "NA"
+            },
+            "WA": {
+                "Ferguson": "JAY INSLEE",
+                "Reichert": "LOREN CULP"
+            },
+            "WV": {
+                "Morrisey": "JIM JUSTICE",
+                "Williams": "BEN SALANGO",
+                "Kolenich": "ERIKA KOLENICH",
+                "Linko-Looper": "DANIEL LUTZ",
+                "Wilson": "NA"
             }
         }
     }
