@@ -441,7 +441,9 @@ view model =
                                 [ style "display" "flex" ]
                                 [ div [] [ pres model x ] 
                                 , div 
-                                    [ style "width" "500px" ]
+                                    [ style "width" "500px" 
+                                    , style "padding-left" "10px" 
+                                    ]
                                     [ displayMapToggleButtons 
                                         (mapAUnit fips)
                                         CountyMapShowing 
@@ -456,6 +458,7 @@ view model =
                                     then div
                                         [ style "display" "flex" 
                                         , style "width" "700px"
+                                        , style "padding-left" "10px" 
                                         ]
                                         [ div []
                                             [ displayMapToggleButtons 
@@ -464,8 +467,8 @@ view model =
                                                 model.state_map_showing
                                             , svg
                                                 [ viewBox <| ViewBox.toString <| bViewBox
-                                                , style "width" "500px"
-                                                , style "height" "400px"
+                                                , style "width" "400px"
+                                                , style "height" "320px"
                                                 ] 
                                                 [ g [] (map (statePath model) summary) 
                                                 ]
