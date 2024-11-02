@@ -1,4 +1,4 @@
-module Contest exposing (Candidate, Contest, fetchMeta, fetchResult, Meta, mergeMetas, Summary, smallContestResults, fipsToName, County, officeIs, isReferendum, ContestMeta, countyToContest, contestWinner, displayCalls, getCalls)
+module Contest exposing (Candidate, Contest, fetchMeta, fetchResult, Meta, mergeMetas, Summary, smallContestResults, fipsToName, County, officeIs, isReferendum, ContestMeta, countyToContest, contestWinner, displayCalls, getCalls, fetchPreviousResults)
 
 import Dict exposing (Dict)
 import Office exposing (Office(..), officeDecoder)
@@ -126,6 +126,7 @@ type alias County =
     { county_fips : String
     , progress : Float
     , results : Dict String Int -- keys: Candidate IDs and values: votes
+    , swing_from : Dict String Int
     , geo : Maybe String
     , name : Maybe String
     }
@@ -515,6 +516,16 @@ displayCall (c, call) =
 
         Nothing ->
             text "No meta"
+
+
+-- Previous results
+
+fetchPreviousResults : (Result Http.Error String -> msg) -> Cmd msg
+fetchPreviousResults msg =
+    Http.get
+        { url = "./swing_from.csv"
+        , expect = Http.expectString msg
+        }
 
 
 -- Timestamp display

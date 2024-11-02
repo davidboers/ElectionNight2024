@@ -43,6 +43,11 @@ import ShadePalettes exposing (responseColor)
 import List exposing (concatMap)
 import ShadePalettes exposing (dem_color_dark)
 import ShadePalettes exposing (gop_color_dark)
+import String exposing (lines)
+import String exposing (split)
+import List exposing (take)
+import String exposing (concat)
+import List exposing (intersperse)
 
 -- Model
 type alias Model =
@@ -107,6 +112,7 @@ fromGeorgiaCounties c county =
     { county_fips = "" -- Yeesh. Maybe just remove?
     , progress = progress
     , results = results
+    , swing_from = Dict.empty
     , geo = Nothing
     , name = Just (county.name ++ " County")
     }
@@ -173,6 +179,7 @@ type Msg
     | MapFetched (Result Http.Error Map)
     | ZoomFetched (Result Http.Error (Dict String ViewBox))
     | CountyFetched String (Result Http.Error (List County))
+    | PreviousFetched (Result Http.Error String)
     | GeorgiaCountyFetched (Result Http.Error (Dict String (List County)))
     | CountyMapFetched String (Result Http.Error GeoJson)
     | BallotQuestionMetaFetched (Result Http.Error (Dict String BallotQuestionMeta))
@@ -228,7 +235,7 @@ update msg model =
                 then Cmd.none
                 else if isGeorgia model.office_selected 
                     then fetchGeorgiaCounties new_model.data
-                    else batch <| map (fetchCounties model) new_model.data
+                    else batch <| (fetchPreviousResults PreviousFetched) :: map (fetchCounties model) new_model.data
             )
 
         ZoomFetched (Ok zoom_coords) ->
@@ -254,6 +261,40 @@ update msg model =
                         |> Maybe.withDefault "00"
             in
             ({ model | data = updateContest model.data }, fetchCountyMap fips)
+
+        PreviousFetched (Ok txt) ->
+            let
+                csv =
+                    txt |> lines
+                        |> map (split ",")
+                        |> filter ((==) (Office.toString model.office_selected) << Maybe.withDefault "" << head)
+
+                select_line : String -> String -> List String -> Maybe (String, Int)
+                select_line c_id county_fips line = 
+                    case line of
+                        [_, c_id_1, _, county_fips_1, _, _, cnd_id, _, votes] ->
+                            if c_id == c_id_1 &&
+                                county_fips == county_fips_1
+                                then Maybe.map (\votes_f -> (cnd_id, votes_f)) (String.toInt votes)
+                                else Nothing
+
+                        _ ->
+                            Nothing
+
+                insertCountyResults : String -> County -> County
+                insertCountyResults c_id county =
+                    case filterMap (select_line c_id county.county_fips) csv of
+                        [] ->
+                            county
+
+                        selected_lines ->
+                            { county | swing_from = Dict.fromList selected_lines }
+
+                insertContestResults : Contest -> Contest
+                insertContestResults c =
+                    { c | counties = Maybe.map (map (insertCountyResults c.id)) c.counties }
+            in
+            ({ model | data = map insertContestResults model.data }, Cmd.none)
 
         GeorgiaCountyFetched (Ok counties_set) -> 
             ({ model | data = map (\c -> { c | counties = Dict.get c.id counties_set }) model.data }
@@ -307,6 +348,9 @@ update msg model =
         GeorgiaCountyFetched (Err e)      -> ({ model | err = Just e }, Cmd.none)
         CountyMapFetched _ (Err e)        -> ({ model | err = Just e }, Cmd.none)
         BallotQuestionMetaFetched (Err e) -> ({ model | err = Just e }, Cmd.none)
+
+        PreviousFetched (Err e) ->
+            ({ model | err = Just e }, Cmd.none)
 
         CountyMapShowing new_showing ->
             ( { model | county_map_showing = new_showing }
@@ -869,17 +913,13 @@ countyDecoder =
                 |> list
                 |> Json.Decode.map Dict.fromList
     in
-    Json.Decode.map5 County
+    Json.Decode.map6 County
         (field "id" string)
         (at ["progress", "pct"] float)
         (field "results" candidatePair)
+        (succeed (Dict.empty))
         (succeed Nothing)
         (succeed Nothing)
-        {-(field "countyFips" string)
-        (succeed 100.0)
-        (field "candidates" candidatePair)
-        (succeed Nothing)
-        (succeed Nothing)-}
 
 {- For one contest -}
 fromGeorgiaCountiesDecoder : Contest -> Decoder (List County)
