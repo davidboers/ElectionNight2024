@@ -62,6 +62,7 @@ type alias Model =
 
 type MapShowing
     = WinnerShare
+    | Swing
     | Progress
 
 type alias Map =
@@ -628,6 +629,13 @@ partyColorPalette results =
         (winner :: _) ->
             colorPalette winner results (getPartyShade (Maybe.withDefault "oth" winner.party))
 
+tpSwingColorPalette : Float -> String
+tpSwingColorPalette tp_swing =
+    case compare tp_swing 0 of
+        GT -> getPartyShade "dem" tp_swing
+        LT -> getPartyShade "gop" (abs tp_swing)
+        EQ -> "gold"
+
 selectedStyle : List (Attribute msg)
 selectedStyle =
     [ style "outline" "1px solid black"
@@ -663,6 +671,7 @@ displayMapToggleButtons unit_name toggleMsg current =
                 (radius_attribute_top, radius_attribute_bottom) =
                     case option of
                         WinnerShare -> ("border-top-left-radius", "border-bottom-left-radius")
+                        Swing       -> ("", "")
                         Progress    -> ("border-top-right-radius", "border-bottom-right-radius")
             in
             (toggleButtonStyle toggleMsg option) ++
@@ -684,7 +693,10 @@ displayMapToggleButtons unit_name toggleMsg current =
             ]
             [ div 
                 (button_style WinnerShare)
-                [ text "Leader's Share" ]
+                [ text "Leader's %" ]
+            , div 
+                (button_style Swing)
+                [ text "Swing" ]
             , div 
                 (button_style Progress)
                 [ text "% Reporting" ]
@@ -694,12 +706,37 @@ displayMapToggleButtons unit_name toggleMsg current =
 statePath : Model -> Contest -> Html Msg
 statePath model c =
     let
+        summateDicts : List (Dict comparable number) -> Dict comparable number
+        summateDicts dicts =
+            concatMap Dict.keys dicts
+                |> map (\k -> 
+                        (k, sum <| filterMap (\dict -> Dict.get k dict) dicts)
+                    )
+                |> Dict.fromList
+
+        summate_previous =
+            case c.counties of
+                Just counties ->
+                    map .swing_from counties
+                        |> summateDicts
+                        |> Dict.toList 
+                        |> filterMap (pairToCandidate c.results)
+                
+                Nothing ->
+                    []
+
         color =
             case model.state_map_showing of
                 WinnerShare ->
                     if isReferendum c
                         then questionColorPalette c.results
                         else partyColorPalette c.results
+
+                Swing ->
+                    if isReferendum c
+                        then "lightgray"
+                        else tpSwing summate_previous c.results
+                                |> tpSwingColorPalette
 
                 Progress ->
                     getMetaShade c.progress
@@ -767,19 +804,10 @@ countyPath map_showing c county =
         Just geo -> 
             let
                 results = Dict.toList county.results
-                            |> filterMap pairToCandidate
+                            |> filterMap (pairToCandidate c.results)
 
-                pairToCandidate : (String, Int) -> Maybe Candidate
-                pairToCandidate (cnd_id, votes) =
-                    find (\cnd -> cnd.cnd_id == cnd_id) c.results
-                        |> Maybe.map (\cnd ->
-                            { votes = votes
-                            , cnd_id = cnd_id
-                            , name = cnd.name
-                            , party = cnd.party
-                            , winner = cnd.winner
-                            , isIncumbent = cnd.isIncumbent
-                            })
+                swing_from = Dict.toList county.swing_from
+                                |> filterMap (pairToCandidate c.results)
 
                 color =
                     case map_showing of
@@ -787,6 +815,12 @@ countyPath map_showing c county =
                             if isReferendum c
                                 then questionColorPalette results
                                 else partyColorPalette results
+
+                        Swing ->
+                            if isReferendum c
+                                then "lightgray"
+                                else tpSwing swing_from results
+                                        |> tpSwingColorPalette
 
                         Progress ->
                             getMetaShade county.progress

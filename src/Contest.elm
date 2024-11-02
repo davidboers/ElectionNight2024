@@ -1,4 +1,4 @@
-module Contest exposing (Candidate, Contest, fetchMeta, fetchResult, Meta, mergeMetas, Summary, smallContestResults, fipsToName, County, officeIs, isReferendum, ContestMeta, countyToContest, contestWinner, displayCalls, getCalls, fetchPreviousResults)
+module Contest exposing (Candidate, Contest, fetchMeta, fetchResult, Meta, mergeMetas, Summary, smallContestResults, fipsToName, County, officeIs, isReferendum, ContestMeta, countyToContest, contestWinner, displayCalls, getCalls, fetchPreviousResults, tpSwing, pairToCandidate)
 
 import Dict exposing (Dict)
 import Office exposing (Office(..), officeDecoder)
@@ -35,6 +35,7 @@ import Time exposing (toHour)
 import Time exposing (Zone)
 import Time exposing (utc)
 import Time exposing (toMinute)
+import List exposing (filter)
 
 type alias Summary =
     List Contest
@@ -147,6 +148,18 @@ countyToContest c county =
         , results =
             filterMap makeCandidate (Dict.toList county.results)
     }
+
+pairToCandidate : List Candidate -> (String, Int) -> Maybe Candidate
+pairToCandidate results (cnd_id, votes) =
+    find (\cnd -> cnd.cnd_id == cnd_id) results
+        |> Maybe.map (\cnd ->
+            { votes = votes
+            , cnd_id = cnd_id
+            , name = cnd.name
+            , party = cnd.party
+            , winner = cnd.winner
+            , isIncumbent = cnd.isIncumbent
+            })
 
 
 -- Fetch and Decode
@@ -526,6 +539,26 @@ fetchPreviousResults msg =
         { url = "./swing_from.csv"
         , expect = Http.expectString msg
         }
+
+{- Party swing in favor of a particular party. 
+-}
+contestSwing : List Candidate -> List Candidate -> String -> Float
+contestSwing before now pty =
+    let
+        total_now = sum <| map .votes now
+        total_before = sum <| map .votes before
+        votes_now = sum <| map .votes <| filter (\cnd -> cnd.party == Just pty) now
+        votes_before =  sum <| map .votes <| filter (\cnd -> cnd.party == Just pty) before
+        share_now = (toFloat votes_now) / (toFloat total_now)
+        share_before = (toFloat votes_before) / (toFloat total_before)
+    in
+    share_now - share_before
+
+{- Two party swing between the Democrats and Republicans, with a positive figure indicating a swing to the Democrats.
+-}
+tpSwing : List Candidate -> List Candidate -> Float
+tpSwing before now =
+    (contestSwing before now "dem") - (contestSwing before now "gop")
 
 
 -- Timestamp display
