@@ -45,6 +45,7 @@ import ShadePalettes exposing (dem_color_dark)
 import ShadePalettes exposing (gop_color_dark)
 import String exposing (lines)
 import String exposing (split)
+import List exposing (singleton)
 
 -- Model
 type alias Model =
@@ -421,7 +422,7 @@ view model =
 
             Nothing ->
                 case filter (not << skipState model) model.data of
-                    (x::_ as summary) ->
+                    (x::xs as summary) ->
                         let
                             fips = Maybe.withDefault "00" <| Maybe.map .fips <| x.meta
 
@@ -481,9 +482,17 @@ view model =
                                         
                                     
                                     else g [] [] 
-                                , div [ style "overflow-y" "scroll" ]
+                                , div 
+                                    [ style "overflow-y" "scroll" 
+                                    , style "height" "500px"
+                                    ]
                                     (displayCalls (getCalls summary))
                                 ]
+                            , div
+                                [ style "display" "flex" 
+                                , style "padding" "20px"
+                                ]
+                                (nextInLinup xs)
                             ]           
 
                     _ ->
@@ -887,17 +896,9 @@ fetchZoom model =
 fetchCounties : Model -> Contest -> Cmd Msg
 fetchCounties model c =
     Http.get
-        --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/contests/" ++ c.id ++ "/counties.json"
         { url = "./temp-2024/" ++ Office.toString model.office_selected ++ "/" ++ (replace ":" "_" c.id) ++ "/counties.json"
         , expect = Http.expectJson (CountyFetched c.id) (field "counties" (list countyDecoder))
         }
-        {-let
-            fips = Maybe.withDefault "00" <| Maybe.map .fips <| c.meta
-        in
-        Http.get
-            { url = "https://www.politico.com/2020-statewide-results/" ++ fips ++ "/potus-counties.json"
-            , expect = Http.expectJson (CountyFetched c.id) (field "races" (list countyDecoder))
-            }-}
 
 fetchGeorgiaCounties : Summary -> Cmd Msg
 fetchGeorgiaCounties summary =
@@ -1674,3 +1675,19 @@ pres model c =
     in
     table [ style "border-collapse" "collapse" ]
         ([raceHeader, header] ++ (map row sorted) ++ footers)
+
+{- The summary argument excludes the contest currently being shown in the big table -}
+nextInLinup : Summary -> List (Html Msg)
+nextInLinup summary =
+    let
+        makeResults c =
+            smallContestResults getSmallName c
+                |> singleton
+                |> div [ style "padding-left" "10px" ]
+    in
+    case summary of
+        (x1 :: x2 :: x3 :: x4 :: x5 :: _) ->
+            map makeResults [x1, x2, x3, x4, x5]
+
+        _ ->
+            []

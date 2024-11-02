@@ -36,7 +36,7 @@ import Georgia exposing (GeorgiaSummary)
 import Contest exposing (officeIs)
 import Georgia exposing (fromGeorgia)
 import List exposing (singleton)
-import Contest exposing (fipsToName)
+import Contest exposing (getSmallName)
 
 
 -- Model
@@ -127,7 +127,7 @@ main =
 
 init : () -> (Model, Cmd Msg)
 init _ =
-    ( Model Democratic "11" Battlegrounds [] [] [] [] [] [] [] Nothing Nothing Nothing
+    ( Model Democratic "30" Battlegrounds [] [] [] [] [] [] [] Nothing Nothing Nothing
     , batch 
         [ Contest.fetchResult (ResultFetched President) President 
         , Contest.fetchResult (ResultFetched Senate) Senate
@@ -668,25 +668,8 @@ battlegroundSet (office, contests) =
             , style "height" "150px"
         
             ]
-            (map (div blockStyle << singleton << smallContestResults getState) contests)
+            (map (div blockStyle << singleton << smallContestResults getSmallName) contests)
         ]
-            
-getState : Contest -> String
-getState c =
-    case c.meta of
-        Just meta ->
-            let
-                defaultDistrict = Maybe.withDefault "0"
-            in
-            if member meta.office [StateSenate, StateHouse]
-                then "District " ++ (defaultDistrict meta.district)
-                else if meta.office == House
-                    then fipsToName meta.fips ++ " - " ++ (defaultDistrict meta.district)
-                    else fipsToName meta.fips
-
-        Nothing ->
-            c.id
-
 
 
 -- Both

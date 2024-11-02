@@ -1,4 +1,4 @@
-module Contest exposing (Candidate, Contest, fetchMeta, fetchResult, Meta, mergeMetas, Summary, smallContestResults, fipsToName, County, officeIs, isReferendum, ContestMeta, countyToContest, contestWinner, displayCalls, getCalls, fetchPreviousResults, tpSwing, pairToCandidate)
+module Contest exposing (Candidate, Contest, fetchMeta, fetchResult, Meta, mergeMetas, Summary, smallContestResults, fipsToName, County, officeIs, isReferendum, ContestMeta, countyToContest, contestWinner, displayCalls, getCalls, fetchPreviousResults, tpSwing, pairToCandidate, getSmallName)
 
 import Dict exposing (Dict)
 import Office exposing (Office(..), officeDecoder)
@@ -102,6 +102,22 @@ officeIs office c =
     c.meta
         |> Maybe.map (\v -> v.office == office)
         |> Maybe.withDefault False
+
+getSmallName : Contest -> String
+getSmallName c =
+    case c.meta of
+        Just meta ->
+            let
+                defaultDistrict = Maybe.withDefault "0"
+            in
+            if member meta.office [StateSenate, StateHouse]
+                then "District " ++ (defaultDistrict meta.district)
+                else if meta.office == House
+                    then fipsToName meta.fips ++ " - " ++ (defaultDistrict meta.district)
+                    else fipsToName meta.fips
+
+        Nothing ->
+            c.id
 
 
 -- Candidate
@@ -454,7 +470,7 @@ smallCandidate total_votes cnd =
         smallRowStyle
         [ text cnd.short_name ]
     , td
-        smallRowStyle
+        ((style "text-align" "right") :: smallRowStyle)
         [ text <| displayNumber cnd.votes ]
     , td
         smallRowStyle
