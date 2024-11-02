@@ -45,9 +45,6 @@ import ShadePalettes exposing (dem_color_dark)
 import ShadePalettes exposing (gop_color_dark)
 import String exposing (lines)
 import String exposing (split)
-import List exposing (take)
-import String exposing (concat)
-import List exposing (intersperse)
 
 -- Model
 type alias Model =
