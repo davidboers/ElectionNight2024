@@ -80,8 +80,9 @@ mergeMeta meta c =
     { c | meta = Dict.get c.id meta.races
         , results = map (\cnd ->
             case Dict.get cnd.cnd_id meta.candidates of
-                Just {name, party, isIncumbent} ->
+                Just {name, short_name, party, isIncumbent} ->
                     { cnd | name = name
+                          , short_name = short_name
                           , party = Just <| smallPartyCandidates party cnd.cnd_id 
                           , isIncumbent = isIncumbent
                           }
@@ -109,6 +110,7 @@ type alias Candidate =
     { votes : Int
     , cnd_id : String
     , name : String -- Default: cnd_id
+    , short_name : String
     , party : Maybe String
     , winner : Bool -- isWinner
     , isIncumbent : Bool
@@ -116,6 +118,7 @@ type alias Candidate =
 
 type alias CandidateMeta =
     { name : String
+    , short_name : String
     , party : String
     , isIncumbent : Bool 
     }
@@ -156,6 +159,7 @@ pairToCandidate results (cnd_id, votes) =
             { votes = votes
             , cnd_id = cnd_id
             , name = cnd.name
+            , short_name = cnd.short_name
             , party = cnd.party
             , winner = cnd.winner
             , isIncumbent = cnd.isIncumbent
@@ -207,8 +211,9 @@ contest =
 
 candidate : Decoder Candidate
 candidate =
-    Json.Decode.map6 Candidate
+    Json.Decode.map7 Candidate
         (field "votes" int)
+        (field "id" string)
         (field "id" string)
         (field "id" string)
         (maybe (field "party" string))
@@ -235,8 +240,9 @@ metaDecoder =
     let
         decodeCandidateMeta : Decoder (Dict String CandidateMeta)
         decodeCandidateMeta = 
-            Json.Decode.map3 CandidateMeta
+            Json.Decode.map4 CandidateMeta
                 (field "fullName" string)
+                (field "shortName" string)
                 (field "party" string)
                 (oneOf [field "isIncumbent" bool, succeed False])
                 |> dict
@@ -406,10 +412,12 @@ smallRows total_votes sorted_results =
 
         first :: second :: others ->
             let
+                third : Candidate
                 third =
                     { votes = sum <| map .votes others
                     , cnd_id = "others"
                     , name = "Others"
+                    , short_name = "Others"
                     , party = Just "oth"
                     , winner = False
                     , isIncumbent = False
@@ -444,7 +452,7 @@ smallCandidate total_votes cnd =
         []
     , td
         smallRowStyle
-        [ text cnd.name ]
+        [ text cnd.short_name ]
     , td
         smallRowStyle
         [ text <| displayNumber cnd.votes ]

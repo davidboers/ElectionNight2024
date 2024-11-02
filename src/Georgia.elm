@@ -99,6 +99,7 @@ fromGeorgia gc =
             { votes = votes
             , cnd_id = stripTags cnd_name
             , name = stripTags cnd_name
+            , short_name = stripTags cnd_name
             , party = getParty cnd_name
             , winner = False
             , isIncumbent = contains "(I)" cnd_name
