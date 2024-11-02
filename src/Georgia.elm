@@ -2,7 +2,6 @@ module Georgia exposing (..)
 
 import Json.Decode exposing (at, Decoder, list, field, string, int)
 import Http
-import Office exposing (Office)
 import Contest exposing (Contest, Candidate)
 import String exposing (contains)
 import String exposing (dropRight)

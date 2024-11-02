@@ -10,7 +10,7 @@ module Analysis exposing (..)
 
 import Array exposing (Array)
 import Browser
-import Contest exposing (Candidate, Contest, fetchMeta, fetchResult, Meta, mergeMetas, Summary)
+import Contest exposing (Candidate, Contest, fetchMeta, Meta, mergeMetas, Summary)
 import Dict exposing (Dict)
 import DisplayNumber exposing (displayNumber)
 import Html exposing (Attribute, br, h2, Html, div, text)

@@ -44,15 +44,12 @@ passageExplanationThreshold bq_meta =
 
 passageExplanationTotVoterThreshold : BallotQuestionMeta -> Maybe String
 passageExplanationTotVoterThreshold bq_meta =
-    case bq_meta.total_voter_threshold of
-        Just total_voter_threshold -> 
-            let
-                pct = displayPct total_voter_threshold
-            in
-            Just <| "must be approved by at least " ++ pct ++ "% of total ballots cast (including blank votes)"
-
-        Nothing -> 
-            Nothing
+    bq_meta.total_voter_threshold |> Maybe.map (\total_voter_threshold ->
+        let
+            pct = displayPct total_voter_threshold
+        in
+        "must be approved by at least " ++ pct ++ "% of total ballots cast (including blank votes)"
+    )
 
 passageExplanationCompeting : BallotQuestionMeta -> Maybe String
 passageExplanationCompeting bq_meta =
