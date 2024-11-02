@@ -46,6 +46,7 @@ import ShadePalettes exposing (gop_color_dark)
 import String exposing (lines)
 import String exposing (split)
 import List exposing (singleton)
+import Browser.Events exposing (onMouseMove)
 
 -- Model
 type alias Model =
@@ -57,7 +58,7 @@ type alias Model =
     , zoom_coords : Maybe (Dict String ViewBox)
     , county_map_showing : MapShowing
     , state_map_showing : MapShowing
-    , county_selected : Maybe County
+    , county_selected : Maybe (County, (Int, Int))
     , err : Maybe Http.Error
     }
 
@@ -165,8 +166,21 @@ init =
     }
 
 subscriptions : Model -> Sub Msg
-subscriptions _ =
-    every (5 * 1000) (always Cycle)
+subscriptions model =
+    let
+        decodeMouseLoc : Decoder (Maybe (County, (Int, Int)))
+        decodeMouseLoc =
+            case model.county_selected of
+                Just (county, _) ->
+                    Json.Decode.map2 (\x y -> Just (county, (x + 10, y - 150))) (field "clientX" int) (field "clientY" int)
+
+                Nothing ->
+                    succeed Nothing  
+    in
+    Sub.batch
+        [ every (5 * 1000) (always Cycle)
+        , onMouseMove (Json.Decode.map SelectCounty decodeMouseLoc)
+        ]
 
 -- Update
 type Msg
@@ -186,7 +200,7 @@ type Msg
     | SelectState (Maybe String)
     | CountyMapShowing MapShowing
     | StateMapShowing MapShowing
-    | SelectCounty (Maybe County)
+    | SelectCounty (Maybe (County, (Int, Int)))
     | Cycle
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -528,14 +542,21 @@ mapBUnit model =
         then "districts"
         else "states"
 
-countyTable : Contest -> Maybe County -> Html Msg
+countyTable : Contest -> Maybe (County, (Int, Int))  -> Html Msg
 countyTable contest m_county =
     case m_county of
-        Just county ->
+        Just (county, (x, y)) ->
             let
                 new_contest = countyToContest contest county
             in
-            div [ style "position" "absolute" ]
+            div [ style "position" "absolute" 
+                , style "left" (String.fromInt x ++ "px")
+                , style "top" (String.fromInt y ++ "px")
+                , style "background-color" "white"
+                , style "padding" "5px"
+                , style "box-shadow" "0 2px 5px rgba(0,0,0,.1)"
+                , style "border-radius" "5px"
+                ]
                 [ smallContestResults .id new_contest ]
 
         Nothing ->
@@ -840,7 +861,7 @@ countyPath map_showing c county =
                 , stroke "white"
                 , strokeWidth "0.5px"
                 , Svg.Attributes.id county.county_fips
-                , onMouseEnter (SelectCounty (Just county))
+                , onMouseEnter (SelectCounty (Just (county, (0, 0))))
                 , onMouseLeave (SelectCounty Nothing)
                 ] 
                 []
