@@ -36,6 +36,7 @@ import Time exposing (utc)
 import Time exposing (toMinute)
 import List exposing (filter)
 import String exposing (padLeft)
+import String exposing (replace)
 
 type alias Summary =
     List Contest
@@ -521,28 +522,40 @@ displayCall (c, call) =
 
             else
                 let
-                    office = meta.office
-                    office_str =
-                        Office.toString office
-                            |> String.toUpper
-                    state = fipsToName meta.fips
                     winner = contestWinner c
                     winning_party = Maybe.andThen .party winner
                         |> Maybe.withDefault meta.holdingParty
                     gain = winning_party /= meta.holdingParty
+                    shortened_name = 
+                        getSmallName c
+                            |> replace "South" "S."
+                            |> replace "North" "N."
+                            |> replace "West" "W."
+                            |> replace "Island" "Isl."
+                            |> replace "New" "N."
+                            |> replace "Massachusetts" "Mass."
+                            |> replace "District of Columbia" "D.C."
+                            |> replace "Connecticut" "Connect."
                 in
-                div []
+                div [ style "display" "flex" 
+                    , style "width" "100%"
+                    , style "padding" "2px"
+                    ]
                     [ div 
-                        [ style "color" "gray" ]
+                        [ style "color" "gray" 
+                        , style "padding" "5px"
+                        ]
                         [ text <| displayTimestamp call.timestamp ] 
                     , div
                         [ style "background-color" (partyColor winning_party)
+                        , style "padding" "5px"
+                        , style "border-radius" "2px"
+                        , style "color" "white"
+                        , style "width" "inherit"
                         ]
-                        [ text office_str
-                        , text " - "
-                        , text state -- Should change this to racename
+                        [ text shortened_name
                         , text ": "
-                        , br [] []
+                        --, br [] []
                         , text (String.toUpper winning_party)
                         , if gain
                             then text <| " gain from " ++ meta.holdingParty

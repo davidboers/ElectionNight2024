@@ -463,10 +463,11 @@ view model =
                                 , aggr model summary
                                 ]
                             , br [] []
-                            , br [] []
                             , div
                                 [ style "display" "flex" ]
-                                [ div [] [ pres model x ] 
+                                [ div 
+                                    [ style "height" "530px" ] 
+                                    [ pres model x ] 
                                 , div 
                                     [ style "width" "500px" 
                                     , style "padding-left" "10px" 
@@ -481,42 +482,50 @@ view model =
                                         [ countyMap model.county_map_showing x ]
                                     , countyTable x model.county_selected
                                     ]
-                                , if not (Office.isReferendum model.office_selected)
-                                    then div
-                                        [ style "display" "flex" 
-                                        , style "width" "700px"
-                                        , style "padding-left" "10px" 
-                                        ]
-                                        [ div []
-                                            [ displayMapToggleButtons 
-                                                (mapBUnit model)
-                                                StateMapShowing 
-                                                model.state_map_showing
-                                            , svg
-                                                [ viewBox <| ViewBox.toString <| bViewBox
-                                                , style "width" "400px"
-                                                , style "height" "320px"
-                                                ] 
-                                                (map (statePath model) summary)
-                                            ]
-                                        , if member model.office_selected [House, StateSenate, StateHouse]
-                                            then groupList model
-                                            else span [] []
-                                        ]
-                                        
-                                    
-                                    else g [] [] 
+                                , div 
+                                    [ style "width" "600px"
+                                    , style "height" "320px"
+                                    ]
+                                    []
                                 , div 
                                     [ style "overflow-y" "scroll" 
-                                    , style "height" "500px"
+                                    , style "height" "300px"
                                     ]
                                     (displayCalls (getCalls summary))
                                 ]
                             , div
                                 [ style "display" "flex" 
                                 , style "padding" "20px"
+                                , style "width" "100%"
                                 ]
-                                (nextInLinup xs)
+                                [ div [ style "display" "flex" ] (nextInLinup xs)
+                                ]
+                            , if not (Office.isReferendum model.office_selected)
+                                then div
+                                    [ style "display" "inline-block" 
+                                    , style "padding-left" "3px" 
+                                    , style "bottom" "4px"
+                                    , style "right" "1px"
+                                    , style "position" "absolute"
+                                    ]
+                                    [ div []
+                                        [ displayMapToggleButtons 
+                                            (mapBUnit model)
+                                            StateMapShowing 
+                                            model.state_map_showing
+                                        , svg
+                                            [ viewBox <| ViewBox.toString <| bViewBox
+                                            , style "width" "400px"
+                                            , style "height" "320px"
+                                            ] 
+                                            (map (statePath model) summary)
+                                        ]
+                                    , if member model.office_selected [House, StateSenate, StateHouse]
+                                        then groupList model
+                                        else span [] []
+                                    ]
+                                    
+                                else div [] [] 
                             ]           
 
                     _ ->
