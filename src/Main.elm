@@ -1090,67 +1090,60 @@ resolveEvs c =
                 "56" -> 3 --"Wyoming"
                 _ -> 0
 
-displayRaceName : Model -> String -> ContestMeta -> Html Msg
-displayRaceName model c_id meta =
+raceName : String -> ContestMeta -> String
+raceName c_id meta =
     let
         state = fipsToName meta.fips
-
-        office2 =
-            -- Change from chamber names to officeholder titles?
-            case meta.office of
-                President -> "President"
-                House -> "House"
-                Senate -> "Senate"
-                Governor -> "Governor"
-                StateSenate -> "State Senate"
-                StateHouse -> "State House"
-                _ -> "Referendum" -- Unreachable
-
-        district = 
-            case meta.district of
-                Just "00" ->
-                    "At-Large"
-
-                Just a ->
-                    if startsWith "0" a 
-                        then right 1 a
-                        else a
-
-                Nothing ->
-                    ""
 
         special =
             if meta.isSpecial
                 then " (Special)"
                 else ""
     in
-    if member meta.office [House, President] then 
-        text <|   
-            office2 ++ " - " ++ state ++ " " ++ district ++ special
-        
-    else if member meta.office [StateHouse, StateSenate] then
-        text <|   
-            office2 ++ " District " ++ district ++ special
+    case meta.office of
+        President -> 
+            case meta.district of
+                Just district ->
+                    "President - " ++ state ++ " " ++ district
+                
+                Nothing ->
+                    "President - " ++ state
 
-    else if meta.isReferendum then
-        case Maybe.andThen (Dict.get c_id) model.bq_meta of
-            Just bq_meta -> 
-                div []
-                    [ text <| state ++ " - " ++ bq_meta.short_summary
-                    , br [] []
-                    , div
-                        [ style "font-weight" "normal" 
-                        , style "padding" "10px"
-                        ]
-                        [ text bq_meta.long_summary ]
-                    ]
+        Senate ->
+            "Senator from " ++ state ++ special
 
-            Nothing -> 
-                text state
-    
-    else
-        text <|   
-            office2 ++ " - " ++ state ++ special
+        House ->
+            case meta.district of
+                Just "00" ->
+                    "House - " ++ state
+
+                Just district ->
+                    "House - " ++ state ++ " " ++ district
+
+                Nothing ->
+                    "House - Unreachable"
+
+        Governor ->
+            "Governor of " ++ state
+
+        StateSenate ->
+            case meta.district of
+                Just district ->
+                    "State Senator from District " ++ district
+
+                Nothing ->
+                    "Unreachable"
+
+        StateHouse ->
+            case meta.district of
+                Just district ->
+                    "State Representative from District " ++ district
+
+                Nothing ->
+                    "Unreachable"
+
+        _ ->
+            c_id
 
 nav : Model -> Html Msg
 nav model =
@@ -1608,8 +1601,31 @@ pres model c =
                         then text <| cnd.name ++ "*"
                         else text <| cnd.name
             
-        racename = Maybe.map (displayRaceName model c.id) c.meta
-            |> Maybe.withDefault (text c.id)
+        racename = 
+            case c.meta of
+                Just meta ->
+                    if meta.isReferendum then
+                        case bq_meta of
+                            Just {short_summary, long_summary} -> 
+                                div []
+                                    [ text <| (fipsToName meta.fips) ++ " - " ++ short_summary
+                                    , br [] []
+                                    , div
+                                        [ style "font-weight" "normal" 
+                                        , style "padding" "10px"
+                                        ]
+                                        [ text long_summary ]
+                                    ]
+
+                            Nothing ->
+                                text c.id
+
+                    else 
+                        raceName c.id meta
+                            |> text
+
+                Nothing ->
+                    text c.id
 
         raceHeader =
             tr []
