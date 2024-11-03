@@ -263,7 +263,7 @@ metaDecoder =
         decodeCandidateMeta = 
             Json.Decode.map4 CandidateMeta
                 (field "fullName" string)
-                (field "shortName" string)
+                (oneOf [field "shortName" string, field "fullName" string])
                 (field "party" string)
                 (oneOf [field "isIncumbent" bool, succeed False])
                 |> dict
