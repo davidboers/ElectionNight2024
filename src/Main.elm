@@ -59,6 +59,7 @@ type alias Model =
     , county_map_showing : MapShowing
     , state_map_showing : MapShowing
     , county_selected : Maybe (County, (Int, Int))
+    , do_cycle : Bool
     , err : Maybe Http.Error
     }
 
@@ -162,6 +163,7 @@ init =
     , county_map_showing = WinnerShare
     , state_map_showing = WinnerShare
     , county_selected = Nothing
+    , do_cycle = True
     , err = Nothing
     }
 
@@ -201,6 +203,7 @@ type Msg
     | CountyMapShowing MapShowing
     | StateMapShowing MapShowing
     | SelectCounty (Maybe (County, (Int, Int)))
+    | DoCycle Bool
     | Cycle
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -397,7 +400,15 @@ update msg model =
             )
 
         SelectCounty county_selected ->
-            ({ model | county_selected = county_selected }, Cmd.none)
+            (
+                { model | county_selected = county_selected 
+                        , do_cycle = county_selected == Nothing
+                }
+            , Cmd.none
+            )
+
+        DoCycle do_cycle ->
+            ({ model | do_cycle = do_cycle }, Cmd.none)
 
         Cycle ->
             let 
@@ -416,14 +427,14 @@ update msg model =
                             skipState model c 
                             || meta.isUncontested
             in
-            case model.county_selected of
-                Just _ ->
-                    (model, Cmd.none)
-
-                Nothing ->
-                    ( { model | data = cycle model.data }
-                    , Cmd.none
-                    )
+            if model.do_cycle then
+                ( { model | data = cycle model.data }
+                , Cmd.none
+                )
+            
+            else
+                (model, Cmd.none)
+                    
 
 
 -- View
@@ -486,8 +497,7 @@ view model =
                                                 , style "width" "400px"
                                                 , style "height" "320px"
                                                 ] 
-                                                [ g [] (map (statePath model) summary) 
-                                                ]
+                                                (map (statePath model) summary)
                                             ]
                                         , if member model.office_selected [House, StateSenate, StateHouse]
                                             then groupList model
@@ -789,6 +799,8 @@ statePath model c =
                                 , strokeWidth outline
                                 , Svg.Attributes.id c.id 
                                 , onMouseOver (JumpToRace c.id)
+                                , onMouseEnter (DoCycle False)
+                                , onMouseLeave (DoCycle True)
                                 ]
                                 []
                             ]
@@ -814,6 +826,8 @@ statePath model c =
                                 , strokeWidth outline
                                 , Svg.Attributes.id c.id 
                                 , onMouseOver (JumpToRace c.id)
+                                , onMouseEnter (DoCycle False)
+                                , onMouseLeave (DoCycle True)
                                 ]
                                 []
                             , txt
