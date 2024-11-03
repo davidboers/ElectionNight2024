@@ -180,7 +180,7 @@ subscriptions model =
                     succeed Nothing  
     in
     Sub.batch
-        [ every (5 * 1000) (always Cycle)
+        [ every (15 * 1000) (always Cycle)
         , onMouseMove (Json.Decode.map SelectCounty decodeMouseLoc)
         ]
 
