@@ -111,11 +111,15 @@ getSmallName c =
             let
                 defaultDistrict = Maybe.withDefault "0"
             in
-            if member meta.office [StateSenate, StateHouse]
-                then "District " ++ (defaultDistrict meta.district)
-                else if meta.office == House
-                    then fipsToName meta.fips ++ " - " ++ (defaultDistrict meta.district)
-                    else fipsToName meta.fips
+            if member meta.office [StateSenate, StateHouse] then 
+                "District " ++ (defaultDistrict meta.district)
+
+            else if meta.office == House then 
+                fipsToName meta.fips ++ " - " ++ (defaultDistrict meta.district)
+                
+            else 
+                fipsToName meta.fips ++
+                    (if meta.isSpecial then " (Spc.)" else "")
 
         Nothing ->
             c.id
