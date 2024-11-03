@@ -32,10 +32,10 @@ import Html exposing (div)
 import Time exposing (Posix)
 import Iso8601
 import Time exposing (toHour)
-import Time exposing (Zone)
 import Time exposing (utc)
 import Time exposing (toMinute)
 import List exposing (filter)
+import String exposing (padLeft)
 
 type alias Summary =
     List Contest
@@ -548,7 +548,6 @@ displayCall (c, call) =
                             then text <| " gain from " ++ meta.holdingParty
                             else text " hold"
                         ]
-
                     ]
 
         Nothing ->
@@ -587,15 +586,23 @@ tpSwing before now =
 
 -- Timestamp display
 
-displayTimeElement : (Zone -> Posix -> Int) -> Posix -> String
-displayTimeElement func posix =
-    String.fromInt (func utc posix)
-
 displayTimestamp : Posix -> String
 displayTimestamp posix =
-    displayTimeElement toHour posix
-        ++ ":"
-        ++ displayTimeElement toMinute posix
+    let
+        hour24 = toHour utc posix
+        hour = 
+            (if hour24 > 12
+                then hour24 - 12
+                else if hour24 == 0
+                    then 12
+                    else hour24)
+                |> String.fromInt
+        minute = 
+            toMinute utc posix
+                |> String.fromInt
+                |> padLeft 2 '0'
+    in
+    hour ++ ":" ++ minute
 
 
 -- Small party candidates
