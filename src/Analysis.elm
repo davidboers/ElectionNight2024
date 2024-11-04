@@ -127,7 +127,7 @@ main =
 
 init : () -> (Model, Cmd Msg)
 init _ =
-    ( Model Democratic "30" Battlegrounds [] [] [] [] [] [] [] Nothing Nothing Nothing
+    ( Model Democratic "01" Presidential [] [] [] [] [] [] [] Nothing Nothing Nothing
     , batch 
         [ Contest.fetchResult (ResultFetched President) President 
         , Contest.fetchResult (ResultFetched Senate) Senate
@@ -247,7 +247,6 @@ view model =
             Battlegrounds   -> battleground model
         ]
     
-
 
 -- State Comparison
 
@@ -486,8 +485,13 @@ graphPresHist party array pres_state =
         coords = 
             map2 coord (range 1 numElections) full_array
 
+        show24 =
+            (sum <| map .votes pres_state.results) > 0
+
         full_array =
-            Array.toList array ++ [share2024]  
+            if show24
+                then Array.toList array ++ [share2024]  
+                else Array.toList array
 
         votes2024 =
             find (isParty party) pres_state.results
@@ -580,11 +584,11 @@ presNominee _ year nominee =
         [ div
             [ style "font-size" "15px" ] 
             [ text year ]
-        , div
+        {-, div
             [ style "height" "125px" 
             , style "border" "1px solid black"
             ]
-            []
+            []-}
         , div
             [ style "font-size" "20px" ]
             [ text nominee ]
