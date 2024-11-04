@@ -200,7 +200,7 @@ fetchResult msg office =
     if member office [President, Senate, House, Governor] then
         -- Politico 
         Http.get
-            --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ office ++ "/summaries.json"
+            --{ url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ Office.toString office ++ "/summaries.json"
             { url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ Office.toString office ++ "/summaries.json"
             , expect = Http.expectJson msg summaryDecoder
             } 
