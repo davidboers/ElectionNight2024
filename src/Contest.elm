@@ -37,6 +37,7 @@ import Time exposing (toMinute)
 import List exposing (filter)
 import String exposing (padLeft)
 import String exposing (replace)
+import Html.Attributes exposing (name)
 
 type alias Summary =
     List Contest
@@ -521,51 +522,65 @@ displayCall : (Contest, Call) -> Html msg
 displayCall (c, call) =
     case c.meta of
         Just meta ->
-            if meta.isReferendum then
-                text "Referendum"
+            let
+                winner = 
+                    if meta.isReferendum then 
+                        contestWinner c
+                            |> Maybe.map .name
+                            |> Maybe.withDefault ""
 
-            else
-                let
-                    winner = contestWinner c
-                    winning_party = Maybe.andThen .party winner
-                        |> Maybe.withDefault meta.holdingParty
-                    gain = winning_party /= meta.holdingParty
-                    shortened_name = 
-                        getSmallName c
-                            |> replace "South" "S."
-                            |> replace "North" "N."
-                            |> replace "West" "W."
-                            |> replace "Island" "Isl."
-                            |> replace "New" "N."
-                            |> replace "Massachusetts" "Mass."
-                            |> replace "District of Columbia" "D.C."
-                            |> replace "Connecticut" "Connect."
-                in
-                div [ style "display" "flex" 
-                    , style "width" "100%"
-                    , style "padding" "2px"
+                    else 
+                        contestWinner c
+                            |> Maybe.andThen .party
+                            |> Maybe.withDefault meta.holdingParty
+                            |> String.toUpper
+
+                color =
+                    if meta.isReferendum then
+                        responseColor winner
+
+                    else
+                        partyColor (String.toLower winner)
+
+                shortened_name = 
+                    getSmallName c
+                        |> replace "South" "S."
+                        |> replace "North" "N."
+                        |> replace "West" "W."
+                        |> replace "Island" "Isl."
+                        |> replace "New" "N."
+                        |> replace "Massachusetts" "Mass."
+                        |> replace "District of Columbia" "D.C."
+                        |> replace "Connecticut" "Connect."
+            in
+            div [ style "display" "flex" 
+                , style "width" "100%"
+                , style "padding" "2px"
+                ]
+                [ div 
+                    [ style "color" "gray" 
+                    , style "padding" "5px"
                     ]
-                    [ div 
-                        [ style "color" "gray" 
-                        , style "padding" "5px"
-                        ]
-                        [ text <| displayTimestamp call.timestamp ] 
-                    , div
-                        [ style "background-color" (partyColor winning_party)
-                        , style "padding" "5px"
-                        , style "border-radius" "2px"
-                        , style "color" "white"
-                        , style "width" "inherit"
-                        ]
-                        [ text shortened_name
-                        , text ": "
-                        --, br [] []
-                        , text (String.toUpper winning_party)
-                        , if gain
-                            then text <| " gain from " ++ meta.holdingParty
+                    [ text <| displayTimestamp call.timestamp ] 
+                , div
+                    [ style "background-color" color
+                    , style "padding" "5px"
+                    , style "border-radius" "2px"
+                    , style "color" "white"
+                    , style "width" "inherit"
+                    ]
+                    [ text shortened_name
+                    , text ": "
+                    , text winner
+                    , if meta.isReferendum then 
+                        text ""
+
+                    else
+                        if winner /= meta.holdingParty
+                            then text " gain"
                             else text " hold"
-                        ]
                     ]
+                ]
 
         Nothing ->
             text "No meta"
