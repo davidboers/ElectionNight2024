@@ -833,19 +833,17 @@ statePath model c =
                     Nothing ->
                         let
                             (x, y) = map_data.block
-                            x1 = x * 50
-                            y1 = y * 50
+                            x1 = x * 75
+                            y1 = y * 75
                             translation = "translate(" ++ (String.fromInt x1) ++ ", " ++ (String.fromInt y1) ++ ")"
-                            txt = 
-                                Svg.text_
-                                    [ transform "translate(5, 12.5)"
-                                    , Svg.Attributes.fontSize "20px"
-                                    ]
-                                    [ Svg.text map_data.abvr ]
                         in
-                        g [ transform translation ] 
+                        g 
+                            [ transform translation 
+                            , Svg.Attributes.width "75px"
+                            , Svg.Attributes.height "75px"
+                            ] 
                             [ path
-                                [ d "M0,0 L0,50 L50,50 L50,0 Z"
+                                [ d "M0,0 L0,75 L75,75 L75,0 Z"
                                 , fill color
                                 , stroke "lightgray"
                                 , strokeWidth outline
@@ -855,7 +853,14 @@ statePath model c =
                                 , onMouseLeave (DoCycle True)
                                 ]
                                 []
-                            , txt
+                            , Svg.text_
+                                [ Svg.Attributes.x "4%"
+                                , Svg.Attributes.y "6%"
+                                , Svg.Attributes.dominantBaseline "middle"
+                                , Svg.Attributes.textAnchor "middle"
+                                , Svg.Attributes.fontSize "30px"
+                                ]
+                                [ Svg.text map_data.abvr ]
                             ]
 
             Nothing ->
