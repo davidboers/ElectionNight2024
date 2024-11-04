@@ -47,6 +47,7 @@ import String exposing (lines)
 import String exposing (split)
 import List exposing (singleton)
 import Browser.Events exposing (onMouseMove)
+import Html exposing (h2)
 
 -- Model
 type alias Model =
@@ -126,7 +127,10 @@ skipState : Model -> Contest -> Bool
 skipState model c =
     case c.meta of
         Just meta ->
-            if member model.office_selected [StateSenate, StateHouse] then
+            if (sum <| map .votes c.results) == 0 then
+                True
+
+            else if member model.office_selected [StateSenate, StateHouse] then
                 case model.filter_state of
                     Just fips -> not <| member fips (filterMap .name <| Maybe.withDefault [] c.counties)
                     Nothing   -> False
@@ -136,7 +140,7 @@ skipState model c =
                     Just fips -> fips /= meta.fips
                     Nothing   -> False
         Nothing ->
-            False -- Really?
+            True
 
                             
 -- Main
@@ -220,7 +224,11 @@ update msg model =
             )
 
         ResultFetched (Ok results) ->
-            ({ model | data = results }, fetchMeta model.office_selected )
+            ( { model | data = results }
+            , if (sum <| map .votes <| concatMap .results results) == 0 
+                then Cmd.none
+                else fetchMeta model.office_selected 
+            )
 
         GeorgiaResultFetched (Ok results) ->
             ({ model | data = map fromGeorgia results 
@@ -446,90 +454,98 @@ view model =
                 div [] [ text (errorToString err) ]
 
             Nothing ->
-                case filter (not << skipState model) model.data of
-                    (x::xs as summary) ->
-                        let
-                            fips = Maybe.withDefault "00" <| Maybe.map .fips <| x.meta
+                div [ style "font-family" "arial" ]
+                    [ div [] 
+                        [ nav model
+                        , aggr model model.data
+                        , div []
+                            ( case filter (not << skipState model) model.data of
+                                (x::xs as summary) ->
+                                    let
+                                        fips = Maybe.withDefault "00" <| Maybe.map .fips <| x.meta
 
-                            bViewBox = 
-                                if member model.office_selected [StateSenate, StateHouse]
-                                    then pickViewBox model <| Maybe.withDefault "" model.filter_state
-                                    else pickViewBox model fips
-                        in
-                        
-                        div [ style "font-family" "arial" ]
-                            [ div [] 
-                                [ nav model
-                                , aggr model summary
-                                ]
-                            , br [] []
-                            , div
-                                [ style "display" "flex" ]
-                                [ div 
-                                    [ style "height" "530px" ] 
-                                    [ pres model x ] 
-                                , div 
-                                    [ style "width" "500px" 
-                                    , style "padding-left" "10px" 
-                                    ]
-                                    [ displayMapToggleButtons 
-                                        (mapAUnit fips)
-                                        CountyMapShowing 
-                                        model.county_map_showing
-                                    , svg 
-                                        [ viewBox "0 0 600 400"
-                                        ] 
-                                        [ countyMap model.county_map_showing x ]
-                                    , countyTable x model.county_selected
-                                    ]
-                                , div 
-                                    [ style "width" "600px"
-                                    , style "height" "320px"
-                                    ]
-                                    []
-                                , div 
-                                    [ style "overflow-y" "scroll" 
-                                    , style "height" "300px"
-                                    ]
-                                    (displayCalls (getCalls summary))
-                                ]
-                            , div
-                                [ style "display" "flex" 
-                                , style "padding" "20px"
-                                , style "width" "100%"
-                                ]
-                                [ div [ style "display" "flex" ] (nextInLinup xs)
-                                ]
-                            , if not (Office.isReferendum model.office_selected)
-                                then div
-                                    [ style "display" "inline-block" 
-                                    , style "padding-left" "3px" 
-                                    , style "bottom" "4px"
-                                    , style "right" "1px"
-                                    , style "position" "absolute"
-                                    ]
-                                    [ div []
-                                        [ displayMapToggleButtons 
-                                            (mapBUnit model)
-                                            StateMapShowing 
-                                            model.state_map_showing
-                                        , svg
-                                            [ viewBox <| ViewBox.toString <| bViewBox
-                                            , style "width" "400px"
+                                        bViewBox = 
+                                            if member model.office_selected [StateSenate, StateHouse]
+                                                then pickViewBox model <| Maybe.withDefault "" model.filter_state
+                                                else pickViewBox model fips
+                                    in
+                                    [ br [] []
+                                    , div
+                                        [ style "display" "flex" ]
+                                        [ div 
+                                            [ style "height" "530px" ] 
+                                            [ pres model x ] 
+                                        , div 
+                                            [ style "width" "500px" 
+                                            , style "padding-left" "10px" 
+                                            ]
+                                            [ displayMapToggleButtons 
+                                                (mapAUnit fips)
+                                                CountyMapShowing 
+                                                model.county_map_showing
+                                            , svg 
+                                                [ viewBox "0 0 600 400"
+                                                ] 
+                                                [ countyMap model.county_map_showing x ]
+                                            , countyTable x model.county_selected
+                                            ]
+                                        , div 
+                                            [ style "width" "600px"
                                             , style "height" "320px"
-                                            ] 
-                                            (map (statePath model) summary)
+                                            ]
+                                            []
+                                        , div 
+                                            [ style "overflow-y" "scroll" 
+                                            , style "height" "300px"
+                                            ]
+                                            (displayCalls (getCalls summary))
                                         ]
-                                    , if member model.office_selected [House, StateSenate, StateHouse]
-                                        then groupList model
-                                        else span [] []
+                                    , div
+                                        [ style "display" "flex" 
+                                        , style "padding" "20px"
+                                        , style "width" "100%"
+                                        ]
+                                        [ div [ style "display" "flex" ] (nextInLinup xs)
+                                        ]
+                                    , if not (Office.isReferendum model.office_selected)
+                                        then div
+                                            [ style "display" "inline-block" 
+                                            , style "padding-left" "3px" 
+                                            , style "bottom" "4px"
+                                            , style "right" "1px"
+                                            , style "position" "absolute"
+                                            ]
+                                            [ div []
+                                                [ displayMapToggleButtons 
+                                                    (mapBUnit model)
+                                                    StateMapShowing 
+                                                    model.state_map_showing
+                                                , svg
+                                                    [ viewBox <| ViewBox.toString <| bViewBox
+                                                    , style "width" "400px"
+                                                    , style "height" "320px"
+                                                    ] 
+                                                    (map (statePath model) summary)
+                                                ]
+                                            , if member model.office_selected [House, StateSenate, StateHouse]
+                                                then groupList model
+                                                else span [] []
+                                            ]
+                                            
+                                        else div [] [] 
                                     ]
-                                    
-                                else div [] [] 
-                            ]           
-
-                    _ ->
-                        div [] [ text "Sorry, there are no races." ]  
+                                
+                                [] ->
+                                    [ h2 
+                                        [ style "text-align" "center" 
+                                        , style "height" "100%"
+                                        , style "padding-top" "10%"
+                                        ]
+                                        [ text "Awaiting results..." ]
+                                    ]
+                            )
+                        ]
+                    ]
         ]
 
 mapAUnit : String -> String  
