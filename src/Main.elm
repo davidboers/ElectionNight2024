@@ -510,7 +510,7 @@ view model =
                                             , style "padding-left" "10%" 
                                             , style "padding-right" "10%"
                                             ]
-                                            (if member model.office_selected [House, StateSenate, StateHouse, GeorgiaQuestions, AbortionQuestions, RCVQuestions, OtherQuestions] then state_svg else county_svg)
+                                            (if member model.office_selected [House, StateSenate, StateHouse] then state_svg else county_svg)
                                         , if member model.office_selected [StateHouse, StateSenate, GeorgiaQuestions]
                                             then span [] []
                                             else div 
@@ -767,7 +767,7 @@ displayMapToggleButtons unit_name toggleMsg current =
             [ div 
                 (button_style WinnerShare)
                 [ text "Leader's %" ]
-            , if unit_name /= "districts"
+            , if not <| member unit_name ["districts", "states"]
                 then div (button_style Swing) [ text "Swing" ]
                 else span [] []
             , div 
@@ -1322,13 +1322,34 @@ aggr model summary =
     in
     case model.office_selected of
         GeorgiaQuestions ->
-            br [] [] -- Maybe a row of squares for each question?
+            div []
+                [ br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                ]
 
         AbortionQuestions ->
-            br [] [] -- Decide?
+            div []
+                [ br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                ]
 
         RCVQuestions ->
-            br [] [] -- Decide?
+            div []
+                [ br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                , br [] []
+                ]
 
         OtherQuestions ->
             div []

@@ -10120,11 +10120,44 @@ var $author$project$Main$aggr = F2(
 		var _v0 = model.office_selected;
 		switch (_v0.$) {
 			case 'GeorgiaQuestions':
-				return A2($elm$html$Html$br, _List_Nil, _List_Nil);
+				return A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil)
+						]));
 			case 'AbortionQuestions':
-				return A2($elm$html$Html$br, _List_Nil, _List_Nil);
+				return A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil)
+						]));
 			case 'RCVQuestions':
-				return A2($elm$html$Html$br, _List_Nil, _List_Nil);
+				return A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil),
+							A2($elm$html$Html$br, _List_Nil, _List_Nil)
+						]));
 			case 'OtherQuestions':
 				return A2(
 					$elm$html$Html$div,
@@ -11615,7 +11648,11 @@ var $author$project$Main$displayMapToggleButtons = F3(
 								[
 									$elm$html$Html$text('Leader\'s %')
 								])),
-							(unit_name !== 'districts') ? A2(
+							(!A2(
+							$elm$core$List$member,
+							unit_name,
+							_List_fromArray(
+								['districts', 'states']))) ? A2(
 							$elm$html$Html$div,
 							button_style($author$project$Main$Swing),
 							_List_fromArray(
@@ -13179,7 +13216,7 @@ var $author$project$Main$view = function (model) {
 																	$elm$core$List$member,
 																	model.office_selected,
 																	_List_fromArray(
-																		[$author$project$Office$House, $author$project$Office$StateSenate, $author$project$Office$StateHouse, $author$project$Office$GeorgiaQuestions, $author$project$Office$AbortionQuestions, $author$project$Office$RCVQuestions, $author$project$Office$OtherQuestions])) ? state_svg : county_svg),
+																		[$author$project$Office$House, $author$project$Office$StateSenate, $author$project$Office$StateHouse])) ? state_svg : county_svg),
 																A2(
 																$elm$core$List$member,
 																model.office_selected,
