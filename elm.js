@@ -13177,6 +13177,10 @@ var $author$project$Main$view = function (model) {
 																	]),
 																_Utils_eq(model.office_selected, $author$project$Office$House) ? state_svg : county_svg),
 																A2(
+																$elm$core$List$member,
+																model.office_selected,
+																_List_fromArray(
+																	[$author$project$Office$StateHouse, $author$project$Office$StateSenate, $author$project$Office$GeorgiaQuestions])) ? A2($elm$html$Html$span, _List_Nil, _List_Nil) : A2(
 																$elm$html$Html$div,
 																_List_fromArray(
 																	[

@@ -511,7 +511,9 @@ view model =
                                             , style "padding-right" "10%"
                                             ]
                                             (if model.office_selected == House then state_svg else county_svg)
-                                        , div 
+                                        , if member model.office_selected [StateHouse, StateSenate, GeorgiaQuestions]
+                                            then span [] []
+                                            else div 
                                             [ style "overflow-y" "scroll" 
                                             , style "height" "130px"
                                             , style "width" "20%"
