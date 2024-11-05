@@ -196,12 +196,13 @@ electionDateForLink =
     "2024-11-05"
     --"2020-11-03"
 
+--https://www.politico.com/election-data/results__2024-11-05__collections__2024-11-05-collection-president__summaries/data.json
 fetchResult : (Result Http.Error Summary -> msg) -> Office -> Cmd msg
 fetchResult msg office =
     if member office [President, Senate, House, Governor] then
         -- Politico 
         Http.get
-            { url = "https://www.politico.com/election-data/pebble/results/live/" ++ electionDateForLink ++ "/collections/" ++ electionDateForLink ++ "-collection-" ++ Office.toString office ++ "/summaries.json"
+            { url = "https://www.politico.com/election-data/results__2024-11-05__collections__2024-11-05-collection-" ++ Office.toString office ++ "__summaries/data.json"
             --{ url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ Office.toString office ++ "/summaries.json"
             , expect = Http.expectJson msg summaryDecoder
             } 

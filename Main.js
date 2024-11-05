@@ -5558,7 +5558,6 @@ var $author$project$Main$ResultFetched = function (a) {
 var $author$project$Office$Governor = {$: 'Governor'};
 var $author$project$Office$House = {$: 'House'};
 var $author$project$Office$Senate = {$: 'Senate'};
-var $author$project$Contest$electionDateForLink = '2024-11-05';
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
 var $elm$http$Http$BadStatus_ = F2(
 	function (a, b) {
@@ -7361,7 +7360,7 @@ var $author$project$Contest$fetchResult = F2(
 				[$author$project$Office$President, $author$project$Office$Senate, $author$project$Office$House, $author$project$Office$Governor])) ? $elm$http$Http$get(
 			{
 				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$summaryDecoder),
-				url: 'https://www.politico.com/election-data/pebble/results/live/' + ($author$project$Contest$electionDateForLink + ('/collections/' + ($author$project$Contest$electionDateForLink + ('-collection-' + ($author$project$Office$toString(office) + '/summaries.json')))))
+				url: 'https://www.politico.com/election-data/results__2024-11-05__collections__2024-11-05-collection-' + ($author$project$Office$toString(office) + '__summaries/data.json')
 			}) : (($author$project$Office$isReferendum(office) && (!$author$project$Office$isGeorgia(office))) ? $elm$http$Http$get(
 			{
 				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$summaryDecoder),
@@ -8368,6 +8367,7 @@ var $author$project$Main$fetchMap = function (model) {
 var $author$project$Main$MetaFetched = function (a) {
 	return {$: 'MetaFetched', a: a};
 };
+var $author$project$Contest$electionDateForLink = '2024-11-05';
 var $author$project$Contest$CandidateMeta = F4(
 	function (name, short_name, party, isIncumbent) {
 		return {isIncumbent: isIncumbent, name: name, party: party, short_name: short_name};
