@@ -416,7 +416,7 @@ smallRows : Int -> List Candidate -> List (Html msg)
 smallRows total_votes sorted_results =
     case sorted_results of
         [] -> 
-            [ text "No candidates." ] 
+            [ tr [] [ td [] [text "No candidates." ] ] ]
 
         [uncontested] -> -- Shouldn't be any uncontested races
             [ tr [] (smallCandidate total_votes uncontested)

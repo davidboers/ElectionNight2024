@@ -10932,7 +10932,19 @@ var $author$project$Contest$smallRows = F2(
 		if (!sorted_results.b) {
 			return _List_fromArray(
 				[
-					$elm$html$Html$text('No candidates.')
+					A2(
+					$elm$html$Html$tr,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('No candidates.')
+								]))
+						]))
 				]);
 		} else {
 			if (!sorted_results.b.b) {
