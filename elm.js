@@ -13078,6 +13078,25 @@ var $author$project$Main$view = function (model) {
 															return $.fips;
 														},
 														x.meta));
+												var county_svg = _List_fromArray(
+													[
+														A3(
+														$author$project$Main$displayMapToggleButtons,
+														$author$project$Main$mapAUnit(fips),
+														$author$project$Main$CountyMapShowing,
+														model.county_map_showing),
+														A2(
+														$elm$svg$Svg$svg,
+														_List_fromArray(
+															[
+																$elm$svg$Svg$Attributes$viewBox('0 0 600 400')
+															]),
+														_List_fromArray(
+															[
+																A2($author$project$Main$countyMap, model.county_map_showing, x)
+															])),
+														A2($author$project$Main$countyTable, x, model.county_selected)
+													]);
 												var bViewBox = A2(
 													$elm$core$List$member,
 													model.office_selected,
@@ -13086,6 +13105,27 @@ var $author$project$Main$view = function (model) {
 													$author$project$Main$pickViewBox,
 													model,
 													A2($elm$core$Maybe$withDefault, '', model.filter_state)) : A2($author$project$Main$pickViewBox, model, fips);
+												var state_svg = _List_fromArray(
+													[
+														A3(
+														$author$project$Main$displayMapToggleButtons,
+														$author$project$Main$mapBUnit(model),
+														$author$project$Main$StateMapShowing,
+														model.state_map_showing),
+														A2(
+														$elm$svg$Svg$svg,
+														_List_fromArray(
+															[
+																$elm$svg$Svg$Attributes$viewBox(
+																$author$project$ViewBox$toString(bViewBox)),
+																_Utils_eq(model.office_selected, $author$project$Office$House) ? A2($elm$html$Html$Attributes$style, 'width', '100%') : A2($elm$html$Html$Attributes$style, 'width', '400px'),
+																_Utils_eq(model.office_selected, $author$project$Office$House) ? A2($elm$html$Html$Attributes$style, 'height', '470px') : A2($elm$html$Html$Attributes$style, 'height', '320px')
+															]),
+														A2(
+															$elm$core$List$map,
+															$author$project$Main$statePath(model),
+															model.data))
+													]);
 												return _List_fromArray(
 													[
 														A2($elm$html$Html$br, _List_Nil, _List_Nil),
@@ -13115,25 +13155,7 @@ var $author$project$Main$view = function (model) {
 																		A2($elm$html$Html$Attributes$style, 'padding-left', '10%'),
 																		A2($elm$html$Html$Attributes$style, 'padding-right', '10%')
 																	]),
-																_List_fromArray(
-																	[
-																		A3(
-																		$author$project$Main$displayMapToggleButtons,
-																		$author$project$Main$mapAUnit(fips),
-																		$author$project$Main$CountyMapShowing,
-																		model.county_map_showing),
-																		A2(
-																		$elm$svg$Svg$svg,
-																		_List_fromArray(
-																			[
-																				$elm$svg$Svg$Attributes$viewBox('0 0 600 400')
-																			]),
-																		_List_fromArray(
-																			[
-																				A2($author$project$Main$countyMap, model.county_map_showing, x)
-																			])),
-																		A2($author$project$Main$countyTable, x, model.county_selected)
-																	])),
+																_Utils_eq(model.office_selected, $author$project$Office$House) ? state_svg : county_svg),
 																A2(
 																$elm$html$Html$div,
 																_List_fromArray(
@@ -13176,34 +13198,10 @@ var $author$project$Main$view = function (model) {
 														_List_fromArray(
 															[
 																A2(
-																$elm$html$Html$div,
-																_List_Nil,
-																_List_fromArray(
-																	[
-																		A3(
-																		$author$project$Main$displayMapToggleButtons,
-																		$author$project$Main$mapBUnit(model),
-																		$author$project$Main$StateMapShowing,
-																		model.state_map_showing),
-																		A2(
-																		$elm$svg$Svg$svg,
-																		_List_fromArray(
-																			[
-																				$elm$svg$Svg$Attributes$viewBox(
-																				$author$project$ViewBox$toString(bViewBox)),
-																				A2($elm$html$Html$Attributes$style, 'width', '400px'),
-																				A2($elm$html$Html$Attributes$style, 'height', '320px')
-																			]),
-																		A2(
-																			$elm$core$List$map,
-																			$author$project$Main$statePath(model),
-																			summary))
-																	])),
-																A2(
 																$elm$core$List$member,
 																model.office_selected,
 																_List_fromArray(
-																	[$author$project$Office$House, $author$project$Office$StateSenate, $author$project$Office$StateHouse])) ? $author$project$Main$groupList(model) : A2($elm$html$Html$span, _List_Nil, _List_Nil)
+																	[$author$project$Office$House, $author$project$Office$StateSenate, $author$project$Office$StateHouse])) ? $author$project$Main$groupList(model) : A2($elm$html$Html$div, _List_Nil, state_svg)
 															])) : A2($elm$html$Html$div, _List_Nil, _List_Nil)
 													]);
 											} else {

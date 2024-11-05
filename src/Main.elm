@@ -469,6 +469,35 @@ view model =
                                             if member model.office_selected [StateSenate, StateHouse]
                                                 then pickViewBox model <| Maybe.withDefault "" model.filter_state
                                                 else pickViewBox model fips
+
+                                        county_svg =
+                                            [ displayMapToggleButtons 
+                                                (mapAUnit fips)
+                                                CountyMapShowing 
+                                                model.county_map_showing
+                                            , svg 
+                                                [ viewBox "0 0 600 400"
+                                                ] 
+                                                [ countyMap model.county_map_showing x ]
+                                            , countyTable x model.county_selected
+                                            ]
+
+                                        state_svg =
+                                            [ displayMapToggleButtons 
+                                                (mapBUnit model)
+                                                StateMapShowing 
+                                                model.state_map_showing
+                                            , svg
+                                                [ viewBox <| ViewBox.toString <| bViewBox
+                                                , if model.office_selected == House 
+                                                    then style "width" "100%"
+                                                    else style "width" "400px"
+                                                , if model.office_selected == House 
+                                                    then style "height" "470px"
+                                                    else style "height" "320px"
+                                                ] 
+                                                (map (statePath model) model.data) -- Note use of unfiltered summary
+                                            ]
                                     in
                                     [ br [] []
                                     , div
@@ -481,16 +510,7 @@ view model =
                                             , style "padding-left" "10%" 
                                             , style "padding-right" "10%"
                                             ]
-                                            [ displayMapToggleButtons 
-                                                (mapAUnit fips)
-                                                CountyMapShowing 
-                                                model.county_map_showing
-                                            , svg 
-                                                [ viewBox "0 0 600 400"
-                                                ] 
-                                                [ countyMap model.county_map_showing x ]
-                                            , countyTable x model.county_selected
-                                            ]
+                                            (if model.office_selected == House then state_svg else county_svg)
                                         , div 
                                             [ style "overflow-y" "scroll" 
                                             , style "height" "200px"
@@ -513,21 +533,9 @@ view model =
                                             , style "right" "15px"
                                             , style "position" "absolute"
                                             ]
-                                            [ div []
-                                                [ displayMapToggleButtons 
-                                                    (mapBUnit model)
-                                                    StateMapShowing 
-                                                    model.state_map_showing
-                                                , svg
-                                                    [ viewBox <| ViewBox.toString <| bViewBox
-                                                    , style "width" "400px"
-                                                    , style "height" "320px"
-                                                    ] 
-                                                    (map (statePath model) summary)
-                                                ]
-                                            , if member model.office_selected [House, StateSenate, StateHouse]
+                                            [ if member model.office_selected [House, StateSenate, StateHouse]
                                                 then groupList model
-                                                else span [] []
+                                                else div [] state_svg
                                             ]
                                             
                                         else div [] [] 
