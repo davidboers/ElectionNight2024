@@ -11615,13 +11615,13 @@ var $author$project$Main$displayMapToggleButtons = F3(
 								[
 									$elm$html$Html$text('Leader\'s %')
 								])),
-							A2(
+							(unit_name !== 'districts') ? A2(
 							$elm$html$Html$div,
 							button_style($author$project$Main$Swing),
 							_List_fromArray(
 								[
 									$elm$html$Html$text('Swing')
-								])),
+								])) : A2($elm$html$Html$span, _List_Nil, _List_Nil),
 							A2(
 							$elm$html$Html$div,
 							button_style($author$project$Main$Progress),
@@ -12019,38 +12019,58 @@ var $elm$core$List$singleton = function (value) {
 	return _List_fromArray(
 		[value]);
 };
-var $author$project$Main$nextInLinup = function (summary) {
-	var makeResults = function (c) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					A2($elm$html$Html$Attributes$style, 'padding-left', '10px')
-				]),
-			$elm$core$List$singleton(
-				A2($author$project$Contest$smallContestResults, $author$project$Contest$getSmallName, c)));
-	};
-	if (((((summary.b && summary.b.b) && summary.b.b.b) && summary.b.b.b.b) && summary.b.b.b.b.b) && summary.b.b.b.b.b.b) {
-		var x1 = summary.a;
-		var _v1 = summary.b;
-		var x2 = _v1.a;
-		var _v2 = _v1.b;
-		var x3 = _v2.a;
-		var _v3 = _v2.b;
-		var x4 = _v3.a;
-		var _v4 = _v3.b;
-		var x5 = _v4.a;
-		var _v5 = _v4.b;
-		var x6 = _v5.a;
-		return A2(
-			$elm$core$List$map,
-			makeResults,
-			_List_fromArray(
-				[x1, x2, x3, x4, x5, x6]));
-	} else {
-		return _List_Nil;
-	}
-};
+var $author$project$Main$nextInLinup = F2(
+	function (model, summary) {
+		var makeResults = function (c) {
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						A2($elm$html$Html$Attributes$style, 'padding-left', '10px')
+					]),
+				$elm$core$List$singleton(
+					A2($author$project$Contest$smallContestResults, $author$project$Contest$getSmallName, c)));
+		};
+		if (model.window_width < 1500) {
+			if (((summary.b && summary.b.b) && summary.b.b.b) && summary.b.b.b.b) {
+				var x1 = summary.a;
+				var _v1 = summary.b;
+				var x2 = _v1.a;
+				var _v2 = _v1.b;
+				var x3 = _v2.a;
+				var _v3 = _v2.b;
+				var x4 = _v3.a;
+				return A2(
+					$elm$core$List$map,
+					makeResults,
+					_List_fromArray(
+						[x1, x2, x3, x4]));
+			} else {
+				return _List_Nil;
+			}
+		} else {
+			if (((((summary.b && summary.b.b) && summary.b.b.b) && summary.b.b.b.b) && summary.b.b.b.b.b) && summary.b.b.b.b.b.b) {
+				var x1 = summary.a;
+				var _v5 = summary.b;
+				var x2 = _v5.a;
+				var _v6 = _v5.b;
+				var x3 = _v6.a;
+				var _v7 = _v6.b;
+				var x4 = _v7.a;
+				var _v8 = _v7.b;
+				var x5 = _v8.a;
+				var _v9 = _v8.b;
+				var x6 = _v9.a;
+				return A2(
+					$elm$core$List$map,
+					makeResults,
+					_List_fromArray(
+						[x1, x2, x3, x4, x5, x6]));
+			} else {
+				return _List_Nil;
+			}
+		}
+	});
 var $author$project$ViewBox$defaultBViewBox = A4($author$project$ViewBox$ViewBox, 0, 0, 950, 700);
 var $author$project$Main$pickViewBox = F2(
 	function (model, fips) {
@@ -13161,7 +13181,7 @@ var $author$project$Main$view = function (model) {
 																_List_fromArray(
 																	[
 																		A2($elm$html$Html$Attributes$style, 'overflow-y', 'scroll'),
-																		A2($elm$html$Html$Attributes$style, 'height', '200px'),
+																		A2($elm$html$Html$Attributes$style, 'height', '130px'),
 																		A2($elm$html$Html$Attributes$style, 'width', '20%')
 																	]),
 																$author$project$Contest$displayCalls(
@@ -13183,7 +13203,7 @@ var $author$project$Main$view = function (model) {
 																	[
 																		A2($elm$html$Html$Attributes$style, 'display', 'flex')
 																	]),
-																$author$project$Main$nextInLinup(xs))
+																A2($author$project$Main$nextInLinup, model, xs))
 															])),
 														(!$author$project$Office$isReferendum(model.office_selected)) ? A2(
 														$elm$html$Html$div,

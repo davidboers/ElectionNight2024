@@ -513,7 +513,7 @@ view model =
                                             (if model.office_selected == House then state_svg else county_svg)
                                         , div 
                                             [ style "overflow-y" "scroll" 
-                                            , style "height" "200px"
+                                            , style "height" "130px"
                                             , style "width" "20%"
                                             ]
                                             (displayCalls (getCalls summary))
@@ -523,7 +523,7 @@ view model =
                                         , style "padding" "20px"
                                         , style "width" "100%"
                                         ]
-                                        [ div [ style "display" "flex" ] (nextInLinup xs)
+                                        [ div [ style "display" "flex" ] (nextInLinup model xs)
                                         ]
                                     , if not (Office.isReferendum model.office_selected)
                                         then div
@@ -765,9 +765,9 @@ displayMapToggleButtons unit_name toggleMsg current =
             [ div 
                 (button_style WinnerShare)
                 [ text "Leader's %" ]
-            , div 
-                (button_style Swing)
-                [ text "Swing" ]
+            , if unit_name /= "districts"
+                then div (button_style Swing) [ text "Swing" ]
+                else span [] []
             , div 
                 (button_style Progress)
                 [ text "% Reporting" ]
@@ -1783,17 +1783,26 @@ pres model c =
         ([raceHeader, header] ++ (map row sorted) ++ footers)
 
 {- The summary argument excludes the contest currently being shown in the big table -}
-nextInLinup : Summary -> List (Html Msg)
-nextInLinup summary =
+nextInLinup : Model -> Summary -> List (Html Msg)
+nextInLinup model summary =
     let
         makeResults c =
             smallContestResults getSmallName c
                 |> singleton
                 |> div [ style "padding-left" "10px" ]
     in
-    case summary of
-        (x1 :: x2 :: x3 :: x4 :: x5 :: x6 :: _) ->
-            map makeResults [x1, x2, x3, x4, x5, x6]
+    if model.window_width < 1500 then
+        case summary of
+            (x1 :: x2 :: x3 :: x4 :: _) ->
+                map makeResults [x1, x2, x3, x4]
 
-        _ ->
-            []
+            _ ->
+                []
+
+    else
+        case summary of
+            (x1 :: x2 :: x3 :: x4 :: x5 :: x6 :: _) ->
+                map makeResults [x1, x2, x3, x4, x5, x6]
+
+            _ ->
+                []
