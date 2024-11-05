@@ -8095,8 +8095,13 @@ var $author$project$Contest$officeIs = F2(
 var $author$project$Analysis$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
-			case 'ToggleAnalysis':
-				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+			case 'SelectAnalysis':
+				var analysis = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{analysis: analysis}),
+					$elm$core$Platform$Cmd$none);
 			case 'SelectParty':
 				var party = msg.a;
 				return _Utils_Tuple2(
@@ -8318,7 +8323,12 @@ var $author$project$Analysis$update = F2(
 				}
 		}
 	});
+var $author$project$Analysis$Battlegrounds = {$: 'Battlegrounds'};
 var $author$project$Analysis$Republican = {$: 'Republican'};
+var $author$project$Analysis$SelectState = function (a) {
+	return {$: 'SelectState', a: a};
+};
+var $author$project$Analysis$StateComparison = {$: 'StateComparison'};
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $author$project$Contest$fipsToName = function (fips) {
 	switch (fips) {
@@ -9117,6 +9127,112 @@ var $author$project$Analysis$battleground = function (model) {
 		}
 	}
 };
+var $author$project$Analysis$fipses = _List_fromArray(
+	[
+		_Utils_Tuple2('01', 'Alabama'),
+		_Utils_Tuple2('02', 'Alaska'),
+		_Utils_Tuple2('04', 'Arizona'),
+		_Utils_Tuple2('05', 'Arkansas'),
+		_Utils_Tuple2('06', 'California'),
+		_Utils_Tuple2('08', 'Colorado'),
+		_Utils_Tuple2('09', 'Connecticut'),
+		_Utils_Tuple2('10', 'Delaware'),
+		_Utils_Tuple2('11', 'District of Columbia'),
+		_Utils_Tuple2('12', 'Florida'),
+		_Utils_Tuple2('13', 'Georgia'),
+		_Utils_Tuple2('15', 'Hawaii'),
+		_Utils_Tuple2('16', 'Idaho'),
+		_Utils_Tuple2('17', 'Illinois'),
+		_Utils_Tuple2('18', 'Indiana'),
+		_Utils_Tuple2('19', 'Iowa'),
+		_Utils_Tuple2('20', 'Kansas'),
+		_Utils_Tuple2('21', 'Kentucky'),
+		_Utils_Tuple2('22', 'Louisiana'),
+		_Utils_Tuple2('23', 'Maine'),
+		_Utils_Tuple2('24', 'Maryland'),
+		_Utils_Tuple2('25', 'Massachusetts'),
+		_Utils_Tuple2('26', 'Michigan'),
+		_Utils_Tuple2('27', 'Minnesota'),
+		_Utils_Tuple2('28', 'Mississippi'),
+		_Utils_Tuple2('29', 'Missouri'),
+		_Utils_Tuple2('30', 'Montana'),
+		_Utils_Tuple2('31', 'Nebraska'),
+		_Utils_Tuple2('32', 'Nevada'),
+		_Utils_Tuple2('33', 'New Hampshire'),
+		_Utils_Tuple2('34', 'New Jersey'),
+		_Utils_Tuple2('35', 'New Mexico'),
+		_Utils_Tuple2('36', 'New York'),
+		_Utils_Tuple2('37', 'North Carolina'),
+		_Utils_Tuple2('38', 'North Dakota'),
+		_Utils_Tuple2('39', 'Ohio'),
+		_Utils_Tuple2('40', 'Oklahoma'),
+		_Utils_Tuple2('41', 'Oregon'),
+		_Utils_Tuple2('42', 'Pennsylvania'),
+		_Utils_Tuple2('44', 'Rhode Island'),
+		_Utils_Tuple2('45', 'South Carolina'),
+		_Utils_Tuple2('46', 'South Dakota'),
+		_Utils_Tuple2('47', 'Tennessee'),
+		_Utils_Tuple2('48', 'Texas'),
+		_Utils_Tuple2('49', 'Utah'),
+		_Utils_Tuple2('50', 'Vermont'),
+		_Utils_Tuple2('51', 'Virginia'),
+		_Utils_Tuple2('53', 'Washington'),
+		_Utils_Tuple2('54', 'West Virginia'),
+		_Utils_Tuple2('55', 'Wisconsin'),
+		_Utils_Tuple2('56', 'Wyoming')
+	]);
+var $elm$html$Html$option = _VirtualDom_node('option');
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
+var $author$project$Analysis$makeOption = function (_v0) {
+	var fips = _v0.a;
+	var state = _v0.b;
+	return A2(
+		$elm$html$Html$option,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$value(fips)
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(state)
+			]));
+};
+var $elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$html$Html$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
+};
 var $elm$core$Maybe$andThen = F2(
 	function (callback, maybeValue) {
 		if (maybeValue.$ === 'Just') {
@@ -9609,6 +9725,7 @@ var $author$project$Analysis$presidential = function (model) {
 	}
 	return $author$project$Analysis$loading;
 };
+var $elm$html$Html$select = _VirtualDom_node('select');
 var $elm$html$Html$br = _VirtualDom_node('br');
 var $author$project$Analysis$displayBar = F2(
 	function (model, c) {
@@ -9877,32 +9994,26 @@ var $author$project$Analysis$stateComparison = function (model) {
 		}
 	}
 };
-var $author$project$Analysis$SelectParty = function (a) {
-	return {$: 'SelectParty', a: a};
+var $author$project$Analysis$SelectAnalysis = function (a) {
+	return {$: 'SelectAnalysis', a: a};
 };
-var $author$project$Analysis$notSelectedStyle = function (_v0) {
-	return _List_fromArray(
-		[
-			A2($elm$html$Html$Attributes$style, 'outline', '1px solid lightgray'),
-			A2($elm$html$Html$Attributes$style, 'background-color', 'white'),
-			A2($elm$html$Html$Attributes$style, 'color', 'black')
-		]);
-};
-var $author$project$Analysis$selectedStyle = function (party) {
+var $author$project$Analysis$notSelectedStyle = _List_fromArray(
+	[
+		A2($elm$html$Html$Attributes$style, 'outline', '1px solid lightgray'),
+		A2($elm$html$Html$Attributes$style, 'background-color', 'white'),
+		A2($elm$html$Html$Attributes$style, 'color', 'black')
+	]);
+var $author$project$Analysis$selectedStyle = function (color) {
 	return _List_fromArray(
 		[
 			A2($elm$html$Html$Attributes$style, 'outline', '1px solid black'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'background-color',
-			$author$project$Analysis$partyColor(party)),
+			A2($elm$html$Html$Attributes$style, 'background-color', color),
 			A2($elm$html$Html$Attributes$style, 'color', 'white')
 		]);
 };
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
-var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
 var $elm$html$Html$Events$on = F2(
 	function (event, decoder) {
 		return A2(
@@ -9927,9 +10038,20 @@ var $author$project$Main$toggleButtonStyle = F2(
 				toggleMsg(option))
 			]);
 	});
+var $author$project$Analysis$toggleButtonAnalysis = F2(
+	function (current, option) {
+		var extra_style = _Utils_eq(current, option) ? $author$project$Analysis$selectedStyle('gray') : $author$project$Analysis$notSelectedStyle;
+		return _Utils_ap(
+			A2($author$project$Main$toggleButtonStyle, $author$project$Analysis$SelectAnalysis, option),
+			extra_style);
+	});
+var $author$project$Analysis$SelectParty = function (a) {
+	return {$: 'SelectParty', a: a};
+};
 var $author$project$Analysis$toggleButtonStyle = F2(
 	function (current, option) {
-		var extra_style = _Utils_eq(current, option) ? $author$project$Analysis$selectedStyle(option) : $author$project$Analysis$notSelectedStyle(option);
+		var extra_style = _Utils_eq(current, option) ? $author$project$Analysis$selectedStyle(
+			$author$project$Analysis$partyColor(option)) : $author$project$Analysis$notSelectedStyle;
 		return _Utils_ap(
 			A2($author$project$Main$toggleButtonStyle, $author$project$Analysis$SelectParty, option),
 			extra_style);
@@ -9955,6 +10077,44 @@ var $author$project$Analysis$view = function (model) {
 						$elm$html$Html$text(
 						$author$project$Contest$fipsToName(model.state))
 					])),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						A2($elm$html$Html$Attributes$style, 'width', '100%'),
+						A2($elm$html$Html$Attributes$style, 'padding', '10px')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$div,
+						A2($author$project$Analysis$toggleButtonAnalysis, model.analysis, $author$project$Analysis$StateComparison),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Intra-party comparison')
+							])),
+						A2(
+						$elm$html$Html$div,
+						A2($author$project$Analysis$toggleButtonAnalysis, model.analysis, $author$project$Analysis$Presidential),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Presidential vote history')
+							])),
+						A2(
+						$elm$html$Html$div,
+						A2($author$project$Analysis$toggleButtonAnalysis, model.analysis, $author$project$Analysis$Battlegrounds),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Battlegrounds')
+							]))
+					])),
+				A2(
+				$elm$html$Html$select,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onInput($author$project$Analysis$SelectState)
+					]),
+				A2($elm$core$List$map, $author$project$Analysis$makeOption, $author$project$Analysis$fipses)),
 				A2(
 				$elm$html$Html$div,
 				_List_fromArray(

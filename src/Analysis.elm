@@ -37,6 +37,9 @@ import Contest exposing (officeIs)
 import Georgia exposing (fromGeorgia)
 import List exposing (singleton)
 import Contest exposing (getSmallName)
+import Html exposing (select)
+import Html.Attributes exposing (value)
+import Html.Events
 
 
 -- Model
@@ -66,7 +69,7 @@ type Analysis
 -- Msg
 
 type Msg
-    = ToggleAnalysis
+    = SelectAnalysis Analysis
     | SelectParty Party
     | SelectState String
     | ResultFetched Office (Result Http.Error Summary)
@@ -94,6 +97,63 @@ isParty party j =
         (Democratic, Just "dem") -> True
         (Republican, Just "gop") -> True
         _                        -> False
+
+-- States
+
+fipses : List (String, String)
+fipses =
+    [ ("01", "Alabama")
+    , ("02", "Alaska")
+    , ("04", "Arizona")
+    , ("05", "Arkansas")
+    , ("06", "California")
+    , ("08", "Colorado")
+    , ("09", "Connecticut")
+    , ("10", "Delaware")
+    , ("11", "District of Columbia")
+    , ("12", "Florida")
+    , ("13", "Georgia")
+    , ("15", "Hawaii")
+    , ("16", "Idaho")
+    , ("17", "Illinois")
+    , ("18", "Indiana")
+    , ("19", "Iowa")
+    , ("20", "Kansas")
+    , ("21", "Kentucky")
+    , ("22", "Louisiana")
+    , ("23", "Maine")
+    , ("24", "Maryland")
+    , ("25", "Massachusetts")
+    , ("26", "Michigan")
+    , ("27", "Minnesota")
+    , ("28", "Mississippi")
+    , ("29", "Missouri")
+    , ("30", "Montana")
+    , ("31", "Nebraska")
+    , ("32", "Nevada")
+    , ("33", "New Hampshire")
+    , ("34", "New Jersey")
+    , ("35", "New Mexico")
+    , ("36", "New York")
+    , ("37", "North Carolina")
+    , ("38", "North Dakota")
+    , ("39", "Ohio")
+    , ("40", "Oklahoma")
+    , ("41", "Oregon")
+    , ("42", "Pennsylvania")
+    , ("44", "Rhode Island")
+    , ("45", "South Carolina")
+    , ("46", "South Dakota")
+    , ("47", "Tennessee")
+    , ("48", "Texas")
+    , ("49", "Utah")
+    , ("50", "Vermont")
+    , ("51", "Virginia")
+    , ("53", "Washington")
+    , ("54", "West Virginia")
+    , ("55", "Wisconsin")
+    , ("56", "Wyoming")
+    ]
 
 
 -- Historical presidential results
@@ -143,8 +203,8 @@ init _ =
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
-        ToggleAnalysis ->
-            (model, Cmd.none)
+        SelectAnalysis analysis ->
+            ({ model | analysis = analysis }, Cmd.none)
 
         SelectParty party ->
             ({ model | party = party }, Cmd.none)
@@ -227,6 +287,19 @@ view model =
         ]
         [ h2 [ style "text-align" "center" ] 
             [ text <| Contest.fipsToName model.state ]
+        , div [ style "width" "100%", style "padding" "10px" ]
+            [ div 
+                (toggleButtonAnalysis model.analysis StateComparison)
+                [ text "Intra-party comparison" ]
+            , div 
+                (toggleButtonAnalysis model.analysis Presidential)
+                [ text "Presidential vote history" ]
+            , div 
+                (toggleButtonAnalysis model.analysis Battlegrounds)
+                [ text "Battlegrounds" ]
+            ]
+        , select [ Html.Events.onInput SelectState ]
+            (map makeOption fipses)
         , div
             [ style "display" "flex" 
             , style "align-items" "center"
@@ -246,6 +319,21 @@ view model =
             Presidential    -> presidential model
             Battlegrounds   -> battleground model
         ]
+
+toggleButtonAnalysis : Analysis -> Analysis -> List (Attribute Msg)
+toggleButtonAnalysis current option = 
+    let
+        extra_style =
+            if current == option 
+                then selectedStyle "gray"
+                else notSelectedStyle
+    in
+    (Main.toggleButtonStyle SelectAnalysis option)
+        ++ extra_style
+
+makeOption : (String, String) -> Html Msg
+makeOption (fips, state) =
+    Html.option [ value fips ] [ text state ]
     
 
 -- State Comparison
@@ -293,15 +381,15 @@ mergeHouseContests summary =
     }
     :: non_house
 
-selectedStyle : Party -> List (Attribute msg)
-selectedStyle party =
+selectedStyle : String -> List (Attribute msg)
+selectedStyle color =
     [ style "outline" "1px solid black"
-    , style "background-color" (partyColor party)
+    , style "background-color" color
     , style "color" "white"
     ]
 
-notSelectedStyle : Party -> List (Attribute msg)
-notSelectedStyle _ =
+notSelectedStyle : List (Attribute msg)
+notSelectedStyle =
     [ style "outline" "1px solid lightgray"
     , style "background-color" "white"
     , style "color" "black"
@@ -312,8 +400,8 @@ toggleButtonStyle current option =
     let
         extra_style =
             if current == option 
-                then selectedStyle option
-                else notSelectedStyle option
+                then selectedStyle (partyColor option)
+                else notSelectedStyle
     in
     (Main.toggleButtonStyle SelectParty option)
         ++ extra_style
