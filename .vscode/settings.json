@@ -1,5 +1,5 @@
 {
     "code-runner.executorMap": {
-        "elm": "del elm.js && elm make src/$fileName --output elm.js"
+        "elm": "del elm.js && elm make src/$fileName --output $fileNameWithoutExt.js"
     }
 }
