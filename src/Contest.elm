@@ -513,6 +513,7 @@ getCalls : List Contest -> List (Contest, Call)
 getCalls summary = 
     concatMap getCallsContest summary
         |> sortBy (Time.posixToMillis << .timestamp << Tuple.second)
+        |> reverse
 
 displayCalls : List (Contest, Call) -> List (Html msg)
 displayCalls calls = 

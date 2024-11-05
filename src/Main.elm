@@ -61,6 +61,7 @@ type alias Model =
     , state_map_showing : MapShowing
     , county_selected : Maybe (County, (Int, Int))
     , do_cycle : Bool
+    , window_width : Int
     , err : Maybe Http.Error
     }
 
@@ -144,10 +145,11 @@ skipState model c =
 
                             
 -- Main
-main : Program () Model Msg
+
+main : Program Int Model Msg
 main =
     Browser.document 
-        { init = always ( init, fetchResult President )
+        { init = init
         , update = update
         , subscriptions = subscriptions
         , view = \model -> 
@@ -156,20 +158,26 @@ main =
             }
         }
 
-init : Model
-init =
-    { data = []
-    , office_selected = President
-    , map_data = Nothing 
-    , filter_state = Nothing
-    , bq_meta = Nothing
-    , zoom_coords = Nothing
-    , county_map_showing = WinnerShare
-    , state_map_showing = WinnerShare
-    , county_selected = Nothing
-    , do_cycle = True
-    , err = Nothing
-    }
+init : Int -> (Model, Cmd Msg)
+init window_width =
+    let 
+        model = { data = []
+                , office_selected = President
+                , map_data = Nothing 
+                , filter_state = Nothing
+                , bq_meta = Nothing
+                , zoom_coords = Nothing
+                , county_map_showing = WinnerShare
+                , state_map_showing = WinnerShare
+                , county_selected = Nothing
+                , do_cycle = True
+                , window_width = window_width
+                , err = Nothing
+                }
+        
+        msg = fetchResult President
+    in
+    (model, msg)
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
@@ -473,10 +481,10 @@ view model =
                                     , div
                                         [ style "display" "flex" ]
                                         [ div 
-                                            [ style "height" "530px" ] 
+                                            [ style "height" "55%" ] 
                                             [ pres model x ] 
                                         , div 
-                                            [ style "width" "500px" 
+                                            [ style "width" "40%" 
                                             , style "padding-left" "10px" 
                                             ]
                                             [ displayMapToggleButtons 
@@ -1618,9 +1626,16 @@ pres model c =
                             text cnd.name
                 
 
-                else if cnd.isIncumbent
-                        then text <| cnd.name ++ "*"
-                        else text <| cnd.name
+                else 
+                    let
+                        nm = 
+                            if model.window_width < 1500
+                                then cnd.short_name
+                                else cnd.name
+                    in
+                    if cnd.isIncumbent
+                        then text <| nm ++ "*"
+                        else text <| nm
             
         racename = 
             case c.meta of
@@ -1767,8 +1782,8 @@ nextInLinup summary =
                 |> div [ style "padding-left" "10px" ]
     in
     case summary of
-        (x1 :: x2 :: x3 :: x4 :: x5 :: _) ->
-            map makeResults [x1, x2, x3, x4, x5]
+        (x1 :: x2 :: x3 :: x4 :: x5 :: x6 :: _) ->
+            map makeResults [x1, x2, x3, x4, x5, x6]
 
         _ ->
             []
