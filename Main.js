@@ -7361,7 +7361,7 @@ var $author$project$Contest$fetchResult = F2(
 				[$author$project$Office$President, $author$project$Office$Senate, $author$project$Office$House, $author$project$Office$Governor])) ? $elm$http$Http$get(
 			{
 				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$summaryDecoder),
-				url: './temp-2024/' + ($author$project$Contest$electionDateForLink + ('-collection-' + ($author$project$Office$toString(office) + '/summaries.json')))
+				url: 'https://www.politico.com/election-data/pebble/results/live/' + ($author$project$Contest$electionDateForLink + ('/collections/' + ($author$project$Contest$electionDateForLink + ('-collection-' + ($author$project$Office$toString(office) + '/summaries.json')))))
 			}) : (($author$project$Office$isReferendum(office) && (!$author$project$Office$isGeorgia(office))) ? $elm$http$Http$get(
 			{
 				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$summaryDecoder),
@@ -8474,7 +8474,7 @@ var $author$project$Contest$fetchMeta = F2(
 			}) : $elm$http$Http$get(
 			{
 				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$metaDecoder),
-				url: './temp-2024/' + ($author$project$Contest$electionDateForLink + ('-collection-' + ($author$project$Office$toString(office) + '/combined.json')))
+				url: 'https://www.politico.com/election-data/pebble/metadata/' + ($author$project$Contest$electionDateForLink + ('/collections/' + ($author$project$Contest$electionDateForLink + ('-collection-' + ($author$project$Office$toString(office) + '/combined.json')))))
 			});
 	});
 var $author$project$Main$fetchMeta = $author$project$Contest$fetchMeta($author$project$Main$MetaFetched);
