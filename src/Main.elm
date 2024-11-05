@@ -510,7 +510,7 @@ view model =
                                             , style "padding-left" "10%" 
                                             , style "padding-right" "10%"
                                             ]
-                                            (if model.office_selected == House then state_svg else county_svg)
+                                            (if member model.office_selected [House, StateSenate, StateHouse, GeorgiaQuestions, AbortionQuestions, RCVQuestions, OtherQuestions] then state_svg else county_svg)
                                         , if member model.office_selected [StateHouse, StateSenate, GeorgiaQuestions]
                                             then span [] []
                                             else div 

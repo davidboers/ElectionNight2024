@@ -13175,7 +13175,11 @@ var $author$project$Main$view = function (model) {
 																		A2($elm$html$Html$Attributes$style, 'padding-left', '10%'),
 																		A2($elm$html$Html$Attributes$style, 'padding-right', '10%')
 																	]),
-																_Utils_eq(model.office_selected, $author$project$Office$House) ? state_svg : county_svg),
+																A2(
+																	$elm$core$List$member,
+																	model.office_selected,
+																	_List_fromArray(
+																		[$author$project$Office$House, $author$project$Office$StateSenate, $author$project$Office$StateHouse, $author$project$Office$GeorgiaQuestions, $author$project$Office$AbortionQuestions, $author$project$Office$RCVQuestions, $author$project$Office$OtherQuestions])) ? state_svg : county_svg),
 																A2(
 																$elm$core$List$member,
 																model.office_selected,
