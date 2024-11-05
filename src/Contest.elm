@@ -38,6 +38,7 @@ import List exposing (filter)
 import String exposing (padLeft)
 import String exposing (replace)
 import Html.Attributes exposing (name)
+import Html exposing (span)
 
 type alias Summary =
     List Contest
@@ -577,8 +578,8 @@ displayCall (c, call) =
                         text ""
 
                     else
-                        if winner /= meta.holdingParty
-                            then text " gain"
+                        if String.toLower winner /= meta.holdingParty
+                            then span [ style "font-weight" "bold" ] [ text " gain" ]
                             else text " hold"
                     ]
                 ]
