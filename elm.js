@@ -10113,8 +10113,15 @@ var $author$project$Main$aggr = F2(
 											]),
 										_List_fromArray(
 											[
-												$elm$html$Html$text(
-												$elm$core$String$fromInt(maj) + ' to win')
+												function () {
+												var _v9 = model.office_selected;
+												if (_v9.$ === 'Governor') {
+													return $elm$html$Html$text('');
+												} else {
+													return $elm$html$Html$text(
+														$elm$core$String$fromInt(maj) + ' to win');
+												}
+											}()
 											]))
 									]))
 							])));
@@ -10265,59 +10272,6 @@ var $author$project$Main$aggr = F2(
 							A2($author$project$DisplayNumber$displayPct, trump_votes, total_votes))
 						]));
 			default:
-				var winners = A2($elm$core$List$filterMap, $author$project$Contest$contestWinner, summary);
-				var total_seats = $elm$core$List$length(
-					A2(
-						$elm$core$List$filter,
-						A2(
-							$elm$core$Basics$composeL,
-							A2(
-								$elm$core$Basics$composeL,
-								$elm$core$Maybe$withDefault(false),
-								$elm$core$Maybe$map(
-									A2(
-										$elm$core$Basics$composeL,
-										$elm$core$Basics$not,
-										function ($) {
-											return $.isSpecial;
-										}))),
-							function ($) {
-								return $.meta;
-							}),
-						summary));
-				var party_count = function (pty) {
-					return $elm$core$List$length(
-						A2(
-							$elm$core$List$filter,
-							$elm$core$Basics$eq(pty),
-							A2(
-								$elm$core$List$map,
-								function (v) {
-									_v8$2:
-									while (true) {
-										if (v.$ === 'Just') {
-											switch (v.a) {
-												case 'dem':
-													return 'dem';
-												case 'gop':
-													return 'gop';
-												default:
-													break _v8$2;
-											}
-										} else {
-											break _v8$2;
-										}
-									}
-									return 'oth';
-								},
-								A2(
-									$elm$core$List$map,
-									function ($) {
-										return $.party;
-									},
-									winners))));
-				};
-				var oth_seats = party_count('oth');
 				var net = F2(
 					function (pty, c) {
 						var b = A2(
@@ -10332,18 +10286,18 @@ var $author$project$Main$aggr = F2(
 								return $.holdingParty;
 							},
 							c.meta);
-						var _v5 = _Utils_Tuple2(a, b);
-						if (_v5.b.$ === 'Nothing') {
-							var _v6 = _v5.b;
+						var _v6 = _Utils_Tuple2(a, b);
+						if (_v6.b.$ === 'Nothing') {
+							var _v7 = _v6.b;
 							return 0;
 						} else {
-							if (_v5.a.$ === 'Just') {
-								var holdingParty = _v5.a.a;
-								var winningParty = _v5.b.a;
+							if (_v6.a.$ === 'Just') {
+								var holdingParty = _v6.a.a;
+								var winningParty = _v6.b.a;
 								return _Utils_eq(holdingParty, winningParty) ? 0 : (_Utils_eq(winningParty, pty) ? 1 : (-1));
 							} else {
-								var _v7 = _v5.a;
-								var winningParty = _v5.b.a;
+								var _v8 = _v6.a;
+								var winningParty = _v6.b.a;
 								return _Utils_eq(winningParty, pty) ? 1 : 0;
 							}
 						}
@@ -10358,6 +10312,56 @@ var $author$project$Main$aggr = F2(
 						0,
 						summary);
 				};
+				var includeSpecial = function (meta) {
+					return meta.isSpecial ? (_Utils_eq(meta.office, $author$project$Office$Senate) && (meta.fips === '31')) : true;
+				};
+				var proper_summary = A2(
+					$elm$core$List$filter,
+					A2(
+						$elm$core$Basics$composeL,
+						A2(
+							$elm$core$Basics$composeL,
+							$elm$core$Maybe$withDefault(false),
+							$elm$core$Maybe$map(includeSpecial)),
+						function ($) {
+							return $.meta;
+						}),
+					summary);
+				var total_seats = $elm$core$List$length(proper_summary);
+				var winners = A2($elm$core$List$filterMap, $author$project$Contest$contestWinner, proper_summary);
+				var party_count = function (pty) {
+					return $elm$core$List$length(
+						A2(
+							$elm$core$List$filter,
+							$elm$core$Basics$eq(pty),
+							A2(
+								$elm$core$List$map,
+								function (v) {
+									_v5$2:
+									while (true) {
+										if (v.$ === 'Just') {
+											switch (v.a) {
+												case 'dem':
+													return 'dem';
+												case 'gop':
+													return 'gop';
+												default:
+													break _v5$2;
+											}
+										} else {
+											break _v5$2;
+										}
+									}
+									return 'oth';
+								},
+								A2(
+									$elm$core$List$map,
+									function ($) {
+										return $.party;
+									},
+									winners))));
+				};
+				var oth_seats = party_count('oth');
 				var gop_seats = party_count('gop');
 				var gop_chg = pty_chg('gop');
 				var gop_carryover_seats = function () {
@@ -10453,7 +10457,9 @@ var $author$project$Main$aggr = F2(
 							maj),
 							A2(
 							party_line,
-							$elm$core$String$fromInt(dem_seats) + ' seats',
+							_Utils_ap(
+								$elm$core$String$fromInt(dem_seats),
+								_Utils_eq(model.office_selected, $author$project$Office$Governor) ? '' : ' seats'),
 							$elm$core$String$fromInt(gop_seats)),
 							A2(
 							$elm$html$Html$div,

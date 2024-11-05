@@ -1291,7 +1291,10 @@ aggr model summary =
                         , style "margin-left" "-80%"
                         , style "height" "normal"
                         ]
-                        [ text <| String.fromInt maj ++ " to win" ]
+                        [ case model.office_selected of
+                            Governor -> text ""
+                            _ -> text <| String.fromInt maj ++ " to win" 
+                        ]
                     ]
                 ])
         
@@ -1418,8 +1421,17 @@ aggr model summary =
 
         _ ->
             let 
-                winners = filterMap contestWinner summary
-                total_seats = length <| filter (Maybe.withDefault False << Maybe.map (not << .isSpecial) << .meta) summary
+                includeSpecial meta =
+                    if meta.isSpecial then
+                        meta.office == Senate &&
+                            meta.fips == "31" -- Nebraska
+
+                    else
+                        True
+
+                proper_summary = filter (Maybe.withDefault False << Maybe.map includeSpecial << .meta) summary
+                winners = filterMap contestWinner proper_summary
+                total_seats = length proper_summary
             
                 party_count pty =
                     winners
@@ -1543,7 +1555,7 @@ aggr model summary =
                     ]
                 , party_line "Dem" "GOP"
                 , bars [dem_carryover, dem, other, und, gop, gop_carryover] maj                                                                
-                , party_line (String.fromInt dem_seats ++ " seats") (String.fromInt gop_seats)
+                , party_line (String.fromInt dem_seats ++ (if model.office_selected == Governor then "" else " seats")) (String.fromInt gop_seats)
                 , div
                     [ style "display" "flex" 
                     , style "padding" "5px"
