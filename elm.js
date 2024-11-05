@@ -11492,7 +11492,18 @@ var $author$project$Contest$displayCall = function (_v0) {
 							$elm$html$Html$text(shortened_name),
 							$elm$html$Html$text(': '),
 							$elm$html$Html$text(winner),
-							meta.isReferendum ? $elm$html$Html$text('') : ((!_Utils_eq(winner, meta.holdingParty)) ? $elm$html$Html$text(' gain') : $elm$html$Html$text(' hold'))
+							meta.isReferendum ? $elm$html$Html$text('') : ((!_Utils_eq(
+							$elm$core$String$toLower(winner),
+							meta.holdingParty)) ? A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									A2($elm$html$Html$Attributes$style, 'font-weight', 'bold')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(' gain')
+								])) : $elm$html$Html$text(' hold'))
 						]))
 				]));
 	} else {
