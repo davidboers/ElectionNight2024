@@ -498,13 +498,14 @@ view model =
                                             , countyTable x model.county_selected
                                             ]
                                         , div 
-                                            [ style "width" "600px"
+                                            [ style "width" "550px"
                                             , style "height" "320px"
                                             ]
                                             []
                                         , div 
                                             [ style "overflow-y" "scroll" 
-                                            , style "height" "300px"
+                                            , style "height" "200px"
+                                            , style "width" "400px"
                                             ]
                                             (displayCalls (getCalls summary))
                                         ]
@@ -519,8 +520,8 @@ view model =
                                         then div
                                             [ style "display" "inline-block" 
                                             , style "padding-left" "3px" 
-                                            , style "bottom" "4px"
-                                            , style "right" "1px"
+                                            , style "bottom" "10px"
+                                            , style "right" "10px"
                                             , style "position" "absolute"
                                             ]
                                             [ div []

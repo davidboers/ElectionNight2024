@@ -13117,7 +13117,7 @@ var $author$project$Main$view = function (model) {
 																$elm$html$Html$div,
 																_List_fromArray(
 																	[
-																		A2($elm$html$Html$Attributes$style, 'width', '600px'),
+																		A2($elm$html$Html$Attributes$style, 'width', '550px'),
 																		A2($elm$html$Html$Attributes$style, 'height', '320px')
 																	]),
 																_List_Nil),
@@ -13126,7 +13126,8 @@ var $author$project$Main$view = function (model) {
 																_List_fromArray(
 																	[
 																		A2($elm$html$Html$Attributes$style, 'overflow-y', 'scroll'),
-																		A2($elm$html$Html$Attributes$style, 'height', '300px')
+																		A2($elm$html$Html$Attributes$style, 'height', '200px'),
+																		A2($elm$html$Html$Attributes$style, 'width', '400px')
 																	]),
 																$author$project$Contest$displayCalls(
 																	$author$project$Contest$getCalls(summary)))
@@ -13155,8 +13156,8 @@ var $author$project$Main$view = function (model) {
 															[
 																A2($elm$html$Html$Attributes$style, 'display', 'inline-block'),
 																A2($elm$html$Html$Attributes$style, 'padding-left', '3px'),
-																A2($elm$html$Html$Attributes$style, 'bottom', '4px'),
-																A2($elm$html$Html$Attributes$style, 'right', '1px'),
+																A2($elm$html$Html$Attributes$style, 'bottom', '10px'),
+																A2($elm$html$Html$Attributes$style, 'right', '10px'),
 																A2($elm$html$Html$Attributes$style, 'position', 'absolute')
 															]),
 														_List_fromArray(
