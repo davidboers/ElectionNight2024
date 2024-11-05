@@ -9060,13 +9060,13 @@ var $author$project$Main$skipState = F2(
 		var _v0 = c.meta;
 		if (_v0.$ === 'Just') {
 			var meta = _v0.a;
-			if (!$elm$core$List$sum(
+			if ((!$elm$core$List$sum(
 				A2(
 					$elm$core$List$map,
 					function ($) {
 						return $.votes;
 					},
-					c.results))) {
+					c.results))) || meta.isUncontested) {
 				return true;
 			} else {
 				if (A2(
@@ -9677,20 +9677,11 @@ var $author$project$Main$update = F2(
 						{do_cycle: do_cycle}),
 					$elm$core$Platform$Cmd$none);
 			default:
-				var excludeFromCycle = function (c) {
-					var _v16 = c.meta;
-					if (_v16.$ === 'Nothing') {
-						return true;
-					} else {
-						var meta = _v16.a;
-						return A2($author$project$Main$skipState, model, c) || meta.isUncontested;
-					}
-				};
 				var cycle = function (data) {
 					if (data.b) {
 						var x = data.a;
 						var xs = data.b;
-						return excludeFromCycle(x) ? _Utils_ap(
+						return A2($author$project$Main$skipState, model, x) ? _Utils_ap(
 							cycle(xs),
 							_List_fromArray(
 								[x])) : _Utils_ap(

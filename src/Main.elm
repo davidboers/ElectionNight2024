@@ -128,7 +128,7 @@ skipState : Model -> Contest -> Bool
 skipState model c =
     case c.meta of
         Just meta ->
-            if (sum <| map .votes c.results) == 0 then
+            if (sum <| map .votes c.results) == 0 || meta.isUncontested then
                 True
 
             else if member model.office_selected [StateSenate, StateHouse] then
@@ -431,17 +431,10 @@ update msg model =
                 cycle data =
                     case data of
                         (x::xs) -> 
-                            if excludeFromCycle x
+                            if skipState model x
                                 then (cycle xs) ++ [x]
                                 else xs ++ [x]
                         _ -> data
-
-                excludeFromCycle c =
-                    case c.meta of
-                        Nothing -> True
-                        Just meta -> 
-                            skipState model c 
-                            || meta.isUncontested
             in
             if model.do_cycle then
                 ( { model | data = cycle model.data }
