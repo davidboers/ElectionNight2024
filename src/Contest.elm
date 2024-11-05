@@ -556,7 +556,7 @@ displayCall (c, call) =
                         |> replace "Connecticut" "Connect."
             in
             div [ style "display" "flex" 
-                , style "width" "100%"
+                , style "width" "95%"
                 , style "padding" "2px"
                 ]
                 [ div 

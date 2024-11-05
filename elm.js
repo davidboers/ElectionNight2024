@@ -7889,7 +7889,7 @@ var $author$project$Main$subscriptions = function (model) {
 			[
 				A2(
 				$elm$time$Time$every,
-				15 * 1000,
+				10 * 1000,
 				$elm$core$Basics$always($author$project$Main$Cycle)),
 				$elm$browser$Browser$Events$onMouseMove(
 				A2($elm$json$Json$Decode$map, $author$project$Main$SelectCounty, decodeMouseLoc))
@@ -11460,7 +11460,7 @@ var $author$project$Contest$displayCall = function (_v0) {
 			_List_fromArray(
 				[
 					A2($elm$html$Html$Attributes$style, 'display', 'flex'),
-					A2($elm$html$Html$Attributes$style, 'width', '100%'),
+					A2($elm$html$Html$Attributes$style, 'width', '95%'),
 					A2($elm$html$Html$Attributes$style, 'padding', '2px')
 				]),
 			_List_fromArray(
@@ -13102,8 +13102,9 @@ var $author$project$Main$view = function (model) {
 																$elm$html$Html$div,
 																_List_fromArray(
 																	[
-																		A2($elm$html$Html$Attributes$style, 'width', '40%'),
-																		A2($elm$html$Html$Attributes$style, 'padding-left', '10px')
+																		A2($elm$html$Html$Attributes$style, 'width', '35%'),
+																		A2($elm$html$Html$Attributes$style, 'padding-left', '10%'),
+																		A2($elm$html$Html$Attributes$style, 'padding-right', '10%')
 																	]),
 																_List_fromArray(
 																	[
@@ -13128,17 +13129,9 @@ var $author$project$Main$view = function (model) {
 																$elm$html$Html$div,
 																_List_fromArray(
 																	[
-																		A2($elm$html$Html$Attributes$style, 'width', '550px'),
-																		A2($elm$html$Html$Attributes$style, 'height', '320px')
-																	]),
-																_List_Nil),
-																A2(
-																$elm$html$Html$div,
-																_List_fromArray(
-																	[
 																		A2($elm$html$Html$Attributes$style, 'overflow-y', 'scroll'),
 																		A2($elm$html$Html$Attributes$style, 'height', '200px'),
-																		A2($elm$html$Html$Attributes$style, 'width', '400px')
+																		A2($elm$html$Html$Attributes$style, 'width', '20%')
 																	]),
 																$author$project$Contest$displayCalls(
 																	$author$project$Contest$getCalls(summary)))
@@ -13167,8 +13160,8 @@ var $author$project$Main$view = function (model) {
 															[
 																A2($elm$html$Html$Attributes$style, 'display', 'inline-block'),
 																A2($elm$html$Html$Attributes$style, 'padding-left', '3px'),
-																A2($elm$html$Html$Attributes$style, 'bottom', '10px'),
-																A2($elm$html$Html$Attributes$style, 'right', '10px'),
+																A2($elm$html$Html$Attributes$style, 'bottom', '15px'),
+																A2($elm$html$Html$Attributes$style, 'right', '15px'),
 																A2($elm$html$Html$Attributes$style, 'position', 'absolute')
 															]),
 														_List_fromArray(

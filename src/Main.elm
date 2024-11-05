@@ -192,7 +192,7 @@ subscriptions model =
                     succeed Nothing  
     in
     Sub.batch
-        [ every (15 * 1000) (always Cycle)
+        [ every (10 * 1000) (always Cycle)
         , onMouseMove (Json.Decode.map SelectCounty decodeMouseLoc)
         ]
 
@@ -484,8 +484,9 @@ view model =
                                             [ style "height" "55%" ] 
                                             [ pres model x ] 
                                         , div 
-                                            [ style "width" "40%" 
-                                            , style "padding-left" "10px" 
+                                            [ style "width" "35%" 
+                                            , style "padding-left" "10%" 
+                                            , style "padding-right" "10%"
                                             ]
                                             [ displayMapToggleButtons 
                                                 (mapAUnit fips)
@@ -498,14 +499,9 @@ view model =
                                             , countyTable x model.county_selected
                                             ]
                                         , div 
-                                            [ style "width" "550px"
-                                            , style "height" "320px"
-                                            ]
-                                            []
-                                        , div 
                                             [ style "overflow-y" "scroll" 
                                             , style "height" "200px"
-                                            , style "width" "400px"
+                                            , style "width" "20%"
                                             ]
                                             (displayCalls (getCalls summary))
                                         ]
@@ -520,8 +516,8 @@ view model =
                                         then div
                                             [ style "display" "inline-block" 
                                             , style "padding-left" "3px" 
-                                            , style "bottom" "10px"
-                                            , style "right" "10px"
+                                            , style "bottom" "15px"
+                                            , style "right" "15px"
                                             , style "position" "absolute"
                                             ]
                                             [ div []
