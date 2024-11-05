@@ -9721,7 +9721,6 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 	});
 var $elm$html$Html$Attributes$align = $elm$html$Html$Attributes$stringProperty('align');
 var $elm$html$Html$br = _VirtualDom_node('br');
-var $elm$core$List$sortBy = _List_sortBy;
 var $author$project$Contest$contestWinner = function (c) {
 	var _v0 = A2(
 		$elm$core$Maybe$map,
@@ -9738,23 +9737,12 @@ var $author$project$Contest$contestWinner = function (c) {
 			return $elm$core$Maybe$Nothing;
 		}
 	} else {
-		var winners = function () {
-			var _v3 = $elm$core$List$head(
-				$elm$core$List$reverse(
-					A2(
-						$elm$core$List$sortBy,
-						function ($) {
-							return $.votes;
-						},
-						c.results)));
-			if (_v3.$ === 'Just') {
-				var a = _v3.a;
-				return _List_fromArray(
-					[a]);
-			} else {
-				return _List_Nil;
-			}
-		}();
+		var winners = A2(
+			$elm$core$List$filter,
+			function ($) {
+				return $.winner;
+			},
+			c.results);
 		if (winners.b && (!winners.b.b)) {
 			var x = winners.a;
 			return $elm$core$Maybe$Just(x);
@@ -10639,6 +10627,7 @@ var $author$project$ShadePalettes$getPartyShade = F2(
 					A2(tint, 0, 255));
 		}
 	});
+var $elm$core$List$sortBy = _List_sortBy;
 var $author$project$Main$partyColorPalette = function (results) {
 	var _v0 = $elm$core$List$reverse(
 		A2(

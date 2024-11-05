@@ -300,11 +300,11 @@ contestWinner c =
 
         _ ->
             let
-                --winners = filter .winner c.results
-                winners = 
+                winners = filter .winner c.results
+                {-winners = 
                     case head <| reverse <| sortBy .votes c.results of
                         Just a  -> [a]
-                        Nothing -> []
+                        Nothing -> []-}
             in
             case winners of
                 [x] -> Just x
