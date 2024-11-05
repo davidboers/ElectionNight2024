@@ -8059,13 +8059,6 @@ var $author$project$Main$countyDecoder = function () {
 		$elm$json$Json$Decode$succeed($elm$core$Maybe$Nothing),
 		$elm$json$Json$Decode$succeed($elm$core$Maybe$Nothing));
 }();
-var $elm$core$String$replace = F3(
-	function (before, after, string) {
-		return A2(
-			$elm$core$String$join,
-			after,
-			A2($elm$core$String$split, before, string));
-	});
 var $author$project$Main$fetchCounties = F2(
 	function (model, c) {
 		return $elm$http$Http$get(
@@ -8077,7 +8070,7 @@ var $author$project$Main$fetchCounties = F2(
 						$elm$json$Json$Decode$field,
 						'counties',
 						$elm$json$Json$Decode$list($author$project$Main$countyDecoder))),
-				url: './temp-2024/' + ($author$project$Office$toString(model.office_selected) + ('/' + (A3($elm$core$String$replace, ':', '_', c.id) + '/counties.json')))
+				url: 'https://www.politico.com/election-data/results__2024-11-05__contests__' + (c.id + '__counties/data.json')
 			});
 	});
 var $author$project$Main$CountyMapFetched = F2(
@@ -8547,6 +8540,13 @@ var $elm$core$List$filter = F2(
 var $elm$core$String$dropRight = F2(
 	function (n, string) {
 		return (n < 1) ? string : A3($elm$core$String$slice, 0, -n, string);
+	});
+var $elm$core$String$replace = F3(
+	function (before, after, string) {
+		return A2(
+			$elm$core$String$join,
+			after,
+			A2($elm$core$String$split, before, string));
 	});
 var $elm$core$String$trim = _String_trim;
 var $elm$core$Maybe$withDefault = F2(

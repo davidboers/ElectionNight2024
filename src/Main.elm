@@ -969,7 +969,8 @@ fetchZoom model =
 fetchCounties : Model -> Contest -> Cmd Msg
 fetchCounties model c =
     Http.get
-        { url = "./temp-2024/" ++ Office.toString model.office_selected ++ "/" ++ (replace ":" "_" c.id) ++ "/counties.json"
+        { url = "https://www.politico.com/election-data/results__2024-11-05__contests__" ++ c.id ++ "__counties/data.json"
+        --{ url = "./temp-2024/" ++ Office.toString model.office_selected ++ "/" ++ (replace ":" "_" c.id) ++ "/counties.json"
         , expect = Http.expectJson (CountyFetched c.id) (field "counties" (list countyDecoder))
         }
 
