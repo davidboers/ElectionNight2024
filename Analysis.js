@@ -6358,7 +6358,8 @@ var $author$project$Analysis$fetchHistPres = $elm$http$Http$get(
 		expect: A2($elm$http$Http$expectJson, $author$project$Analysis$HistFetched, $author$project$Analysis$decodePresidential),
 		url: './hist-pres.json'
 	});
-var $author$project$Contest$electionDateForLink = '2024-11-05';
+var $author$project$Office$OtherQuestions = {$: 'OtherQuestions'};
+var $author$project$Office$RCVQuestions = {$: 'RCVQuestions'};
 var $author$project$Office$GeorgiaQuestions = {$: 'GeorgiaQuestions'};
 var $author$project$Office$StateHouse = {$: 'StateHouse'};
 var $author$project$Office$StateSenate = {$: 'StateSenate'};
@@ -6399,8 +6400,6 @@ var $author$project$Office$isGeorgia = function (office) {
 		_List_fromArray(
 			[$author$project$Office$StateSenate, $author$project$Office$StateHouse, $author$project$Office$GeorgiaQuestions]));
 };
-var $author$project$Office$OtherQuestions = {$: 'OtherQuestions'};
-var $author$project$Office$RCVQuestions = {$: 'RCVQuestions'};
 var $author$project$Office$isReferendum = function (office) {
 	return A2(
 		$elm$core$List$member,
@@ -7364,12 +7363,20 @@ var $author$project$Contest$fetchResult = F2(
 				[$author$project$Office$President, $author$project$Office$Senate, $author$project$Office$House, $author$project$Office$Governor])) ? $elm$http$Http$get(
 			{
 				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$summaryDecoder),
-				url: 'https://www.politico.com/election-data/pebble/results/live/' + ($author$project$Contest$electionDateForLink + ('/collections/' + ($author$project$Contest$electionDateForLink + ('-collection-' + ($author$project$Office$toString(office) + '/summaries.json')))))
+				url: 'https://www.politico.com/election-data/results__2024-11-05__collections__2024-11-05-collection-' + ($author$project$Office$toString(office) + '__summaries/data.json')
+			}) : (A2(
+			$elm$core$List$member,
+			office,
+			_List_fromArray(
+				[$author$project$Office$AbortionQuestions, $author$project$Office$RCVQuestions, $author$project$Office$OtherQuestions])) ? $elm$http$Http$get(
+			{
+				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$summaryDecoder),
+				url: 'https://www.politico.com/election-data/results__2024-11-05__collections__2024-11-05-collection-question-' + ($author$project$Office$toString(office) + '__summaries/data.json')
 			}) : (($author$project$Office$isReferendum(office) && (!$author$project$Office$isGeorgia(office))) ? $elm$http$Http$get(
 			{
 				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$summaryDecoder),
 				url: './temp-2024/' + ($author$project$Office$toString(office) + '.json')
-			}) : $elm$core$Platform$Cmd$none);
+			}) : $elm$core$Platform$Cmd$none));
 	});
 var $author$project$Georgia$GeorgiaContest = F6(
 	function (name, candidates, votes, precincts_reporting, total_precincts, version) {
@@ -7440,6 +7447,7 @@ var $author$project$Analysis$MetaFetched = F2(
 	function (a, b) {
 		return {$: 'MetaFetched', a: a, b: b};
 	});
+var $author$project$Contest$electionDateForLink = '2024-11-05';
 var $author$project$Contest$CandidateMeta = F4(
 	function (name, short_name, party, isIncumbent) {
 		return {isIncumbent: isIncumbent, name: name, party: party, short_name: short_name};
