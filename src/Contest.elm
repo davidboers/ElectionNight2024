@@ -300,7 +300,8 @@ contestWinner c =
 
         _ ->
             let
-                winners = filter .winner c.results
+                call = map .subject_id c.calls
+                winners = filter (\cnd -> member cnd.cnd_id call) c.results
                 {-winners = 
                     case head <| reverse <| sortBy .votes c.results of
                         Just a  -> [a]

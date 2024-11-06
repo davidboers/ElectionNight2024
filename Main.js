@@ -9737,10 +9737,16 @@ var $author$project$Contest$contestWinner = function (c) {
 			return $elm$core$Maybe$Nothing;
 		}
 	} else {
+		var call = A2(
+			$elm$core$List$map,
+			function ($) {
+				return $.subject_id;
+			},
+			c.calls);
 		var winners = A2(
 			$elm$core$List$filter,
-			function ($) {
-				return $.winner;
+			function (cnd) {
+				return A2($elm$core$List$member, cnd.cnd_id, call);
 			},
 			c.results);
 		if (winners.b && (!winners.b.b)) {
