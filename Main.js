@@ -5555,8 +5555,11 @@ var $author$project$Main$GeorgiaResultFetched = function (a) {
 var $author$project$Main$ResultFetched = function (a) {
 	return {$: 'ResultFetched', a: a};
 };
+var $author$project$Office$AbortionQuestions = {$: 'AbortionQuestions'};
 var $author$project$Office$Governor = {$: 'Governor'};
 var $author$project$Office$House = {$: 'House'};
+var $author$project$Office$OtherQuestions = {$: 'OtherQuestions'};
+var $author$project$Office$RCVQuestions = {$: 'RCVQuestions'};
 var $author$project$Office$Senate = {$: 'Senate'};
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
 var $elm$http$Http$BadStatus_ = F2(
@@ -6385,9 +6388,6 @@ var $author$project$Office$isGeorgia = function (office) {
 		_List_fromArray(
 			[$author$project$Office$StateSenate, $author$project$Office$StateHouse, $author$project$Office$GeorgiaQuestions]));
 };
-var $author$project$Office$AbortionQuestions = {$: 'AbortionQuestions'};
-var $author$project$Office$OtherQuestions = {$: 'OtherQuestions'};
-var $author$project$Office$RCVQuestions = {$: 'RCVQuestions'};
 var $author$project$Office$isReferendum = function (office) {
 	return A2(
 		$elm$core$List$member,
@@ -7361,11 +7361,19 @@ var $author$project$Contest$fetchResult = F2(
 			{
 				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$summaryDecoder),
 				url: 'https://www.politico.com/election-data/results__2024-11-05__collections__2024-11-05-collection-' + ($author$project$Office$toString(office) + '__summaries/data.json')
+			}) : (A2(
+			$elm$core$List$member,
+			office,
+			_List_fromArray(
+				[$author$project$Office$AbortionQuestions, $author$project$Office$RCVQuestions, $author$project$Office$OtherQuestions])) ? $elm$http$Http$get(
+			{
+				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$summaryDecoder),
+				url: 'https://www.politico.com/election-data/results__2024-11-05__collections__2024-11-05-collection-question-' + ($author$project$Office$toString(office) + '__summaries/data.json')
 			}) : (($author$project$Office$isReferendum(office) && (!$author$project$Office$isGeorgia(office))) ? $elm$http$Http$get(
 			{
 				expect: A2($elm$http$Http$expectJson, msg, $author$project$Contest$summaryDecoder),
 				url: './temp-2024/' + ($author$project$Office$toString(office) + '.json')
-			}) : $elm$core$Platform$Cmd$none);
+			}) : $elm$core$Platform$Cmd$none));
 	});
 var $author$project$Georgia$GeorgiaContest = F6(
 	function (name, candidates, votes, precincts_reporting, total_precincts, version) {
@@ -8481,7 +8489,7 @@ var $author$project$Contest$fetchPreviousResults = function (msg) {
 	return $elm$http$Http$get(
 		{
 			expect: $elm$http$Http$expectString(msg),
-			url: './swing_from.csv'
+			url: 'https://davidboers.github.io/ElectionNight2024/swing_from.csv'
 		});
 };
 var $author$project$Main$ZoomFetched = function (a) {

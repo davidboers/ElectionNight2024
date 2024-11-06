@@ -207,6 +207,14 @@ fetchResult msg office =
             , expect = Http.expectJson msg summaryDecoder
             } 
 
+    else if member office [AbortionQuestions, RCVQuestions, OtherQuestions] then
+        -- Politico 
+        Http.get
+            { url = "https://www.politico.com/election-data/results__2024-11-05__collections__2024-11-05-collection-question-" ++ Office.toString office ++ "__summaries/data.json"
+            --{ url = "./temp-2024/" ++ electionDateForLink ++ "-collection-" ++ Office.toString office ++ "/summaries.json"
+            , expect = Http.expectJson msg summaryDecoder
+            } 
+
     else if Office.isReferendum office && not (Office.isGeorgia office) then
         Http.get
             { url = "./temp-2024/" ++ Office.toString office ++ ".json"
@@ -595,7 +603,7 @@ displayCall (c, call) =
 fetchPreviousResults : (Result Http.Error String -> msg) -> Cmd msg
 fetchPreviousResults msg =
     Http.get
-        { url = "./swing_from.csv"
+        { url = "https://davidboers.github.io/ElectionNight2024/swing_from.csv"
         , expect = Http.expectString msg
         }
 
