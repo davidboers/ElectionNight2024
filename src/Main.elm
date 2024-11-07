@@ -295,38 +295,7 @@ update msg model =
             ({ model | data = updateContest model.data }, fetchCountyMap fips)
 
         PreviousFetched (Ok txt) ->
-            let
-                csv =
-                    txt |> lines
-                        |> map (split ",")
-                        |> filter ((==) (Office.toString model.office_selected) << Maybe.withDefault "" << head)
-
-                select_line : String -> String -> List String -> Maybe (String, Int)
-                select_line c_id county_fips line = 
-                    case line of
-                        [_, c_id_1, _, county_fips_1, _, _, cnd_id, _, votes] ->
-                            if c_id == c_id_1 &&
-                                county_fips == county_fips_1
-                                then Maybe.map (\votes_f -> (cnd_id, votes_f)) (String.toInt votes)
-                                else Nothing
-
-                        _ ->
-                            Nothing
-
-                insertCountyResults : String -> County -> County
-                insertCountyResults c_id county =
-                    case filterMap (select_line c_id county.county_fips) csv of
-                        [] ->
-                            county
-
-                        selected_lines ->
-                            { county | swing_from = Dict.fromList selected_lines }
-
-                insertContestResults : Contest -> Contest
-                insertContestResults c =
-                    { c | counties = Maybe.map (map (insertCountyResults c.id)) c.counties }
-            in
-            ({ model | data = map insertContestResults model.data }, Cmd.none)
+            ({ model | data = insertHistResults model.data model.office_selected txt }, Cmd.none)
 
         GeorgiaCountyFetched (Ok counties_set) -> 
             ({ model | data = map (\c -> { c | counties = Dict.get c.id counties_set }) model.data }
@@ -444,7 +413,40 @@ update msg model =
             else
                 (model, Cmd.none)
                     
+insertHistResults : Summary -> Office -> String -> Summary
+insertHistResults summary office txt =
+    let
+        csv =
+            txt |> lines
+                |> map (split ",")
+                |> filter ((==) (Office.toString office) << Maybe.withDefault "" << head)
 
+        select_line : String -> String -> List String -> Maybe (String, Int)
+        select_line c_id county_fips line = 
+            case line of
+                [_, c_id_1, _, county_fips_1, _, _, cnd_id, _, votes] ->
+                    if c_id == c_id_1 &&
+                        county_fips == county_fips_1
+                        then Maybe.map (\votes_f -> (cnd_id, votes_f)) (String.toInt votes)
+                        else Nothing
+
+                _ ->
+                    Nothing
+
+        insertCountyResults : String -> County -> County
+        insertCountyResults c_id county =
+            case filterMap (select_line c_id county.county_fips) csv of
+                [] ->
+                    county
+
+                selected_lines ->
+                    { county | swing_from = Dict.fromList selected_lines }
+
+        insertContestResults : Contest -> Contest
+        insertContestResults c =
+            { c | counties = Maybe.map (map (insertCountyResults c.id)) c.counties }
+    in
+    map insertContestResults summary
 
 -- View
 view : Model -> Html Msg

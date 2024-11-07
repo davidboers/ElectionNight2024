@@ -1,0 +1,250 @@
+[
+    {
+        "name": "by Region",
+        "groups": [
+            {
+                "name": "South",
+                "states": [
+                    "Alabama",
+                    "Arkansas",
+                    "Florida",
+                    "Georgia",
+                    "Kentucky",
+                    "Louisiana",
+                    "Mississippi",
+                    "Missouri",
+                    "North Carolina",
+                    "Oklahoma",
+                    "South Carolina",
+                    "Tennessee",
+                    "Texas",
+                    "Virginia",
+                    "West Virginia"
+                ]
+            },
+            {
+                "name": "Midwest",
+                "states": [
+                    "Indiana",
+                    "Illinois",
+                    "Iowa",
+                    "Michigan",
+                    "Minnesota",
+                    "Ohio",
+                    "Wisconsin"
+                ]
+            },
+            {
+                "name": "North East",
+                "states": [
+                    "Connecticut",
+                    "Delaware",
+                    "District of Columbia",
+                    "Maine",
+                    "Maryland",
+                    "Massachusetts",
+                    "New Hampshire",
+                    "New Jersey",
+                    "New York",
+                    "Pennsylvania",
+                    "Rhode Island",
+                    "Vermont"
+                ]
+            },
+            {
+                "name": "West Continental",
+                "states": [
+                    "Arizona",
+                    "Colorado",
+                    "Idaho",
+                    "Kansas",
+                    "Montana",
+                    "Nebraska",
+                    "Nevada",
+                    "New Mexico",
+                    "North Dakota",
+                    "South Dakota",
+                    "Utah",
+                    "Wyoming"
+                ]
+            },
+            {
+                "name": "West Coast",
+                "states": [
+                    "Alaska",
+                    "California",
+                    "Hawaii",
+                    "Oregon",
+                    "Washington"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "by State Size",
+        "groups": [
+            {
+                "name": "Smallest states (3-4 electors)",
+                "states": [
+                    "Alaska",
+                    "Delaware",
+                    "District of Columbia",
+                    "Hawaii",
+                    "Idaho",
+                    "Maine",
+                    "Montana",
+                    "New Hampshire",
+                    "North Dakota",
+                    "Rhode Island",
+                    "South Dakota",
+                    "Vermont",
+                    "West Virginia",
+                    "Wyoming"
+                ]
+            },
+            {
+                "name": "Small states (5-9)",
+                "states": [
+                    "Alabama",
+                    "Arkansas",
+                    "Connecticut",
+                    "Iowa",
+                    "Kansas",
+                    "Kentucky",
+                    "Louisiana",
+                    "Mississippi",
+                    "Nebraska",
+                    "Nevada",
+                    "New Mexico",
+                    "Oklahoma",
+                    "Oregon",
+                    "South Carolina",
+                    "Utah"
+                ]
+            },
+            {
+                "name": "Medium states (10-19)",
+                "states": [
+                    "Arizona",
+                    "Colorado",
+                    "Georgia",
+                    "Illinois",
+                    "Indiana",
+                    "Maryland",
+                    "Massachusetts",
+                    "Michigan",
+                    "Minnesota",
+                    "Missouri",
+                    "New Jersey",
+                    "North Carolina",
+                    "Ohio",
+                    "Pennsylvania",
+                    "Tennessee",
+                    "Virginia",
+                    "Washington",
+                    "Wisconsin"
+                ]
+            },
+            {
+                "name": "Large states (>20)",
+                "states": [
+                    "California",
+                    "Florida",
+                    "New York",
+                    "Texas"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "by State Presidential Voting Patterns",
+        "groups": [
+            {
+                "name": "Democratic states",
+                "states": [
+                    "Washington",
+                    "Oregon",
+                    "California",
+                    "Hawaii",
+                    "Colorado",
+                    "New Mexico",
+                    "Minnesota",
+                    "Illinois",
+                    "Virginia",
+                    "Maryland",
+                    "District of Columbia",
+                    "Delaware",
+                    "New Jersey",
+                    "New York",
+                    "Connecticut",
+                    "Rhode Island",
+                    "Massachusetts",
+                    "Vermont",
+                    "New Hampshire",
+                    "Maine"
+                ]
+            },
+            {
+                "name": "Republican states",
+                "states": [
+                    "Alabama",
+                    "Alaska",
+                    "Arkansas",
+                    "Florida",
+                    "Idaho",
+                    "Indiana",
+                    "Iowa",
+                    "Kansas",
+                    "Kentucky",
+                    "Louisiana",
+                    "Mississippi",
+                    "Missouri",
+                    "Montana",
+                    "Nebraska",
+                    "North Dakota",
+                    "Ohio",
+                    "Oklahoma",
+                    "South Carolina",
+                    "South Dakota",
+                    "Tennessee",
+                    "Texas",
+                    "Utah",
+                    "West Virginia",
+                    "Wyoming"
+                ]
+            },
+            {
+                "name": "Swing states",
+                "states": [
+                    "Nevada",
+                    "Arizona",
+                    "Wisconsin",
+                    "Michigan",
+                    "Pennsylvania",
+                    "North Carolina",
+                    "Georgia"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "states w/Abortion Referenda",
+        "groups": [
+            {
+                "name": "w/Referendum",
+                "states": [
+                    "Arzona",
+                    "Colorado",
+                    "Florida",
+                    "Maryland",
+                    "Missouri",
+                    "Montana",
+                    "Nebraska",
+                    "Nevada",
+                    "New York",
+                    "South Dakota"
+                ]
+            }
+        ]
+    }
+]
